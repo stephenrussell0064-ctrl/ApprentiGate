@@ -1,0 +1,19 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens are WP1's deliverable and will live in their own file, imported
+ * here. Until then this scaffold uses Tailwind's stock utilities only.
+ * WP1 acceptance requires that no hex value appears outside the token file.
+ */
+
+/* Motion policy, applied globally from the outset (quality floor, WP2). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

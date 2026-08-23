@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Lint, types, unit, e2e, axe
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm exec playwright install --with-deps chromium
+
+      # Lint, format, types, the hardcoded-domain assertion, unit tests, then
+      # the Playwright e2e and axe suites. Any axe violation fails the build.
+      - run: pnpm verify
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+  lighthouse:
+    name: Lighthouse (mobile, >=95 all categories)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Audited with indexing ENABLED so the SEO category reflects the
+      # production configuration. Lighthouse scores the "is-crawlable" audit as
+      # a failure when noindex is present, which would make the >=95 SEO target
+      # unreachable on a deliberately non-indexed preview build.
+      - run: pnpm build
+        env:
+          NEXT_PUBLIC_ALLOW_INDEXING: 'true'
+
+      - run: pnpm lighthouse
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: lighthouse-report
+          path: .lighthouseci/
+          retention-days: 14

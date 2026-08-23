@@ -1,0 +1,25 @@
+node_modules/
+.next/
+out/
+.wrangler/
+build/
+dist/
+
+# Test + audit output
+coverage/
+playwright-report/
+test-results/
+blob-report/
+.lighthouseci/
+
+# Secrets — never commit. Secrets are loaded by the operator via `wrangler secret put`.
+.env
+.env.local
+.env*.local
+.dev.vars
+
+# OS / editor
+.DS_Store
+*.pem
+*.tsbuildinfo
+next-env.d.ts

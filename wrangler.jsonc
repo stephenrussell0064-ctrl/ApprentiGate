@@ -1,0 +1,30 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "apprentigate",
+  "compatibility_date": "2026-08-23",
+
+  // Workers Static Assets, not Pages. Cloudflare's current guidance is that new
+  // projects should start on Workers; Pages remains supported but all new
+  // investment is going to Workers. See README "Deployment target".
+  "assets": {
+    "directory": "./out",
+
+    // Serves out/404.html for unmatched paths, which is the custom 404 page.
+    "not_found_handling": "404-page",
+
+    // Pairs with `trailingSlash: false` in next.config.ts. Changing one without
+    // the other causes redirect loops.
+    "html_handling": "auto-trailing-slash",
+  },
+
+  "observability": {
+    "enabled": true,
+  },
+
+  // No "main" entry point yet: the site is assets-only until WP10 adds the
+  // Worker that handles the enquiry POST.
+
+  // No "vars" here. Public build-time variables are set in the Cloudflare
+  // project settings, and secrets are loaded by the operator with
+  // `wrangler secret put` — never committed. See README "Environment".
+}

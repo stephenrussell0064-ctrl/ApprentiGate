@@ -1,0 +1,9 @@
+# Build-script approvals for this project's own dependencies.
+# This file marks apprentigate as its own pnpm workspace root. It deliberately
+# has no `packages:` list — this project is standalone and must not be linked
+# to any sibling project.
+allowBuilds:
+  esbuild: true # vitest bundler
+  workerd: true # wrangler local runtime
+  unrs-resolver: true # eslint import resolution
+  sharp: false # image optimisation is unused under output: 'export'

@@ -1,0 +1,54 @@
+{
+  "name": "apprentigate",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.11"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "preview": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "guard:domains": "node scripts/check-hardcoded-domains.mjs",
+    "test:unit": "vitest run",
+    "test:browser": "playwright test",
+    "test:e2e": "playwright test --project=e2e",
+    "test:a11y": "playwright test --project=a11y",
+    "serve:out": "serve out --listen 4321 --no-clipboard",
+    "lighthouse": "lhci autorun",
+    "verify": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm guard:domains && pnpm test:unit && pnpm test:browser"
+  },
+  "dependencies": {
+    "next": "16.3.2",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@lhci/cli": "^0.15.1",
+    "@playwright/test": "^1.62.1",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^26.2.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.1.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "16.3.2",
+    "jsdom": "^30.0.1",
+    "prettier": "^3.9.6",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "serve": "^14.2.6",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11",
+    "wrangler": "^4.125.0"
+  }
+}
