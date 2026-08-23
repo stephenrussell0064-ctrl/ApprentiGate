@@ -1,0 +1,111 @@
+/*
+ * ApprentiGate design tokens — Direction B, "Workbench".
+ *
+ * THIS IS THE ONLY FILE IN src/ THAT MAY CONTAIN A HEX COLOUR VALUE.
+ * `pnpm guard:tokens` fails the build on a hex literal anywhere else.
+ * Components consume the custom properties below, never raw colour.
+ *
+ * The rationale for this direction, and the two that lost, is recorded in
+ * design/DESIGN-DECISION.md.
+ */
+
+@theme {
+  /* ---------------------------------------------------------------------
+   * Colour — six named tokens.
+   *
+   * Contrast against white ground, measured:
+   *   ink     16.9:1   body text, headings
+   *   slate    6.4:1   secondary text, still AA at body size
+   *   signal   7.4:1   actions, links, the filled node of the relay band
+   *   alert    6.2:1   error states only
+   * Mist is a surface, never a text colour.
+   * ------------------------------------------------------------------ */
+
+  --color-ag-ink: #0f1d2a;
+  --color-ag-slate: #4a5b6b;
+  --color-ag-mist: #edf1f4;
+  --color-ag-signal: #0b6e5f;
+  --color-ag-paper: #ffffff;
+  --color-ag-alert: #b3261e;
+
+  /* ---------------------------------------------------------------------
+   * Type.
+   *
+   * Display  Figtree        — headings. Geometric-humanist, confident.
+   * Body     Source Sans 3  — running text. Humanist, highly legible.
+   * Utility  IBM Plex Mono  — labels, step numbers, metadata.
+   *
+   * The utility face is load-bearing, not decoration: it is what makes the
+   * site read as operations tooling rather than as generic B2B SaaS.
+   * Faces are self-hosted via next/font, so there is no external request.
+   * ------------------------------------------------------------------ */
+
+  --font-display: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-source-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-utility: var(--font-plex-mono), ui-monospace, monospace;
+
+  /* Scale: 16px base. ~1.25 through text sizes, widening to ~1.33 for display. */
+  --text-ag-xs: 0.75rem; /* 12 — utility labels only */
+  --text-ag-sm: 0.875rem; /* 14 */
+  --text-ag-base: 1rem; /* 16 — body minimum, never smaller */
+  --text-ag-lg: 1.125rem; /* 18 — lead paragraphs */
+  --text-ag-xl: 1.3125rem; /* 21 */
+  --text-ag-2xl: 1.75rem; /* 28 */
+  --text-ag-3xl: 2.25rem; /* 36 */
+  --text-ag-4xl: 3rem; /* 48 */
+  --text-ag-5xl: 3.75rem; /* 60 — hero, desktop only */
+
+  /* ---------------------------------------------------------------------
+   * Spacing — 4px base, used for padding, gaps and section rhythm.
+   * ------------------------------------------------------------------ */
+
+  --spacing-ag-1: 0.25rem; /* 4 */
+  --spacing-ag-2: 0.5rem; /* 8 */
+  --spacing-ag-3: 0.75rem; /* 12 */
+  --spacing-ag-4: 1rem; /* 16 */
+  --spacing-ag-6: 1.5rem; /* 24 */
+  --spacing-ag-8: 2rem; /* 32 */
+  --spacing-ag-12: 3rem; /* 48 */
+  --spacing-ag-16: 4rem; /* 64 */
+  --spacing-ag-24: 6rem; /* 96 */
+  --spacing-ag-32: 8rem; /* 128 — section rhythm at desktop */
+
+  /* ---------------------------------------------------------------------
+   * Radius. 10px is the default; the scale exists so nothing is arbitrary.
+   * ------------------------------------------------------------------ */
+
+  --radius-ag-none: 0;
+  --radius-ag-sm: 0.25rem; /* 4 */
+  --radius-ag-md: 0.5rem; /* 8 */
+  --radius-ag-lg: 0.625rem; /* 10 — default for cards, buttons, inputs */
+  --radius-ag-xl: 1rem; /* 16 — large surfaces only */
+  --radius-ag-pill: 62.5rem;
+
+  /* ---------------------------------------------------------------------
+   * Motion policy.
+   *
+   * Only `transform` and `opacity` are ever animated — never width, height,
+   * top or left, which force layout and cause jank.
+   * At most two elements animate per view.
+   * No parallax, no scroll-jacking, no autoplaying motion.
+   * Entering uses ease-out; exiting uses ease-in and is faster than entering.
+   * Every one of these is disabled under prefers-reduced-motion in globals.css.
+   * ------------------------------------------------------------------ */
+
+  --ease-ag-enter: cubic-bezier(0, 0, 0.2, 1);
+  --ease-ag-exit: cubic-bezier(0.4, 0, 1, 1);
+
+  --duration-ag-micro: 150ms; /* hover, focus, press */
+  --duration-ag-standard: 200ms; /* default state change */
+  --duration-ag-enter: 300ms; /* entrance; the hard ceiling */
+  --duration-ag-leave: 200ms; /* exits are ~2/3 of entrances */
+}
+
+@layer base {
+  :root {
+    /* Focus ring, applied globally in globals.css. 3px is above the 2px
+     * minimum so it stays visible against the mist surface token. */
+    --ag-focus-ring-width: 3px;
+    --ag-focus-ring-offset: 2px;
+  }
+}

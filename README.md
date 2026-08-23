@@ -6,8 +6,13 @@ serving SMEs in England.
 This repository is standalone. It shares no history, remote, dependency tree or
 configuration with any other project.
 
-**Current state: WP0 complete — scaffold and quality gates only.** There is no
-site copy yet. The single page is a build scaffold and is replaced at WP3.
+**Current state: WP1 complete — scaffold, quality gates, and the brand and
+design system.** The home page is a hero demonstrating the design system, using
+the approved hero copy from the Content Spec. The rest of the site is built from
+WP2 onwards.
+
+The three visual directions and the reason two of them lost are recorded in
+[`design/DESIGN-DECISION.md`](./design/DESIGN-DECISION.md).
 
 ---
 
@@ -32,22 +37,24 @@ optional locally — see the table below for the defaults.
 
 ### Commands
 
-| Command              | What it does                                                        |
-| -------------------- | ------------------------------------------------------------------- |
-| `pnpm dev`           | Next dev server                                                     |
-| `pnpm build`         | Static export to `out/`                                             |
-| `pnpm verify`        | **The gate.** Lint, format, types, domain assertion, unit, e2e, axe |
-| `pnpm lint`          | ESLint                                                              |
-| `pnpm format`        | Rewrite files with Prettier                                         |
-| `pnpm format:check`  | Fail if anything is unformatted                                     |
-| `pnpm typecheck`     | `tsc --noEmit`                                                      |
-| `pnpm guard:domains` | Fail if a domain is hardcoded in `src/`                             |
-| `pnpm test:unit`     | Vitest                                                              |
-| `pnpm test:e2e`      | Playwright end-to-end, against the real static export               |
-| `pnpm test:a11y`     | axe-core, WCAG 2.2 AA, at 320/768/1440px                            |
-| `pnpm lighthouse`    | Lighthouse CI against `out/`                                        |
-| `pnpm preview`       | Serve `out/` through the real Worker runtime (`wrangler dev`)       |
-| `pnpm deploy`        | Deploy to Cloudflare (operator only — requires credentials)         |
+| Command               | What it does                                                        |
+| --------------------- | ------------------------------------------------------------------- |
+| `pnpm dev`            | Next dev server                                                     |
+| `pnpm build`          | Static export to `out/`                                             |
+| `pnpm verify`         | **The gate.** Lint, format, types, domain assertion, unit, e2e, axe |
+| `pnpm lint`           | ESLint                                                              |
+| `pnpm format`         | Rewrite files with Prettier                                         |
+| `pnpm format:check`   | Fail if anything is unformatted                                     |
+| `pnpm typecheck`      | `tsc --noEmit`                                                      |
+| `pnpm guard:domains`  | Fail if a domain is hardcoded in `src/`                             |
+| `pnpm guard:tokens`   | Fail if a hex colour appears outside the token file                 |
+| `pnpm icons:generate` | Regenerate `favicon.ico` and `apple-icon.png` from the tokens       |
+| `pnpm test:unit`      | Vitest                                                              |
+| `pnpm test:e2e`       | Playwright end-to-end, against the real static export               |
+| `pnpm test:a11y`      | axe-core, WCAG 2.2 AA, at 320/768/1440px                            |
+| `pnpm lighthouse`     | Lighthouse CI against `out/`                                        |
+| `pnpm preview`        | Serve `out/` through the real Worker runtime (`wrangler dev`)       |
+| `pnpm deploy`         | Deploy to Cloudflare (operator only — requires credentials)         |
 
 `pnpm verify` is what CI runs and what every work package must leave green.
 
@@ -162,23 +169,47 @@ The SEO category is **not** asserted on the two not-found pages, `404.html` and
 that the 404 page be indexable. Performance, accessibility and best practices
 are asserted on every page, not-found pages included.
 
-### Measured at WP0 (Next.js 16.3.2)
+### Measured at WP1 (Next.js 16.3.2)
 
 | Route              | Performance | Accessibility | Best practices | SEO                            |
 | ------------------ | ----------- | ------------- | -------------- | ------------------------------ |
-| `/`                | 1.00        | 1.00          | 0.96           | 1.00                           |
-| `/404.html`        | 1.00        | 1.00          | 0.96           | 0.60 (not asserted, see above) |
-| `/_not-found.html` | 0.99        | 1.00          | 0.96           | 0.60 (not asserted, see above) |
+| `/`                | 0.98        | 1.00          | 1.00           | 1.00                           |
+| `/404.html`        | 0.98        | 1.00          | 1.00           | 0.60 (not asserted, see above) |
+| `/_not-found.html` | 0.97        | 1.00          | 1.00           | 0.60 (not asserted, see above) |
 
-Two known gaps, both recorded rather than papered over:
+Best practices reached 1.00 at WP1: the favicon set closed the console 404 that
+was costing the point at WP0. Performance moved from 1.00 to 0.97–0.98 with the
+introduction of three self-hosted font families, which is the expected cost and
+remains comfortably above the 0.95 floor.
 
-- Best practices is 0.96 rather than 1.00 because of a single console error:
-  `favicon.ico` returns 404. WP1 delivers the wordmark and favicon set, which
-  closes it. Not patched with a throwaway icon, because the brand assets are
-  WP1's deliverable.
-- Next 16 exports `_not-found.html` as well as `404.html`, so the not-found page
-  is also reachable at `/_not-found`. It carries `noindex`, so there is no SEO
-  consequence; it is cosmetic and revisited at WP12.
+One known cosmetic gap: Next 16 exports `_not-found.html` as well as
+`404.html`, so the not-found page is also reachable at `/_not-found`. It carries
+`noindex`, so there is no SEO consequence; revisited at WP12.
+
+## Design system
+
+Direction B, "Workbench". Tokens are defined in
+[`src/app/tokens.css`](./src/app/tokens.css) and that is **the only file in
+`src/` permitted to contain a hex colour** — `pnpm guard:tokens` fails the build
+on a hex literal anywhere else, so components consume tokens rather than raw
+values.
+
+|           |                                                                         |
+| --------- | ----------------------------------------------------------------------- |
+| Colour    | Six named tokens: ink, slate, mist, signal, paper, alert                |
+| Type      | Figtree display / Source Sans 3 body / IBM Plex Mono utility, 16px base |
+| Spacing   | 4px base, ten steps to 128px                                            |
+| Radius    | Six steps, 10px default                                                 |
+| Motion    | Transform and opacity only; 150/200/300ms; ease-out entering            |
+| Signature | The relay band — employer, ApprentiGate, training provider              |
+
+Fonts are self-hosted by `next/font` at build time, so there is no external
+request and no layout shift.
+
+**Watch item for WP2 and WP3.** Three things keep this direction from
+collapsing into generic B2B SaaS: the monospace utility layer, the relay band,
+and the whitespace discipline. If any is quietly dropped as pages are added,
+the brand stops being distinctive. See `design/DESIGN-DECISION.md`.
 
 ---
 

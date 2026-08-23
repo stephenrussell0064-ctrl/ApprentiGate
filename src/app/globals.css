@@ -1,12 +1,43 @@
 @import 'tailwindcss';
+@import './tokens.css';
 
 /*
- * Design tokens are WP1's deliverable and will live in their own file, imported
- * here. Until then this scaffold uses Tailwind's stock utilities only.
- * WP1 acceptance requires that no hex value appears outside the token file.
+ * Design tokens live in tokens.css and are the only place a hex value may
+ * appear in src/. `pnpm guard:tokens` enforces that.
  */
 
-/* Motion policy, applied globally from the outset (quality floor, WP2). */
+@layer base {
+  body {
+    background-color: var(--color-ag-paper);
+    color: var(--color-ag-ink);
+    font-family: var(--font-body);
+    font-size: var(--text-ag-base);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+
+  /*
+   * Visible focus ring on every interactive element. The quality floor makes
+   * this a pass condition, so it is set globally rather than per component,
+   * and `:focus-visible` keeps it off mouse clicks.
+   */
+  :focus-visible {
+    outline: var(--ag-focus-ring-width) solid var(--color-ag-signal);
+    outline-offset: var(--ag-focus-ring-offset);
+    border-radius: var(--radius-ag-sm);
+  }
+}
+
+/* Motion policy, enforced globally: see the motion tokens in tokens.css. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

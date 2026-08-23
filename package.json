@@ -16,13 +16,15 @@
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
     "guard:domains": "node scripts/check-hardcoded-domains.mjs",
+    "guard:tokens": "node scripts/check-design-tokens.mjs",
+    "icons:generate": "node scripts/generate-icons.mjs",
     "test:unit": "vitest run",
     "test:browser": "playwright test",
     "test:e2e": "playwright test --project=e2e",
     "test:a11y": "playwright test --project=a11y",
     "serve:out": "serve out --listen 4321 --no-clipboard",
     "lighthouse": "lhci autorun",
-    "verify": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm guard:domains && pnpm test:unit && pnpm test:browser"
+    "verify": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm guard:domains && pnpm guard:tokens && pnpm test:unit && pnpm test:browser"
   },
   "dependencies": {
     "next": "16.3.2",
