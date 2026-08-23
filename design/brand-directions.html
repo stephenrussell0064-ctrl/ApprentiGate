@@ -1,0 +1,506 @@
+<title>ApprentiGate Brand Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Karla:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&family=Libre+Franklin:wght@400;600&family=Figtree:wght@400;600;700&family=Source+Sans+3:wght@400;600&family=Poppins:wght@400;600&family=Inter:wght@400;500&display=swap">
+
+<style>
+  /* ---------------------------------------------------------------
+     Document palette. Deliberately near-silent: this page exists to
+     let three candidate identities be compared, so the frame carries
+     no accent colour of its own that could bias the reading. Emphasis
+     is typographic and structural instead.
+     --------------------------------------------------------------- */
+  :root {
+    --ground: #fbfbfc;
+    --surface: #ffffff;
+    --ink: #14181d;
+    --muted: #666f7b;
+    --hairline: #e4e7eb;
+    --hairline-strong: #c9ced5;
+    --shadow: 0 1px 2px rgba(20, 24, 29, 0.04), 0 8px 24px rgba(20, 24, 29, 0.06);
+
+    --measure: 68ch;
+    --step: 1.5rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #101317;
+      --surface: #171b21;
+      --ink: #e8ebef;
+      --muted: #98a1ad;
+      --hairline: #262c34;
+      --hairline-strong: #39414b;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #101317;
+    --surface: #171b21;
+    --ink: #e8ebef;
+    --muted: #98a1ad;
+    --hairline: #262c34;
+    --hairline-strong: #39414b;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Karla", ui-sans-serif, system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    margin: 0;
+    padding: clamp(2rem, 6vw, 5rem) clamp(1.25rem, 5vw, 3rem) 6rem;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; gap: calc(var(--step) * 2.5); }
+
+  .eyebrow {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  h1 {
+    font-family: "Newsreader", Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    margin: 0.5rem 0 0;
+  }
+
+  h2 {
+    font-family: "Newsreader", Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(1.6rem, 3.4vw, 2.1rem);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  h3 {
+    font-family: "Karla", sans-serif;
+    font-weight: 700;
+    font-size: 1.02rem;
+    letter-spacing: -0.005em;
+    margin: 0;
+  }
+
+  p { margin: 0; max-width: var(--measure); }
+  .lede { font-size: 1.14rem; color: var(--muted); max-width: var(--measure); margin: 0; }
+
+  .stack { display: flex; flex-direction: column; gap: 1rem; }
+  .stack-tight { display: flex; flex-direction: column; gap: 0.6rem; }
+
+  header .meta {
+    display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.75rem; color: var(--muted);
+    border-top: 1px solid var(--hairline);
+    padding-top: 1rem; margin-top: 1.75rem;
+  }
+
+  /* --- The constraint callout: the hinge of the whole decision ---- */
+  .constraint {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-left: 3px solid var(--ink);
+    border-radius: 3px;
+    padding: 1.5rem clamp(1.25rem, 3vw, 2rem);
+    display: flex; flex-direction: column; gap: 0.9rem;
+  }
+
+  /* --- Specimen cards ------------------------------------------- */
+  .specimen {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .specimen.is-selected { border-color: var(--hairline-strong); border-width: 2px; }
+
+  .specimen-head {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1rem;
+    padding: 1.25rem clamp(1.25rem, 3vw, 2rem);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .specimen-head .letter {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.75rem; letter-spacing: 0.12em; color: var(--muted);
+  }
+  .specimen-head .name {
+    font-family: "Newsreader", Georgia, serif; font-weight: 600; font-size: 1.45rem;
+    letter-spacing: -0.01em;
+  }
+  .verdict {
+    margin-left: auto;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.3rem 0.6rem; border-radius: 2px; white-space: nowrap;
+  }
+  .verdict.win { background: var(--ink); color: var(--ground); }
+  .verdict.lose { border: 1px solid var(--hairline-strong); color: var(--muted); }
+
+  .specimen-body { display: grid; grid-template-columns: 1fr; }
+  @media (min-width: 860px) { .specimen-body { grid-template-columns: 270px 1fr; } }
+
+  .spec-list {
+    padding: clamp(1.25rem, 3vw, 1.75rem);
+    display: flex; flex-direction: column; gap: 1.1rem;
+    border-bottom: 1px solid var(--hairline);
+  }
+  @media (min-width: 860px) { .spec-list { border-bottom: 0; border-right: 1px solid var(--hairline); } }
+
+  .swatches { display: flex; gap: 6px; }
+  .swatches span {
+    flex: 1; height: 40px; border-radius: 2px;
+    border: 1px solid rgba(128, 128, 128, 0.28);
+  }
+
+  .spec-row {
+    display: grid; grid-template-columns: 4.6rem 1fr; gap: 0.75rem;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.73rem; line-height: 1.5;
+  }
+  .spec-row dt { color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+  .spec-row dd { margin: 0; }
+
+  /* --- The hero mocks: each paints its own world explicitly ------ */
+  .mock { padding: clamp(1.5rem, 4vw, 2.5rem); display: flex; flex-direction: column; justify-content: center; min-height: 260px; }
+  .mock .m-eyebrow { font-size: 0.62rem; letter-spacing: 0.13em; text-transform: uppercase; margin: 0 0 0.9rem; }
+  .mock .m-head { margin: 0 0 0.75rem; line-height: 1.12; letter-spacing: -0.02em; max-width: 17ch; }
+  .mock .m-sub { margin: 0 0 1.4rem; font-size: 0.86rem; line-height: 1.55; max-width: 46ch; }
+  .mock .m-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .mock .m-btn { font-size: 0.78rem; font-weight: 600; padding: 0.6rem 1.05rem; display: inline-block; }
+
+  /* Direction A — Ledger */
+  .mock-a { background: #f5f3ef; font-family: "Libre Franklin", sans-serif; }
+  .mock-a .m-eyebrow { color: #6d6455; font-family: "Libre Franklin", sans-serif; }
+  .mock-a .m-head { font-family: "Libre Franklin", sans-serif; font-weight: 600; font-size: clamp(1.5rem, 3.2vw, 2rem); color: #16202c; }
+  .mock-a .m-sub { color: #4b5563; }
+  .mock-a .m-btn.primary { background: #8a6a2f; color: #fff; border-radius: 4px; }
+  .mock-a .m-btn.ghost { border: 1px solid #cfc7b8; color: #16202c; border-radius: 4px; }
+
+  /* Direction B — Workbench (selected) */
+  .mock-b { background: #ffffff; font-family: "Source Sans 3", sans-serif; }
+  .mock-b .m-eyebrow { color: #4a5b6b; font-family: "IBM Plex Mono", monospace; }
+  .mock-b .m-head { font-family: "Figtree", sans-serif; font-weight: 600; font-size: clamp(1.6rem, 3.4vw, 2.15rem); color: #0f1d2a; }
+  .mock-b .m-sub { color: #4a5b6b; }
+  .mock-b .m-btn.primary { background: #0b6e5f; color: #fff; border-radius: 10px; }
+  .mock-b .m-btn.ghost { border: 1px solid #edf1f4; color: #0f1d2a; border-radius: 10px; }
+
+  /* Direction C — Beacon */
+  .mock-c { background: #f4f8ff; font-family: "Inter", sans-serif; }
+  .mock-c .m-eyebrow { color: #4c6394; font-family: "Inter", sans-serif; }
+  .mock-c .m-head { font-family: "Poppins", sans-serif; font-weight: 600; font-size: clamp(1.5rem, 3.2vw, 2rem); color: #123a8a; }
+  .mock-c .m-sub { color: #46546f; }
+  .mock-c .m-btn.primary { background: #123a8a; color: #fff; border-radius: 14px; }
+  .mock-c .m-btn.ghost { background: #f2e9d8; color: #123a8a; border-radius: 14px; }
+
+  .why {
+    padding: clamp(1.25rem, 3vw, 1.75rem) clamp(1.25rem, 3vw, 2rem);
+    border-top: 1px solid var(--hairline);
+    display: flex; flex-direction: column; gap: 0.8rem;
+  }
+  .why h3 { color: var(--muted); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; font-family: "IBM Plex Mono", monospace; font-weight: 500; }
+
+  /* --- Relay band, drawn as the site draws it ------------------- */
+  .band { display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-top: 0.5rem; }
+  @media (min-width: 640px) { .band { grid-template-columns: repeat(3, 1fr); gap: 0.75rem; } }
+  .band-node { display: flex; flex-direction: column; }
+  .band-rule { display: flex; align-items: center; margin-bottom: 0.85rem; }
+  .band-dot { width: 10px; height: 10px; border-radius: 50%; flex: none; border: 2px solid var(--hairline-strong); background: var(--surface); }
+  .band-node.centre .band-dot { background: #0b6e5f; border-color: #0b6e5f; }
+  .band-line { height: 1px; flex: 1; background: var(--hairline); display: none; }
+  @media (min-width: 640px) { .band-line { display: block; } }
+  .band-label { font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .band-node.centre .band-label { color: #0b6e5f; }
+  .band-role { font-size: 0.86rem; color: var(--muted); margin-top: 0.2rem; }
+
+  .checklist { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem; max-width: var(--measure); }
+  .checklist li { display: grid; grid-template-columns: 1.4rem 1fr; gap: 0.5rem; align-items: start; }
+  .checklist .box { width: 15px; height: 15px; border: 1.5px solid var(--hairline-strong); border-radius: 2px; margin-top: 0.35rem; }
+
+  footer { border-top: 1px solid var(--hairline); padding-top: 1.25rem; color: var(--muted); font-size: 0.85rem; }
+
+  a { color: inherit; }
+  a:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Work package 1 &middot; Stage 2 gate</p>
+    <h1>Three directions, one decision</h1>
+    <p class="lede" style="margin-top:1rem">
+      Three visual identities were built as token sets with working hero mocks, then judged
+      against the brief before any was developed further. This is what was made, what was
+      chosen, and why the other two were rejected.
+    </p>
+    <div class="meta">
+      <span>ApprentiGate</span>
+      <span>Direction B selected</span>
+      <span>For Senior User sign-off</span>
+    </div>
+  </header>
+
+  <section class="constraint">
+    <p class="eyebrow">The constraint that decided it</p>
+    <p>
+      The standard way to make a business look credible is to show proof: client logos,
+      certifications, case studies, customer counts, star ratings. Every one of those is
+      forbidden here, because ApprentiGate has no customers yet and inventing them is not
+      an option.
+    </p>
+    <p>
+      That is not an obstacle to design around — it <em>is</em> the design problem. Credibility
+      has to come from typography, structure and plain honesty instead of borrowed proof. So each
+      direction was tested one way: <strong>does it still look credible with the proof panels
+      removed?</strong> One of the three did not, and that is why it lost.
+    </p>
+  </section>
+
+  <!-- ============================ A ============================ -->
+  <section class="specimen">
+    <div class="specimen-head">
+      <span class="letter">A</span>
+      <span class="name">Ledger</span>
+      <span class="verdict lose">Rejected</span>
+    </div>
+    <div class="specimen-body">
+      <div class="spec-list">
+        <div class="swatches" role="img" aria-label="Palette: warm stone, ink navy, brass, mid grey">
+          <span style="background:#f5f3ef"></span>
+          <span style="background:#16202c"></span>
+          <span style="background:#8a6a2f"></span>
+          <span style="background:#4b5563"></span>
+        </div>
+        <dl class="stack-tight" style="margin:0">
+          <div class="spec-row"><dt>Ground</dt><dd>#F5F3EF</dd></div>
+          <div class="spec-row"><dt>Ink</dt><dd>#16202C</dd></div>
+          <div class="spec-row"><dt>Accent</dt><dd>#8A6A2F</dd></div>
+          <div class="spec-row"><dt>Type</dt><dd>Libre Franklin</dd></div>
+          <div class="spec-row"><dt>Radius</dt><dd>4px</dd></div>
+          <div class="spec-row"><dt>Feel</dt><dd>Dense, restrained, understated</dd></div>
+        </dl>
+      </div>
+      <div class="mock mock-a">
+        <p class="m-eyebrow">Apprenticeships for growing businesses in England</p>
+        <p class="m-head">Build your apprenticeship programme without the complexity.</p>
+        <p class="m-sub">ApprentiGate helps growing businesses identify suitable apprenticeship routes and compare approved training providers.</p>
+        <div class="m-actions">
+          <span class="m-btn primary">Explore apprenticeships</span>
+          <span class="m-btn ghost">See how it works</span>
+        </div>
+      </div>
+    </div>
+    <div class="why">
+      <h3>Why it lost</h3>
+      <p>
+        It reads as a management consultancy — one of the four things the brief says the site
+        must not resemble. Quiet authority suits a firm whose authority is already established.
+        ApprentiGate's is not, and cannot be evidenced anywhere on the site. Wearing the visual
+        language of seniority without the substance behind it reads as a bluff to exactly the
+        sceptical managing director this site is built for.
+      </p>
+      <p>
+        Its warm ground and metallic accent also sit one step from a house style the brief
+        explicitly warns against.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================ B ============================ -->
+  <section class="specimen is-selected">
+    <div class="specimen-head">
+      <span class="letter">B</span>
+      <span class="name">Workbench</span>
+      <span class="verdict win">Selected</span>
+    </div>
+    <div class="specimen-body">
+      <div class="spec-list">
+        <div class="swatches" role="img" aria-label="Palette: white, ink, slate, mist, deep teal">
+          <span style="background:#ffffff"></span>
+          <span style="background:#0f1d2a"></span>
+          <span style="background:#4a5b6b"></span>
+          <span style="background:#edf1f4"></span>
+          <span style="background:#0b6e5f"></span>
+        </div>
+        <dl class="stack-tight" style="margin:0">
+          <div class="spec-row"><dt>Ground</dt><dd>#FFFFFF</dd></div>
+          <div class="spec-row"><dt>Ink</dt><dd>#0F1D2A</dd></div>
+          <div class="spec-row"><dt>Signal</dt><dd>#0B6E5F &middot; 7.4:1</dd></div>
+          <div class="spec-row"><dt>Type</dt><dd>Figtree / Source Sans 3 / IBM Plex Mono</dd></div>
+          <div class="spec-row"><dt>Radius</dt><dd>10px</dd></div>
+          <div class="spec-row"><dt>Feel</dt><dd>Whitespace-led, calm, precise</dd></div>
+        </dl>
+      </div>
+      <div class="mock mock-b">
+        <p class="m-eyebrow">Apprenticeships for growing businesses in England</p>
+        <p class="m-head">Build your apprenticeship programme without the complexity.</p>
+        <p class="m-sub">ApprentiGate helps growing businesses identify suitable apprenticeship routes and compare approved training providers.</p>
+        <div class="m-actions">
+          <span class="m-btn primary">Explore apprenticeships</span>
+          <span class="m-btn ghost">See how it works</span>
+        </div>
+      </div>
+    </div>
+    <div class="why">
+      <h3>Why it won</h3>
+      <p>
+        It is the only one of the three that is <em>true</em>. ApprentiGate is a managed service
+        that intends to become a platform, and this is what operations tooling actually looks
+        like. The visual language is not borrowed from a more established kind of company; it
+        describes the thing being built.
+      </p>
+      <p>
+        The monospace labels do real work. They read as <em>this business handles the
+        administrative detail</em> — which is the actual proposition — without making a single
+        claim that would need a source. That is credibility from texture rather than assertion,
+        which is precisely what a business with no track record needs.
+      </p>
+      <p>
+        The teal is a deliberate move away from default corporate blue. Apprenticeships and
+        education are saturated with blue and purple; this is distinctive without being loud,
+        and it is dark enough to carry no "eco" or "sustainability" reading.
+      </p>
+      <p>
+        <strong>Its risk, stated plainly:</strong> executed lazily, this becomes generic business
+        software. Three things hold it apart — the monospace layer, the relay band below, and
+        strict whitespace discipline. If any is quietly dropped as pages are added, the identity
+        stops being distinctive.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================ C ============================ -->
+  <section class="specimen">
+    <div class="specimen-head">
+      <span class="letter">C</span>
+      <span class="name">Beacon</span>
+      <span class="verdict lose">Rejected</span>
+    </div>
+    <div class="specimen-body">
+      <div class="spec-list">
+        <div class="swatches" role="img" aria-label="Palette: sky tint, deep blue, warm chalk, slate">
+          <span style="background:#f4f8ff"></span>
+          <span style="background:#123a8a"></span>
+          <span style="background:#f2e9d8"></span>
+          <span style="background:#46546f"></span>
+        </div>
+        <dl class="stack-tight" style="margin:0">
+          <div class="spec-row"><dt>Ground</dt><dd>#F4F8FF</dd></div>
+          <div class="spec-row"><dt>Primary</dt><dd>#123A8A</dd></div>
+          <div class="spec-row"><dt>Accent</dt><dd>#F2E9D8</dd></div>
+          <div class="spec-row"><dt>Type</dt><dd>Poppins / Inter</dd></div>
+          <div class="spec-row"><dt>Radius</dt><dd>14px</dd></div>
+          <div class="spec-row"><dt>Feel</dt><dd>Larger, rounder, warmer</dd></div>
+        </dl>
+      </div>
+      <div class="mock mock-c">
+        <p class="m-eyebrow">Apprenticeships for growing businesses in England</p>
+        <p class="m-head">Build your apprenticeship programme without the complexity.</p>
+        <p class="m-sub">ApprentiGate helps growing businesses identify suitable apprenticeship routes and compare approved training providers.</p>
+        <div class="m-actions">
+          <span class="m-btn primary">Explore apprenticeships</span>
+          <span class="m-btn ghost">See how it works</span>
+        </div>
+      </div>
+    </div>
+    <div class="why">
+      <h3>Why it lost</h3>
+      <p>
+        It is the most generic of the three. Deep blue, rounded corners and a warm accent is the
+        house style of a very large number of business websites. For a company whose entire
+        problem is being unknown, looking like everything else is a real cost.
+      </p>
+      <p>
+        The rounder shapes and warmer accent also drift toward a friendly-education look. Either
+        choice alone is defensible; together, on an education subject, they compound in the wrong
+        direction.
+      </p>
+    </div>
+  </section>
+
+  <!-- ======================= Signature ========================= -->
+  <section class="stack">
+    <h2>The signature element</h2>
+    <p>
+      Every identity needs one thing it is remembered by. Here it is the <strong>relay
+      band</strong> — and it was chosen because it is simultaneously the most important
+      information on the site.
+    </p>
+    <p>
+      A visitor's first assumption will be that ApprentiGate is a training provider or a
+      recruitment agency. Correcting that is the main job the page has. Making the correction
+      into the recurring visual device means the brand and the message become the same thing:
+      every time the motif appears, it reinforces the proposition rather than decorating it.
+    </p>
+
+    <div class="band" role="img" aria-label="Employer employs and manages the apprentice; ApprentiGate handles the process in between; the training provider delivers the training.">
+      <div class="band-node">
+        <div class="band-rule"><span class="band-dot"></span><span class="band-line"></span></div>
+        <span class="band-label">Employer</span>
+        <span class="band-role">Employs and manages the apprentice</span>
+      </div>
+      <div class="band-node centre">
+        <div class="band-rule"><span class="band-dot"></span><span class="band-line"></span></div>
+        <span class="band-label">ApprentiGate</span>
+        <span class="band-role">Handles the process in between</span>
+      </div>
+      <div class="band-node">
+        <div class="band-rule"><span class="band-dot"></span></div>
+        <span class="band-label">Training provider</span>
+        <span class="band-role">Delivers the training</span>
+      </div>
+    </div>
+
+    <p style="margin-top:0.75rem">
+      On the <em>gate</em> idea: it is used exactly once, in the app mark, as a slot cut clean
+      through a solid block — a way through rather than a barrier. There is no archway imagery
+      anywhere, and the relay band deliberately shows an open path between three parties rather
+      than a threshold to be admitted past.
+    </p>
+  </section>
+
+  <!-- ========================= Sign-off ========================= -->
+  <section class="stack">
+    <h2>What we need you to confirm</h2>
+    <p class="lede">
+      The Stage 2 gate needs the Senior User to look at this and answer four questions. Please
+      view it on your own phone as well as a desktop — most recipients of a cold email will
+      open it on a phone.
+    </p>
+    <ul class="checklist">
+      <li><span class="box"></span><span>It does <strong>not</strong> look like a college or a training provider.</span></li>
+      <li><span class="box"></span><span>It does <strong>not</strong> look like a recruitment agency.</span></li>
+      <li><span class="box"></span><span>It does <strong>not</strong> look like a government department or a children's education brand.</span></li>
+      <li><span class="box"></span><span>You would take a cold email from this business seriously.</span></li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>
+      Direction B is built and running. The two rejected directions exist only as the record
+      above — nothing was developed beyond the mocks shown here. Next up is the component
+      library and page shell.
+    </p>
+  </footer>
+
+</div>
