@@ -6,11 +6,15 @@ serving SMEs in England.
 This repository is standalone. It shares no history, remote, dependency tree or
 configuration with any other project.
 
-**Current state: WP2 complete — scaffold, quality gates, brand and design
-system, component library and shell.** Page content is written from WP3 onwards.
-Most routes in the navigation do not exist yet and resolve to the custom 404
-until their work package lands; the links are declared now so header, footer and
-sitemap cannot drift apart.
+**Current state: WP3 complete — scaffold, quality gates, brand and design
+system, component library and shell, and the Home page.** The remaining pages
+are written from WP4 onwards. Most routes in the navigation do not exist yet and
+resolve to the custom 404 until their work package lands; the links are declared
+now so header, footer and sitemap cannot drift apart.
+
+Every factual claim on the site traces to
+[`CONTENT-SOURCES.md`](./CONTENT-SOURCES.md), which carries the GOV.UK URL and
+retrieval date behind each one.
 
 Every component, in every state including error and empty, is at
 [`/components`](http://localhost:3000/components) when running locally.

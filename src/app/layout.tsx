@@ -37,9 +37,17 @@ const plexMono = IBM_Plex_Mono({
  */
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
-  title: 'ApprentiGate',
+  /**
+   * Pages set their own title; the template appends the business name so every
+   * tab and search result is attributable without each page repeating it.
+   * Titles stay under 60 characters and descriptions under 155 (Content Spec 5).
+   */
+  title: {
+    default: 'ApprentiGate — apprenticeships for growing businesses',
+    template: '%s — ApprentiGate',
+  },
   description:
-    'ApprentiGate helps growing businesses in England set up and run apprenticeship programmes.',
+    'ApprentiGate helps smaller employers in England set up and run apprenticeship programmes, working between the employer and approved training providers.',
   /**
    * Indexing is off unless explicitly enabled, so the preview deployment cannot
    * be indexed and create duplicate content against the real domain (Brief s5).

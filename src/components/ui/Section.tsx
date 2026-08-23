@@ -30,8 +30,14 @@ const TONES: Record<SectionTone, string> = {
   mist: 'bg-[var(--color-ag-mist)]',
 };
 
-const WIDTHS: Record<SectionWidth, string> = {
-  default: 'max-w-6xl',
+/**
+ * `narrow` constrains the measure of the content, it does not centre a narrower
+ * container. Centring one would pull the section's left edge inward and break
+ * the shared left margin that every other section sits on, giving the page a
+ * ragged edge as it scrolls.
+ */
+const CONTENT_WIDTHS: Record<SectionWidth, string> = {
+  default: '',
   narrow: 'max-w-3xl',
 };
 
@@ -59,24 +65,24 @@ export function Section({
         .filter(Boolean)
         .join(' ')}
     >
-      <div
-        className={`mx-auto ${WIDTHS[width]} px-[var(--spacing-ag-6)] py-[var(--spacing-ag-16)] md:py-[var(--spacing-ag-24)]`}
-      >
-        {(eyebrow ?? heading) && (
-          <div className="mb-[var(--spacing-ag-8)] flex flex-col gap-[var(--spacing-ag-3)]">
-            {eyebrow && (
-              <p className="font-[family-name:var(--font-utility)] text-[length:var(--text-ag-xs)] tracking-[0.08em] text-[color:var(--color-ag-slate)] uppercase">
-                {eyebrow}
-              </p>
-            )}
-            {heading && (
-              <Heading className="max-w-[24ch] text-[length:var(--text-ag-2xl)] font-semibold text-balance text-[color:var(--color-ag-ink)] md:text-[length:var(--text-ag-3xl)]">
-                {heading}
-              </Heading>
-            )}
-          </div>
-        )}
-        {children}
+      <div className="mx-auto max-w-6xl px-[var(--spacing-ag-6)] py-[var(--spacing-ag-16)] md:py-[var(--spacing-ag-24)]">
+        <div className={CONTENT_WIDTHS[width]}>
+          {(eyebrow ?? heading) && (
+            <div className="mb-[var(--spacing-ag-8)] flex flex-col gap-[var(--spacing-ag-3)]">
+              {eyebrow && (
+                <p className="font-[family-name:var(--font-utility)] text-[length:var(--text-ag-xs)] tracking-[0.08em] text-[color:var(--color-ag-slate)] uppercase">
+                  {eyebrow}
+                </p>
+              )}
+              {heading && (
+                <Heading className="max-w-[24ch] text-[length:var(--text-ag-2xl)] font-semibold text-balance text-[color:var(--color-ag-ink)] md:text-[length:var(--text-ag-3xl)]">
+                  {heading}
+                </Heading>
+              )}
+            </div>
+          )}
+          {children}
+        </div>
       </div>
     </section>
   );

@@ -42,7 +42,14 @@ export default defineConfig({
   webServer: {
     command: 'pnpm build && pnpm serve:out',
     url: BASE_URL,
-    reuseExistingServer: !process.env.CI,
+    /**
+     * Never reuse. Reusing a leftover server means the suite silently tests a
+     * stale `out/` — which is exactly what happened, and it defeats the reason
+     * these tests serve the built export at all. Starting fresh every run costs
+     * a rebuild; if the port is occupied Playwright fails loudly, which is far
+     * better than a green run against yesterday's build.
+     */
+    reuseExistingServer: false,
     timeout: 180_000,
     // The static server logs every asset request, which buries test results.
     stdout: 'ignore',
