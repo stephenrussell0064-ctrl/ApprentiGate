@@ -33,9 +33,25 @@ export function RelayBand({ variant = 'full', className }: RelayBandProps) {
     <div
       className={className}
       role="group"
-      aria-label="How the three parties relate: the employer employs and manages the apprentice, ApprentiGate handles the process in between, and an approved training provider delivers the training."
+      /*
+       * The compact variant recurs in the footer on every page, so it gets a
+       * short label. Repeating the full sentence there would make a screen
+       * reader recite the whole three-party explanation again at the foot of
+       * every page, which is noise rather than information.
+       */
+      aria-label={
+        isRule
+          ? 'The three parties: employer, ApprentiGate, training provider.'
+          : 'How the three parties relate: the employer employs and manages the apprentice, ApprentiGate handles the process in between, and an approved training provider delivers the training.'
+      }
     >
-      <ol className="grid list-none grid-cols-1 gap-[var(--spacing-ag-6)] sm:grid-cols-3 sm:gap-[var(--spacing-ag-4)]">
+      <ol
+        className={`grid list-none grid-cols-1 sm:grid-cols-3 sm:gap-[var(--spacing-ag-4)] ${
+          // The compact variant is tighter, so it reads as a closing rule
+          // rather than as a second copy of the diagram above it.
+          isRule ? 'gap-[var(--spacing-ag-3)]' : 'gap-[var(--spacing-ag-6)]'
+        }`}
+      >
         {NODES.map((node, index) => {
           const isCentre = index === 1;
           return (
@@ -45,7 +61,9 @@ export function RelayBand({ variant = 'full', className }: RelayBandProps) {
                   horizontal. */}
               <div
                 aria-hidden="true"
-                className="mb-[var(--spacing-ag-4)] flex items-center"
+                className={`flex items-center ${
+                  isRule ? 'mb-[var(--spacing-ag-2)]' : 'mb-[var(--spacing-ag-4)]'
+                }`}
               >
                 <span
                   className={

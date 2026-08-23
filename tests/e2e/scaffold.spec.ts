@@ -118,7 +118,11 @@ test.describe('design system', () => {
 
   test('renders the relay band naming all three parties', async ({ page }) => {
     await page.goto('/');
-    const band = page.getByRole('group', { name: /How the three parties relate/i });
+    // Scoped to main: the band recurs in the footer as its compact variant,
+    // which is the point of it being the signature element.
+    const band = page
+      .locator('#main')
+      .getByRole('group', { name: /How the three parties relate/i });
     await expect(band).toBeVisible();
     await expect(band.getByText('Employer', { exact: true })).toBeVisible();
     await expect(band.getByText('ApprentiGate', { exact: true })).toBeVisible();

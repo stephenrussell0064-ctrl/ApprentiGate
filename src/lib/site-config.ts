@@ -35,6 +35,15 @@ export interface SiteConfig {
    * this one variable is all that is needed to add it to the footer later.
    */
   readonly companyNumber: string | null;
+  /**
+   * Enquiries mailbox, or `null` until the operator creates it.
+   *
+   * It is a variable rather than a literal for the same reason as every URL:
+   * the address is on the production domain, and no domain may be hardcoded in
+   * `src/`. Where it is `null` the footer omits the row rather than showing an
+   * address that does not receive mail.
+   */
+  readonly enquiriesEmail: string | null;
 }
 
 export interface SiteConfigEnv {
@@ -42,6 +51,7 @@ export interface SiteConfigEnv {
   readonly NEXT_PUBLIC_ALLOW_INDEXING?: string | undefined;
   readonly NEXT_PUBLIC_BUSINESS_PHONE?: string | undefined;
   readonly NEXT_PUBLIC_COMPANY_NUMBER?: string | undefined;
+  readonly NEXT_PUBLIC_ENQUIRIES_EMAIL?: string | undefined;
 }
 
 /** Shown wherever a phone number would go until the operator provisions a VoIP line. */
@@ -77,6 +87,7 @@ export function resolveSiteConfig(env: SiteConfigEnv): SiteConfig {
   const rawUrl = env.NEXT_PUBLIC_SITE_URL?.trim();
   const rawPhone = env.NEXT_PUBLIC_BUSINESS_PHONE?.trim();
   const rawCompanyNumber = env.NEXT_PUBLIC_COMPANY_NUMBER?.trim();
+  const rawEmail = env.NEXT_PUBLIC_ENQUIRIES_EMAIL?.trim();
 
   const hasPhone = rawPhone !== undefined && rawPhone.length > 0;
 
@@ -88,6 +99,7 @@ export function resolveSiteConfig(env: SiteConfigEnv): SiteConfig {
     hasPhone,
     companyNumber:
       rawCompanyNumber && rawCompanyNumber.length > 0 ? rawCompanyNumber : null,
+    enquiriesEmail: rawEmail && rawEmail.includes('@') ? rawEmail : null,
   };
 }
 
@@ -106,4 +118,5 @@ export const siteConfig: SiteConfig = resolveSiteConfig({
   NEXT_PUBLIC_ALLOW_INDEXING: process.env.NEXT_PUBLIC_ALLOW_INDEXING,
   NEXT_PUBLIC_BUSINESS_PHONE: process.env.NEXT_PUBLIC_BUSINESS_PHONE,
   NEXT_PUBLIC_COMPANY_NUMBER: process.env.NEXT_PUBLIC_COMPANY_NUMBER,
+  NEXT_PUBLIC_ENQUIRIES_EMAIL: process.env.NEXT_PUBLIC_ENQUIRIES_EMAIL,
 });

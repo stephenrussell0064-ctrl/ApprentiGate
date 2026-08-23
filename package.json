@@ -10,7 +10,7 @@
     "dev": "next dev",
     "build": "next build",
     "preview": "wrangler dev",
-    "deploy": "wrangler deploy",
+    "deploy": "pnpm guard:indexing && wrangler deploy",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -23,8 +23,10 @@
     "test:e2e": "playwright test --project=e2e",
     "test:a11y": "playwright test --project=a11y",
     "serve:out": "serve out --listen 4321 --no-clipboard",
-    "lighthouse": "lhci autorun",
-    "verify": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm guard:domains && pnpm guard:tokens && pnpm test:unit && pnpm test:browser"
+    "lighthouse": "pnpm build:audit && lhci autorun",
+    "verify": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm guard:domains && pnpm guard:tokens && pnpm test:unit && pnpm test:browser",
+    "build:audit": "NEXT_PUBLIC_ALLOW_INDEXING=true next build",
+    "guard:indexing": "node scripts/check-build-indexing.mjs"
   },
   "dependencies": {
     "next": "16.3.2",

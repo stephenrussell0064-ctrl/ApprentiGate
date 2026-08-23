@@ -6,10 +6,14 @@ serving SMEs in England.
 This repository is standalone. It shares no history, remote, dependency tree or
 configuration with any other project.
 
-**Current state: WP1 complete — scaffold, quality gates, and the brand and
-design system.** The home page is a hero demonstrating the design system, using
-the approved hero copy from the Content Spec. The rest of the site is built from
-WP2 onwards.
+**Current state: WP2 complete — scaffold, quality gates, brand and design
+system, component library and shell.** Page content is written from WP3 onwards.
+Most routes in the navigation do not exist yet and resolve to the custom 404
+until their work package lands; the links are declared now so header, footer and
+sitemap cannot drift apart.
+
+Every component, in every state including error and empty, is at
+[`/components`](http://localhost:3000/components) when running locally.
 
 The three visual directions and the reason two of them lost are recorded in
 [`design/DESIGN-DECISION.md`](./design/DESIGN-DECISION.md).
@@ -48,6 +52,7 @@ optional locally — see the table below for the defaults.
 | `pnpm typecheck`      | `tsc --noEmit`                                                      |
 | `pnpm guard:domains`  | Fail if a domain is hardcoded in `src/`                             |
 | `pnpm guard:tokens`   | Fail if a hex colour appears outside the token file                 |
+| `pnpm guard:indexing` | Fail if the built output's robots directive contradicts the config  |
 | `pnpm icons:generate` | Regenerate `favicon.ico` and `apple-icon.png` from the tokens       |
 | `pnpm test:unit`      | Vitest                                                              |
 | `pnpm test:e2e`       | Playwright end-to-end, against the real static export               |
@@ -116,17 +121,27 @@ deploy against the Cloudflare preview URL, and cuts over at WP16 by setting
 `NEXT_PUBLIC_SITE_URL` to `https://apprentigate.com` and flipping
 `NEXT_PUBLIC_ALLOW_INDEXING` to `true`. Nothing else changes.
 
+**`pnpm lighthouse` leaves `out/` indexable.** It has to: Lighthouse scores
+`noindex` as an SEO failure, so the audit builds with indexing on to reflect the
+production configuration. Deploying straight after an audit would put an
+indexable build on the preview URL — which is the duplicate-content risk the
+whole arrangement exists to avoid. `pnpm deploy` therefore runs
+`pnpm guard:indexing` first, which reads the built HTML and refuses to deploy
+when it contradicts the configured flag. Checking the flag alone would not catch
+this, because in that situation the flag is right and the artefact is wrong.
+
 ### Public variables
 
 Set in the Cloudflare project settings. Inlined into the exported HTML at build
 time, so they are public by definition — never put anything sensitive here.
 
-| Variable                     | Default if unset        | Purpose                                                                                                                                                                                             |
-| ---------------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SITE_URL`       | `http://localhost:3000` | Absolute origin. Drives canonical tags, sitemap, OG/Twitter URLs, JSON-LD `url`, `llms.txt`. The `*.workers.dev` preview URL until cutover, then `https://apprentigate.com`.                        |
-| `NEXT_PUBLIC_ALLOW_INDEXING` | `false`                 | `"true"` permits indexing; **any** other value disallows it. Must stay false on the preview deployment — an indexed preview URL creates duplicate content against the real domain. Flipped at WP16. |
-| `NEXT_PUBLIC_BUSINESS_PHONE` | a non-dialable notice   | The business VoIP number. Never commit a personal mobile.                                                                                                                                           |
-| `NEXT_PUBLIC_COMPANY_NUMBER` | `null`                  | Companies House number. Left unset until incorporation; setting it is the only change needed to show it in the footer.                                                                              |
+| Variable                      | Default if unset        | Purpose                                                                                                                                                                                             |
+| ----------------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`        | `http://localhost:3000` | Absolute origin. Drives canonical tags, sitemap, OG/Twitter URLs, JSON-LD `url`, `llms.txt`. The `*.workers.dev` preview URL until cutover, then `https://apprentigate.com`.                        |
+| `NEXT_PUBLIC_ALLOW_INDEXING`  | `false`                 | `"true"` permits indexing; **any** other value disallows it. Must stay false on the preview deployment — an indexed preview URL creates duplicate content against the real domain. Flipped at WP16. |
+| `NEXT_PUBLIC_BUSINESS_PHONE`  | a non-dialable notice   | The business VoIP number. Never commit a personal mobile.                                                                                                                                           |
+| `NEXT_PUBLIC_COMPANY_NUMBER`  | `null`                  | Companies House number. Left unset until incorporation; setting it is the only change needed to show it in the footer.                                                                              |
+| `NEXT_PUBLIC_ENQUIRIES_EMAIL` | `null`                  | The enquiries mailbox. A variable rather than a literal because the address is on the production domain. While unset the footer omits the row rather than showing an address that bounces.          |
 
 Additional public variables arrive with the services that need them: the Cal.com
 booking slug and Turnstile site key at WP10, the Cloudflare Web Analytics token
@@ -245,8 +260,9 @@ prohibited-content scan lands at WP14.
 ## Repository layout
 
 ```
-src/app/          Routes. Currently the scaffold page and the 404.
-src/lib/          site-config.ts — the single source of every absolute URL.
+src/app/          Routes, including /components — the internal gallery.
+src/components/   brand/ (wordmark, relay band), layout/ (header, footer), ui/
+src/lib/          site-config.ts and navigation.ts — URLs and the route map.
 tests/unit/       Vitest.
 tests/e2e/        Playwright end-to-end.
 tests/a11y/       axe-core, run at three viewport widths.

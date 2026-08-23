@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { Figtree, IBM_Plex_Mono, Source_Sans_3 } from 'next/font/google';
+import { SiteFooter } from '@/components/layout/SiteFooter';
+import { SiteHeader } from '@/components/layout/SiteHeader';
 import { siteConfig } from '@/lib/site-config';
 import './globals.css';
 
@@ -55,7 +57,16 @@ export default function RootLayout({
       lang="en-GB"
       className={`${figtree.variable} ${sourceSans.variable} ${plexMono.variable}`}
     >
-      <body>{children}</body>
+      <body className="flex min-h-dvh flex-col">
+        <SiteHeader />
+        {/* The skip link's target. `main` is also the page's only <main>
+            landmark, so pages compose sections inside it rather than each
+            declaring their own. */}
+        <main id="main" className="flex-1">
+          {children}
+        </main>
+        <SiteFooter />
+      </body>
     </html>
   );
 }

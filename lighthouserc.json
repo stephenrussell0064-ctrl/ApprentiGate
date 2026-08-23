@@ -7,7 +7,8 @@
     "assert": {
       "assertMatrix": [
         {
-          "matchingUrlPattern": ".*/(404|_not-found)\\.html$",
+          "_comment": "Deliberately non-indexable pages: the two not-found variants and the internal component gallery. Lighthouse scores noindex as an SEO failure, so asserting the SEO category here would amount to requiring that these pages be indexable, which is the opposite of what they are for. Every other category still applies.",
+          "matchingUrlPattern": ".*/(404|_not-found|components)\\.html$",
           "assertions": {
             "categories:performance": ["error", { "minScore": 0.95 }],
             "categories:accessibility": ["error", { "minScore": 0.95 }],
@@ -15,7 +16,7 @@
           }
         },
         {
-          "matchingUrlPattern": "^(?!.*/(404|_not-found)\\.html$).*$",
+          "matchingUrlPattern": "^(?!.*/(404|_not-found|components)\\.html$).*$",
           "assertions": {
             "categories:performance": ["error", { "minScore": 0.95 }],
             "categories:accessibility": ["error", { "minScore": 0.95 }],

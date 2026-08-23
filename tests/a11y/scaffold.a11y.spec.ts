@@ -18,6 +18,10 @@ const VIEWPORTS = [
 const ROUTES = [
   { name: 'home', path: '/' },
   { name: '404', path: '/no-such-page' },
+  // The gallery renders every component in every state, including the error
+  // and disabled states, so running axe over it covers the whole library at
+  // all three widths in one pass.
+  { name: 'component gallery', path: '/components' },
 ];
 
 for (const route of ROUTES) {
