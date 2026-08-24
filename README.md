@@ -6,9 +6,9 @@ serving SMEs in England.
 This repository is standalone. It shares no history, remote, dependency tree or
 configuration with any other project.
 
-**Current state: WP3 complete — scaffold, quality gates, brand and design
-system, component library and shell, and the Home page.** The remaining pages
-are written from WP4 onwards. Most routes in the navigation do not exist yet and
+**Current state: WP4 complete — scaffold, quality gates, brand and design
+system, component library and shell, Home, and How It Works.** The remaining
+pages are written from WP5 onwards. Most routes in the navigation do not exist yet and
 resolve to the custom 404 until their work package lands; the links are declared
 now so header, footer and sitemap cannot drift apart.
 
@@ -60,7 +60,7 @@ optional locally — see the table below for the defaults.
 | `pnpm icons:generate` | Regenerate `favicon.ico` and `apple-icon.png` from the tokens       |
 | `pnpm test:unit`      | Vitest                                                              |
 | `pnpm test:e2e`       | Playwright end-to-end, against the real static export               |
-| `pnpm test:a11y`      | axe-core, WCAG 2.2 AA, at 320/768/1440px                            |
+| `pnpm test:a11y`      | axe-core, WCAG 2.2 AA + best practice, at 320/768/1440px            |
 | `pnpm lighthouse`     | Lighthouse CI against `out/`                                        |
 | `pnpm preview`        | Serve `out/` through the real Worker runtime (`wrangler dev`)       |
 | `pnpm deploy`         | Deploy to Cloudflare (operator only — requires credentials)         |

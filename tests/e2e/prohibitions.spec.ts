@@ -18,7 +18,7 @@ import { expect, test } from '@playwright/test';
  * site.
  */
 
-const PUBLIC_ROUTES = ['/', '/no-such-page'];
+const PUBLIC_ROUTES = ['/', '/how-it-works', '/no-such-page'];
 
 interface Prohibition {
   readonly pattern: RegExp;

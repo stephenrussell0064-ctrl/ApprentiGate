@@ -45,7 +45,14 @@ export function RelayBand({ variant = 'full', className }: RelayBandProps) {
           : 'How the three parties relate: the employer employs and manages the apprentice, ApprentiGate handles the process in between, and an approved training provider delivers the training.'
       }
     >
-      <ol
+      {/*
+        A <ul>, not an <ol>. These are three parties holding roles at the same
+        time, not three steps in a sequence — an ordered list would announce
+        them to a screen reader as "1, 2, 3", which describes a progression the
+        reader then has to unlearn. Left-to-right position carries the meaning
+        visually and the group's label carries it in text.
+      */}
+      <ul
         className={`grid list-none grid-cols-1 sm:grid-cols-3 sm:gap-[var(--spacing-ag-4)] ${
           // The compact variant is tighter, so it reads as a closing rule
           // rather than as a second copy of the diagram above it.
@@ -95,7 +102,7 @@ export function RelayBand({ variant = 'full', className }: RelayBandProps) {
             </li>
           );
         })}
-      </ol>
+      </ul>
     </div>
   );
 }

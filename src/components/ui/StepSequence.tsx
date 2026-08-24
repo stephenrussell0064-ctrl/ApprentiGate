@@ -22,10 +22,19 @@ export interface Step {
 
 interface StepSequenceProps {
   readonly steps: readonly Step[];
+  /**
+   * Heading level for the step titles. Must follow whatever heading precedes
+   * the sequence: `2` when the steps sit directly under the page's h1, `3` when
+   * they sit under a section heading. Getting this wrong skips a level, which
+   * breaks heading-order navigation for screen reader users.
+   */
+  readonly headingLevel?: 2 | 3;
   readonly className?: string;
 }
 
-export function StepSequence({ steps, className }: StepSequenceProps) {
+export function StepSequence({ steps, headingLevel = 3, className }: StepSequenceProps) {
+  const Heading = `h${headingLevel}` as 'h2' | 'h3';
+
   return (
     <ol
       className={['flex list-none flex-col gap-[var(--spacing-ag-8)] p-0', className]
@@ -52,9 +61,9 @@ export function StepSequence({ steps, className }: StepSequenceProps) {
           </div>
 
           <div className="flex flex-col gap-[var(--spacing-ag-2)] pb-[var(--spacing-ag-2)]">
-            <h3 className="text-[length:var(--text-ag-xl)] font-semibold text-[color:var(--color-ag-ink)]">
+            <Heading className="text-[length:var(--text-ag-xl)] font-semibold text-[color:var(--color-ag-ink)]">
               {step.title}
-            </h3>
+            </Heading>
             <p className="max-w-[62ch] text-[length:var(--text-ag-base)] text-[color:var(--color-ag-slate)]">
               {step.detail}
             </p>
