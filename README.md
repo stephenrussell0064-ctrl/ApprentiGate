@@ -6,9 +6,10 @@ serving SMEs in England.
 This repository is standalone. It shares no history, remote, dependency tree or
 configuration with any other project.
 
-**Current state: WP5 complete — scaffold, quality gates, brand and design
-system, component library and shell, Home, How It Works, and For Employers.**
-The remaining pages are written from WP6 onwards. Most routes in the navigation do not exist yet and
+**Current state: WP6 complete — scaffold, quality gates, brand and design
+system, component library and shell, and four public pages: Home, How It Works,
+For Employers, and For Training Providers.** The remaining pages are written
+from WP7 onwards. Most routes in the navigation do not exist yet and
 resolve to the custom 404 until their work package lands; the links are declared
 now so header, footer and sitemap cannot drift apart.
 
