@@ -6,9 +6,15 @@ serving SMEs in England.
 This repository is standalone. It shares no history, remote, dependency tree or
 configuration with any other project.
 
-**Current state: WP10 complete — scaffold, quality gates, brand and design
-system, component library and shell, all seven content pages, and the contact
-page with its enquiry Worker.** The four compliance pages land at WP11.
+**Current state: WP11 complete — every page on the site is built.** Scaffold,
+quality gates, brand and design system, component library and shell, seven
+content pages, contact with its enquiry Worker, and the four compliance pages.
+What remains is verification (WP13, WP14), SEO and structured data (WP12), and
+handover and cutover (WP15, WP16).
+
+**The four compliance pages are drafts and each says so in a header comment.**
+They must be reviewed by a solicitor before any paid engagement — operator
+handover item 18.
 
 Two WP10 acceptance criteria cannot be closed here and belong to the operator:
 a real enquiry arriving in the enquiries mailbox, and a real booking appearing

@@ -28,6 +28,10 @@ const PUBLIC_ROUTES = [
   '/faq',
   '/contact',
   '/contact/confirmed',
+  '/privacy',
+  '/cookies',
+  '/terms',
+  '/accessibility',
   '/no-such-page',
 ];
 
@@ -40,7 +44,16 @@ const PROHIBITED: readonly Prohibition[] = [
   // Social proof the business does not have and must not invent.
   { pattern: /\btrusted by\b/i, why: 'implies customers that do not exist' },
   { pattern: /\baward[-\s]?winning\b/i, why: 'no awards' },
-  { pattern: /\b(the|a|market[-\s])leading\b/i, why: 'unsupportable superiority claim' },
+  {
+    /**
+     * Was `/\b(the|a|market[-\s])leading\b/i`, which required "theleading" with
+     * no space and therefore never matched anything. It sat in the list looking
+     * like protection from WP3 onwards while catching nothing at all. The
+     * self-test at the bottom of this file found it.
+     */
+    pattern: /\b(the|a)\s+leading\b|\bmarket[-\s]?leading\b/i,
+    why: 'unsupportable superiority claim',
+  },
   { pattern: /\bUK'?s number one\b/i, why: 'unsupportable superiority claim' },
   { pattern: /\bas featured in\b/i, why: 'no press coverage' },
   {
@@ -71,12 +84,19 @@ const PROHIBITED: readonly Prohibition[] = [
 
   // Funding claims that would be false or misleading.
   {
-    pattern: /\b(we )?guarantee(s|d)?\b(?!\s+(of|that we do not))/i,
+    /**
+     * Affirmative guarantees only. The Terms of Use has to say "we do not
+     * guarantee funding" and "funding is not guaranteed" — refusing those
+     * sentences would forbid exactly the disclaimer the page exists to make.
+     * "we do not guarantee" does not match "we guarantee"; "is not guaranteed"
+     * does not match "is guaranteed".
+     *
+     * This is the fourth guard in this suite to need the distinction between a
+     * claim and its denial, so it was written this way from the start.
+     */
+    pattern:
+      /\bwe guarantee\b|\b(is|are) guaranteed\b|\bguaranteed (funding|outcome|results?|place|placement|success)\b/i,
     why: 'nothing about funding, candidates or provider availability may be guaranteed',
-  },
-  {
-    pattern: /\bfunding is guaranteed\b|\bguaranteed funding\b/i,
-    why: 'funding is never guaranteed; eligibility is confirmed per employer',
   },
   {
     pattern: /\btraining is free\b|\bfree training\b|\bcompletely free\b/i,
@@ -93,7 +113,12 @@ const PROHIBITED: readonly Prohibition[] = [
     why: 'ApprentiGate is not an approved training provider',
   },
   {
-    pattern: /\bend[-\s]point assessment organisation\b/i,
+    /**
+     * Affirmative only, like its neighbours. The Terms of Use has to say
+     * ApprentiGate is *not* an end-point assessment organisation, so a pattern
+     * matching the phrase itself forbids the disclaimer.
+     */
+    pattern: /\b(we are|is) an end[-\s]point assessment organisation\b/i,
     why: 'ApprentiGate is not an EPAO',
   },
   {
@@ -176,4 +201,75 @@ test('the home page states the funding position with its conditions attached', a
   expect(text).toMatch(/funding band maximum/i);
   expect(text).toMatch(/depends on the apprentice, the employer and the standard/i);
   expect(text).toMatch(/wage is always/i);
+});
+
+/**
+ * A self-test for the scan.
+ *
+ * Five of the patterns above have been narrowed, each time because they were
+ * catching an honest denial rather than the claim they targeted — "we are not a
+ * recruitment agency", "not paid for by government", "we do not guarantee
+ * funding", "not an end-point assessment organisation", "the employers we work
+ * for". Every narrowing is a chance to narrow too far and leave a gate that
+ * passes everything.
+ *
+ * So the patterns are run against copy that genuinely should be refused. If one
+ * of these ever passes, a prohibition has stopped prohibiting.
+ */
+const MUST_BE_CAUGHT: readonly string[] = [
+  'Trusted by employers across the sector.',
+  'The leading apprenticeship intermediary for SMEs.',
+  'Our award-winning approach to apprenticeships.',
+  'A proven method for building apprenticeship programmes.',
+  'Read our case studies from recent clients.',
+  'We now work with 240 employers.',
+  'Our achievement rate speaks for itself.',
+  'We could save you £4,000 a year.',
+  'We guarantee funding for every apprentice.',
+  'Your funding is guaranteed from day one.',
+  'Guaranteed funding for eligible roles.',
+  'Apprenticeship training is free for your business.',
+  'We secure funding on your behalf.',
+  'We are an approved training provider.',
+  'ApprentiGate is a recruitment agency for apprentices.',
+  'ApprentiGate is an end-point assessment organisation.',
+  'A government-approved apprenticeship service.',
+  'See our partners across the training sector.',
+  'ApprentiGate Ltd, registered office in High Wycombe.',
+  'Lorem ipsum dolor sit amet.',
+  'We support employers across the UK.',
+];
+
+/**
+ * And the denials, which must all survive. These are sentences the Content Spec
+ * positively requires somewhere on the site.
+ */
+const MUST_BE_ALLOWED: readonly string[] = [
+  'ApprentiGate is not a recruitment agency.',
+  'ApprentiGate is not an end-point assessment organisation.',
+  'We do not guarantee that you will receive apprenticeship funding.',
+  'Funding is not guaranteed, and eligibility is confirmed per employer.',
+  'Using us is not paid for by government.',
+  'We do not name the employers we work for.',
+  'You can compare approved providers yourself.',
+  'A hiring payment of up to £2,000.\n\nEmployers who do not pay the levy may qualify.',
+  'Nothing here limits liability where the law does not allow it to be limited.',
+];
+
+test.describe('the scan itself', () => {
+  for (const copy of MUST_BE_CAUGHT) {
+    test(`refuses: ${copy.slice(0, 48)}`, () => {
+      const matched = PROHIBITED.some(({ pattern }) => pattern.test(copy));
+      expect(matched, `nothing in the prohibition list caught: ${copy}`).toBe(true);
+    });
+  }
+
+  for (const copy of MUST_BE_ALLOWED) {
+    test(`allows the denial: ${copy.slice(0, 48).replace(/\n/g, ' ')}`, () => {
+      const hits = PROHIBITED.filter(({ pattern }) => pattern.test(copy)).map(
+        ({ why }) => why,
+      );
+      expect(hits, `a required sentence was refused: ${copy}`).toEqual([]);
+    });
+  }
 });

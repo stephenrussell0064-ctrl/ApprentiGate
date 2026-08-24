@@ -39,6 +39,10 @@ const ROUTES = [
   { name: 'faq', path: '/faq' },
   { name: 'contact', path: '/contact' },
   { name: 'enquiry confirmed', path: '/contact/confirmed' },
+  { name: 'privacy', path: '/privacy' },
+  { name: 'cookies', path: '/cookies' },
+  { name: 'terms', path: '/terms' },
+  { name: 'accessibility', path: '/accessibility' },
   { name: '404', path: '/no-such-page' },
   // The gallery renders every component in every state, including the error
   // and disabled states, so running axe over it covers the whole library at

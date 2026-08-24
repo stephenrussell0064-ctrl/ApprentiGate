@@ -81,6 +81,15 @@ const ALLOWED_EXTERNAL_HOSTS = new Map([
     'skillsengland.education.gov.uk',
     'Skills England publishes the apprenticeship standards; it took over these functions from IfATE',
   ],
+  [
+    'ico.org.uk',
+    'the ICO is the UK data protection regulator, named in the privacy notice',
+  ],
+  ['www.w3.org', 'the WCAG specification, cited in the accessibility statement'],
+  [
+    'www.equalityadvisoryservice.com',
+    'the enforcement route named in the accessibility statement',
+  ],
   ['schema.org', 'JSON-LD @context'],
   ['cal.com', 'booking embed (WP10)'],
   ['app.cal.com', 'booking embed (WP10)'],
