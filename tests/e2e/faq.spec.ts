@@ -25,11 +25,21 @@ const EXPECTED_QUESTIONS = [
 ];
 
 async function structuredData(page: import('@playwright/test').Page) {
-  const raw = await page
+  /**
+   * Selected by type rather than position. Organization data was added
+   * site-wide at WP12, so this page now carries two JSON-LD blocks and taking
+   * the first one silently started testing the wrong thing.
+   */
+  const blocks = await page
     .locator('script[type="application/ld+json"]')
-    .first()
-    .textContent();
-  return JSON.parse(raw ?? '{}') as {
+    .allTextContents();
+
+  const faq = blocks
+    .map((entry) => JSON.parse(entry) as Record<string, unknown>)
+    .find((block) => block['@type'] === 'FAQPage');
+
+  expect(faq, 'no FAQPage block found on the page').toBeTruthy();
+  return faq as unknown as {
     '@type': string;
     mainEntity: { name: string; acceptedAnswer: { text: string } }[];
   };

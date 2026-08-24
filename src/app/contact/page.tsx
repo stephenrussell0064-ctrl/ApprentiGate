@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { ROUTES } from '@/lib/navigation';
+import { pageMetadata } from '@/lib/seo';
 import Script from 'next/script';
 import { BookingEmbed } from '@/components/booking/BookingEmbed';
 import { EnquiryForm } from '@/components/forms/EnquiryForm';
@@ -19,11 +21,12 @@ import { siteConfig } from '@/lib/site-config';
  * calendar does not load until the visitor asks for it.
  */
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Book a call',
   description:
     'Book a short call about apprenticeships for your business, or send an enquiry and we will come back to you.',
-};
+  path: ROUTES.contact,
+});
 
 export default function Contact() {
   return (

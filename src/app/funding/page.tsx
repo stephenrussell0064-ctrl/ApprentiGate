@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { ButtonLink } from '@/components/ui/Button';
 import { Notice } from '@/components/ui/Notice';
 import { Section } from '@/components/ui/Section';
@@ -31,11 +32,12 @@ import { ROUTES } from '@/lib/navigation';
  * England only. Apprenticeship funding is devolved and the other nations differ.
  */
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Funding explained',
   description:
-    'How apprenticeship funding works in England for smaller employers: the two routes, funding band maximums, what government may cover, and what you always pay.',
-};
+    'How apprenticeship funding works in England for smaller employers: the two routes, funding band maximums, and what you always pay yourself.',
+  path: ROUTES.funding,
+});
 
 const EMPLOYER_ALWAYS_PAYS = [
   {

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { ButtonLink } from '@/components/ui/Button';
 import { Card, CardGrid } from '@/components/ui/Card';
 import { Notice } from '@/components/ui/Notice';
@@ -24,11 +25,12 @@ import { ROUTES } from '@/lib/navigation';
  *      simulated screenshot, with its caption adjacent rather than a footnote.
  */
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'For employers',
   description:
     'What ApprentiGate does for an employer setting up apprenticeships: standard assessment, funding guidance, provider comparison, setup and ongoing support.',
-};
+  path: ROUTES.forEmployers,
+});
 
 const SERVICES = [
   {

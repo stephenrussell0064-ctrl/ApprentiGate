@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { RelayBand } from '@/components/brand/RelayBand';
 import { ButtonLink } from '@/components/ui/Button';
 import { Notice } from '@/components/ui/Notice';
@@ -30,11 +31,12 @@ import { ROUTES } from '@/lib/navigation';
  * the funding language to S1, S2 and S4. No figures appear on this page.
  */
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'How it works',
   description:
     'The seven steps from telling us the roles you need to supporting your apprentices once they are in post, and what each step asks of you.',
-};
+  path: ROUTES.howItWorks,
+});
 
 const STEPS: readonly Step[] = [
   {

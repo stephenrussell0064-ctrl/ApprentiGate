@@ -56,6 +56,13 @@ export interface SiteConfig {
    * rather than accepting unverified ones.
    */
   readonly turnstileSiteKey: string | null;
+  /**
+   * Cloudflare Web Analytics token. The analytics are cookieless and count page
+   * views in aggregate, which is why the site needs no consent banner — but the
+   * beacon is still a third-party script, so the cookie policy names it
+   * whenever this is set. Null until the operator enables it.
+   */
+  readonly analyticsToken: string | null;
 }
 
 export interface SiteConfigEnv {
@@ -66,6 +73,7 @@ export interface SiteConfigEnv {
   readonly NEXT_PUBLIC_ENQUIRIES_EMAIL?: string | undefined;
   readonly NEXT_PUBLIC_CAL_LINK?: string | undefined;
   readonly NEXT_PUBLIC_TURNSTILE_SITE_KEY?: string | undefined;
+  readonly NEXT_PUBLIC_ANALYTICS_TOKEN?: string | undefined;
 }
 
 /** Shown wherever a phone number would go until the operator provisions a VoIP line. */
@@ -104,6 +112,7 @@ export function resolveSiteConfig(env: SiteConfigEnv): SiteConfig {
   const rawEmail = env.NEXT_PUBLIC_ENQUIRIES_EMAIL?.trim();
   const rawCalLink = env.NEXT_PUBLIC_CAL_LINK?.trim();
   const rawTurnstile = env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim();
+  const rawAnalytics = env.NEXT_PUBLIC_ANALYTICS_TOKEN?.trim();
 
   const hasPhone = rawPhone !== undefined && rawPhone.length > 0;
 
@@ -118,6 +127,7 @@ export function resolveSiteConfig(env: SiteConfigEnv): SiteConfig {
     enquiriesEmail: rawEmail && rawEmail.includes('@') ? rawEmail : null,
     calLink: rawCalLink && rawCalLink.length > 0 ? rawCalLink.replace(/^\/+/, '') : null,
     turnstileSiteKey: rawTurnstile && rawTurnstile.length > 0 ? rawTurnstile : null,
+    analyticsToken: rawAnalytics && rawAnalytics.length > 0 ? rawAnalytics : null,
   };
 }
 
@@ -139,4 +149,5 @@ export const siteConfig: SiteConfig = resolveSiteConfig({
   NEXT_PUBLIC_ENQUIRIES_EMAIL: process.env.NEXT_PUBLIC_ENQUIRIES_EMAIL,
   NEXT_PUBLIC_CAL_LINK: process.env.NEXT_PUBLIC_CAL_LINK,
   NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
+  NEXT_PUBLIC_ANALYTICS_TOKEN: process.env.NEXT_PUBLIC_ANALYTICS_TOKEN,
 });

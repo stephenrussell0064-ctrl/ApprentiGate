@@ -15,16 +15,18 @@
  */
 
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { LegalList, LegalPage, LegalSection } from '@/components/ui/LegalPage';
 import { ENQUIRY_RETENTION_MONTHS } from '@/lib/legal';
 import { BUSINESS_LOCATION, ROUTES } from '@/lib/navigation';
 import { siteConfig } from '@/lib/site-config';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Privacy notice',
   description:
     'What we collect when you contact ApprentiGate, why, how long we keep it, who else sees it, and the rights you have over it.',
-};
+  path: ROUTES.privacy,
+});
 
 export default function Privacy() {
   return (

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ButtonLink } from '@/components/ui/Button';
 import { Section } from '@/components/ui/Section';
 import { ROUTES } from '@/lib/navigation';
+import { pageMetadata } from '@/lib/seo';
 import { siteConfig } from '@/lib/site-config';
 
 /**
@@ -16,10 +17,12 @@ import { siteConfig } from '@/lib/site-config';
  * result to land on cold.
  */
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Enquiry sent',
-  robots: { index: false, follow: false },
-};
+  description: 'Your enquiry reached us and one of us will reply.',
+  path: ROUTES.bookingConfirmed,
+  noindex: true,
+});
 
 export default function EnquiryConfirmed() {
   return (

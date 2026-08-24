@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { ButtonLink } from '@/components/ui/Button';
 import { Notice } from '@/components/ui/Notice';
 import { Section } from '@/components/ui/Section';
@@ -25,11 +26,12 @@ import { ROUTES } from '@/lib/navigation';
  *      arrangements still being worked out, conversations happening now.
  */
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'For training providers',
   description:
-    'ApprentiGate aims to introduce approved training providers to employers with an assessed apprenticeship requirement. Commercial arrangements are still being developed.',
-};
+    'We introduce approved training providers to employers with an assessed apprenticeship requirement. Commercial arrangements are still being developed.',
+  path: ROUTES.forProviders,
+});
 
 const WHAT_WE_DO_FIRST = [
   'Found the employer and started the conversation',

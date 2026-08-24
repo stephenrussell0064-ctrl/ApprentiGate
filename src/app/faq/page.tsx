@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { Accordion } from '@/components/ui/Accordion';
 import { ButtonLink } from '@/components/ui/Button';
 import { Section } from '@/components/ui/Section';
@@ -21,11 +22,12 @@ import { ROUTES } from '@/lib/navigation';
  * quietly dropped.
  */
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'FAQ',
   description:
     'Straight answers on who employs the apprentice, who chooses them, who pays for training, how we compare providers, and what ApprentiGate does not do.',
-};
+  path: ROUTES.faq,
+});
 
 /**
  * Answers are plain strings so the structured data can use them verbatim.

@@ -30,6 +30,10 @@ const SCAN_EXTENSIONS = new Set(['.ts', '.tsx', '.js', '.jsx', '.mjs', '.css', '
 const ALLOWED_FILES = new Map([
   ['src/app/tokens.css', 'the token definitions themselves'],
   ['src/app/icon.svg', 'a standalone document with no access to CSS custom properties'],
+  [
+    'src/app/og.png/route.tsx',
+    'ImageResponse renders in its own document with no access to the stylesheet, so the token values are written out there and kept in step by hand',
+  ],
 ]);
 
 /**

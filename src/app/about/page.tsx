@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { ButtonLink } from '@/components/ui/Button';
 import { Notice } from '@/components/ui/Notice';
 import { Section } from '@/components/ui/Section';
@@ -23,11 +24,12 @@ import { ROUTES } from '@/lib/navigation';
  * a two-person pre-launch business look larger.
  */
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'About',
   description:
     'ApprentiGate is Stephen Russell and Zaim Rana. Why we started it, what our experience does and does not qualify us for, and who we are independent of.',
-};
+  path: ROUTES.about,
+});
 
 export default function About() {
   return (

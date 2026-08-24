@@ -12,6 +12,8 @@ import {
 import { Notice } from '@/components/ui/Notice';
 import { Section } from '@/components/ui/Section';
 import { StepSequence } from '@/components/ui/StepSequence';
+import { ROUTES } from '@/lib/navigation';
+import { pageMetadata } from '@/lib/seo';
 
 /**
  * The component gallery, required by WP2 acceptance: a route showing every
@@ -26,10 +28,12 @@ import { StepSequence } from '@/components/ui/StepSequence';
  * route must never be linked from the site: none of it has been through the
  * claim audit.
  */
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Component gallery',
-  robots: { index: false, follow: false },
-};
+  description: 'Internal reference: every component in every state.',
+  path: ROUTES.components,
+  noindex: true,
+});
 
 const EMPLOYEE_BANDS = [
   { value: '1-9', label: '1 to 9' },

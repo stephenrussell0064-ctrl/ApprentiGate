@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { RelayBand } from '@/components/brand/RelayBand';
 import { ButtonLink } from '@/components/ui/Button';
 import { Section } from '@/components/ui/Section';
@@ -27,11 +28,12 @@ import { ROUTES } from '@/lib/navigation';
  * and puts the figures on the Funding page.
  */
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'ApprentiGate — apprenticeships for growing businesses',
   description:
     'ApprentiGate helps smaller employers in England set up and run apprenticeship programmes, working between the employer and approved training providers.',
-};
+  path: ROUTES.home,
+});
 
 const YOURS = [
   'The job, and what it pays',

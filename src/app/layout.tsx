@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Figtree, IBM_Plex_Mono, Source_Sans_3 } from 'next/font/google';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { SiteHeader } from '@/components/layout/SiteHeader';
+import { organizationStructuredData } from '@/lib/seo';
 import { siteConfig } from '@/lib/site-config';
 import './globals.css';
 
@@ -65,6 +66,32 @@ export default function RootLayout({
       lang="en-GB"
       className={`${figtree.variable} ${sourceSans.variable} ${plexMono.variable}`}
     >
+      <head>
+        {/*
+          Organization data, on every page. No aggregateRating, review or award
+          property — structured data is where a fabricated claim is likeliest to
+          survive unnoticed, because nobody reads it.
+        */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationStructuredData()),
+          }}
+        />
+        {/*
+          Cloudflare Web Analytics: cookieless, aggregate, and unable to
+          identify a visitor or follow them off the site — which is why this
+          site needs no consent banner. It is still a third-party script, and
+          the cookie policy names it whenever this token is set.
+        */}
+        {siteConfig.analyticsToken && (
+          <script
+            defer
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={JSON.stringify({ token: siteConfig.analyticsToken })}
+          />
+        )}
+      </head>
       <body className="flex min-h-dvh flex-col">
         <SiteHeader />
         {/* The skip link's target. `main` is also the page's only <main>

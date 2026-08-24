@@ -17,15 +17,17 @@
  */
 
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { LegalList, LegalPage, LegalSection } from '@/components/ui/LegalPage';
 import { ROUTES } from '@/lib/navigation';
 import { siteConfig } from '@/lib/site-config';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Accessibility statement',
   description:
     'How accessible this website is, what has been tested and how, the limitations we know about, and how to tell us about a problem.',
-};
+  path: ROUTES.accessibility,
+});
 
 export default function Accessibility() {
   return (

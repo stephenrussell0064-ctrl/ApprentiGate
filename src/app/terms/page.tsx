@@ -14,14 +14,16 @@
  */
 
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { LegalList, LegalPage, LegalSection } from '@/components/ui/LegalPage';
 import { BUSINESS_LOCATION, ROUTES } from '@/lib/navigation';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Terms of use',
   description:
     'What this website is and is not: information rather than professional advice, with no assurance about funding, providers or outcomes.',
-};
+  path: ROUTES.terms,
+});
 
 export default function Terms() {
   return (

@@ -6,11 +6,13 @@ serving SMEs in England.
 This repository is standalone. It shares no history, remote, dependency tree or
 configuration with any other project.
 
-**Current state: WP11 complete — every page on the site is built.** Scaffold,
-quality gates, brand and design system, component library and shell, seven
-content pages, contact with its enquiry Worker, and the four compliance pages.
-What remains is verification (WP13, WP14), SEO and structured data (WP12), and
-handover and cutover (WP15, WP16).
+**Current state: WP12 complete — every page is built, and the site is
+discoverable.** Scaffold, quality gates, brand and design system, component
+library and shell, seven content pages, contact with its enquiry Worker, the
+four compliance pages, and SEO: canonical URLs, Open Graph and Twitter cards
+with a generated image, `sitemap.xml`, `robots.txt`, `Organization` and
+`FAQPage` structured data, and `llms.txt`. What remains is verification (WP13,
+WP14), handover (WP15) and cutover (WP16).
 
 **The four compliance pages are drafts and each says so in a header comment.**
 They must be reviewed by a solicitor before any paid engagement — operator

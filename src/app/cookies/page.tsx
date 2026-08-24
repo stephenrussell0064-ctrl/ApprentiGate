@@ -16,21 +16,28 @@
  *   third-party JS  none on content pages; the Turnstile script on /contact
  *
  * **If you add anything that stores data, this page must change in the same
- * commit.** In particular WP12 adds Cloudflare Web Analytics: it is cookieless,
- * so the "no cookies" statement still holds, but it adds a third-party script
- * and this page must say so. Describing storage the site does not use is
- * exactly the failure the brief warns against, and so is the reverse.
+ * commit.** Describing storage the site does not use is exactly the failure the
+ * brief warns against, and so is the reverse.
+ *
+ * Cloudflare Web Analytics was added at WP12. It is cookieless, so the "no
+ * cookies" statement still holds — but it is a third-party script, so the
+ * analytics section below names it whenever the token is configured and says
+ * so is not when it is not. The page is therefore accurate in both states
+ * rather than accurate in one and aspirational in the other.
  */
 
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { LegalList, LegalPage, LegalSection } from '@/components/ui/LegalPage';
 import { ROUTES } from '@/lib/navigation';
+import { siteConfig } from '@/lib/site-config';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Cookie policy',
   description:
     'This site sets no cookies and stores nothing in your browser. What it does instead, and the two third-party services involved.',
-};
+  path: ROUTES.cookies,
+});
 
 export default function Cookies() {
   return (
@@ -87,12 +94,27 @@ export default function Cookies() {
       </LegalSection>
 
       <LegalSection heading="How we know how many people visit">
-        <p>
-          Honestly, at the moment we do not, beyond what our host records to serve the
-          site. When we do add analytics it will be a cookieless kind that counts page
-          views in aggregate and cannot identify you or follow you elsewhere — and this
-          page will be updated to say so before it goes live, not after.
-        </p>
+        {siteConfig.analyticsToken ? (
+          <>
+            <p>
+              We use Cloudflare Web Analytics. It counts page views in aggregate and is
+              cookieless: it sets nothing in your browser, does not give you an
+              identifier, and cannot follow you to another site or build a profile of you.
+            </p>
+            <p>
+              It is still a script served by Cloudflare, so your browser does contact them
+              — which is why it is named here rather than left out on the grounds that it
+              stores nothing.
+            </p>
+          </>
+        ) : (
+          <p>
+            At the moment we do not, beyond what our host records in order to serve the
+            site. When we do add analytics it will be a cookieless kind that counts page
+            views in aggregate and cannot identify you or follow you elsewhere — and this
+            page names it as soon as it is switched on, not afterwards.
+          </p>
+        )}
       </LegalSection>
 
       <LegalSection heading="Checking for yourself">
