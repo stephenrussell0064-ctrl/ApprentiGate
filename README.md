@@ -6,10 +6,10 @@ serving SMEs in England.
 This repository is standalone. It shares no history, remote, dependency tree or
 configuration with any other project.
 
-**Current state: WP8 complete — scaffold, quality gates, brand and design
-system, component library and shell, and six public pages: Home, How It Works,
-For Employers, For Training Providers, Funding Explained, and About.** The
-remaining pages are written from WP9 onwards.
+**Current state: WP9 complete — scaffold, quality gates, brand and design
+system, component library and shell, and all seven content pages: Home, How It
+Works, For Employers, For Training Providers, Funding Explained, About and
+FAQ.** Contact and booking land at WP10, the four compliance pages at WP11.
 
 The funding review date lives in
 [`src/lib/funding.ts`](./src/lib/funding.ts) — one place to change when the

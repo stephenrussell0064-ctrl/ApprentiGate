@@ -25,6 +25,7 @@ const PUBLIC_ROUTES = [
   '/for-training-providers',
   '/funding',
   '/about',
+  '/faq',
   '/no-such-page',
 ];
 
@@ -128,8 +129,13 @@ for (const route of PUBLIC_ROUTES) {
   test(`${route} contains no prohibited content`, async ({ page }) => {
     await page.goto(route);
 
-    // The whole rendered document, header and footer included.
-    const text = await page.locator('body').innerText();
+    /**
+     * `textContent`, not `innerText`. innerText returns only *rendered* text,
+     * which silently excluded every collapsed FAQ answer — thirteen answers the
+     * content gate was not reading at all. Anything in the document can be read
+     * by a crawler or a screen reader, so anything in the document is in scope.
+     */
+    const text = (await page.locator('body').textContent()) ?? '';
 
     const found = PROHIBITED.filter(({ pattern }) => pattern.test(text)).map(
       ({ pattern, why }) => `${text.match(pattern)?.[0]} — ${why}`,
