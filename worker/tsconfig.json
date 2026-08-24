@@ -1,0 +1,19 @@
+{
+  // The Worker is a separate TypeScript project because it runs in a different
+  // place. Its globals are the Workers runtime's, not the browser's — merging
+  // @cloudflare/workers-types into the root config overrides DOM types and
+  // makes `document.body.append` resolve to something else entirely.
+  //
+  // Typechecked by `pnpm typecheck`, which runs both projects.
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2022"],
+    "types": ["@cloudflare/workers-types"],
+    "noEmit": true,
+    "incremental": false
+  },
+  // The shared enquiry schema is included so the Worker and the browser are
+  // typechecked against the same definition of a valid enquiry.
+  "include": ["./**/*.ts", "../src/lib/enquiry.ts"],
+  "exclude": []
+}

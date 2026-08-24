@@ -40,7 +40,20 @@ export default defineConfig({
    * different markup and would let an export-only bug through.
    */
   webServer: {
-    command: 'pnpm build && pnpm serve:out',
+    /**
+     * Built with the third-party integrations configured, so the suite
+     * exercises the real contact page rather than its "not configured yet"
+     * fallbacks. The Turnstile key is Cloudflare's published always-passes test
+     * key; the Cal link and address are fictional and never contacted, because
+     * the calendar only loads on click and the form posts to a Worker that is
+     * not running here.
+     */
+    command: [
+      'NEXT_PUBLIC_TURNSTILE_SITE_KEY=1x00000000000000000000AA',
+      'NEXT_PUBLIC_CAL_LINK=apprentigate/consultation',
+      'NEXT_PUBLIC_ENQUIRIES_EMAIL=enquiries@example.test',
+      'pnpm build && pnpm serve:out',
+    ].join(' '),
     url: BASE_URL,
     /**
      * Never reuse. Reusing a leftover server means the suite silently tests a

@@ -26,6 +26,8 @@ const PUBLIC_ROUTES = [
   '/funding',
   '/about',
   '/faq',
+  '/contact',
+  '/contact/confirmed',
   '/no-such-page',
 ];
 

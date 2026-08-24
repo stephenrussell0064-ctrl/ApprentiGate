@@ -1,13 +1,16 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "apprentigate",
-  "compatibility_date": "2026-08-23",
+  "compatibility_date": "2026-08-24",
 
   // Workers Static Assets, not Pages. Cloudflare's current guidance is that new
   // projects should start on Workers; Pages remains supported but all new
   // investment is going to Workers. See README "Deployment target".
+  "main": "worker/index.ts",
+
   "assets": {
     "directory": "./out",
+    "binding": "ASSETS",
 
     // Serves out/404.html for unmatched paths, which is the custom 404 page.
     "not_found_handling": "404-page",
@@ -15,16 +18,38 @@
     // Pairs with `trailingSlash: false` in next.config.ts. Changing one without
     // the other causes redirect loops.
     "html_handling": "auto-trailing-slash",
+
+    // The Worker runs for this one path and nothing else. Every other request
+    // is served straight from static assets without invoking it at all.
+    "run_worker_first": ["/api/enquiry"],
   },
+
+  // Slows a scripted flood of the enquiry endpoint. Per Cloudflare location and
+  // eventually consistent, which is the right shape for this: it is a brake on
+  // abuse, not an accounting system, and it is not the only defence — the
+  // honeypot and Turnstile sit behind it.
+  "ratelimits": [
+    {
+      "name": "ENQUIRY_RATE_LIMITER",
+      "namespace_id": "1001",
+      "simple": {
+        "limit": 5,
+        // Must be 10 or 60.
+        "period": 60,
+      },
+    },
+  ],
 
   "observability": {
     "enabled": true,
   },
 
-  // No "main" entry point yet: the site is assets-only until WP10 adds the
-  // Worker that handles the enquiry POST.
-
-  // No "vars" here. Public build-time variables are set in the Cloudflare
-  // project settings, and secrets are loaded by the operator with
-  // `wrangler secret put` — never committed. See README "Environment".
+  // Non-secret Worker configuration. The mailbox addresses are set here at
+  // cutover rather than committed, because they live on the production domain
+  // and no domain may be hardcoded.
+  //
+  // Secrets — RESEND_API_KEY and TURNSTILE_SECRET_KEY — are loaded by the
+  // operator with `wrangler secret put` and never appear in this file.
+  // See README "Environment".
+  "vars": {},
 }

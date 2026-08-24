@@ -6,10 +6,14 @@ serving SMEs in England.
 This repository is standalone. It shares no history, remote, dependency tree or
 configuration with any other project.
 
-**Current state: WP9 complete — scaffold, quality gates, brand and design
-system, component library and shell, and all seven content pages: Home, How It
-Works, For Employers, For Training Providers, Funding Explained, About and
-FAQ.** Contact and booking land at WP10, the four compliance pages at WP11.
+**Current state: WP10 complete — scaffold, quality gates, brand and design
+system, component library and shell, all seven content pages, and the contact
+page with its enquiry Worker.** The four compliance pages land at WP11.
+
+Two WP10 acceptance criteria cannot be closed here and belong to the operator:
+a real enquiry arriving in the enquiries mailbox, and a real booking appearing
+in the calendar. Both need credentials that are deliberately not held in this
+repository. Everything else is verified — run `pnpm verify:worker`.
 
 The funding review date lives in
 [`src/lib/funding.ts`](./src/lib/funding.ts) — one place to change when the
@@ -68,6 +72,7 @@ optional locally — see the table below for the defaults.
 | `pnpm test:unit`      | Vitest                                                              |
 | `pnpm test:e2e`       | Playwright end-to-end, against the real static export               |
 | `pnpm test:a11y`      | axe-core, WCAG 2.2 AA + best practice, at 320/768/1440px            |
+| `pnpm verify:worker`  | Boots a real Worker runtime and exercises the enquiry endpoint      |
 | `pnpm lighthouse`     | Lighthouse CI against `out/`                                        |
 | `pnpm preview`        | Serve `out/` through the real Worker runtime (`wrangler dev`)       |
 | `pnpm deploy`         | Deploy to Cloudflare (operator only — requires credentials)         |
@@ -146,13 +151,15 @@ this, because in that situation the flag is right and the artefact is wrong.
 Set in the Cloudflare project settings. Inlined into the exported HTML at build
 time, so they are public by definition — never put anything sensitive here.
 
-| Variable                      | Default if unset        | Purpose                                                                                                                                                                                             |
-| ----------------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SITE_URL`        | `http://localhost:3000` | Absolute origin. Drives canonical tags, sitemap, OG/Twitter URLs, JSON-LD `url`, `llms.txt`. The `*.workers.dev` preview URL until cutover, then `https://apprentigate.com`.                        |
-| `NEXT_PUBLIC_ALLOW_INDEXING`  | `false`                 | `"true"` permits indexing; **any** other value disallows it. Must stay false on the preview deployment — an indexed preview URL creates duplicate content against the real domain. Flipped at WP16. |
-| `NEXT_PUBLIC_BUSINESS_PHONE`  | a non-dialable notice   | The business VoIP number. Never commit a personal mobile.                                                                                                                                           |
-| `NEXT_PUBLIC_COMPANY_NUMBER`  | `null`                  | Companies House number. Left unset until incorporation; setting it is the only change needed to show it in the footer.                                                                              |
-| `NEXT_PUBLIC_ENQUIRIES_EMAIL` | `null`                  | The enquiries mailbox. A variable rather than a literal because the address is on the production domain. While unset the footer omits the row rather than showing an address that bounces.          |
+| Variable                         | Default if unset        | Purpose                                                                                                                                                                                             |
+| -------------------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`           | `http://localhost:3000` | Absolute origin. Drives canonical tags, sitemap, OG/Twitter URLs, JSON-LD `url`, `llms.txt`. The `*.workers.dev` preview URL until cutover, then `https://apprentigate.com`.                        |
+| `NEXT_PUBLIC_ALLOW_INDEXING`     | `false`                 | `"true"` permits indexing; **any** other value disallows it. Must stay false on the preview deployment — an indexed preview URL creates duplicate content against the real domain. Flipped at WP16. |
+| `NEXT_PUBLIC_BUSINESS_PHONE`     | a non-dialable notice   | The business VoIP number. Never commit a personal mobile.                                                                                                                                           |
+| `NEXT_PUBLIC_COMPANY_NUMBER`     | `null`                  | Companies House number. Left unset until incorporation; setting it is the only change needed to show it in the footer.                                                                              |
+| `NEXT_PUBLIC_ENQUIRIES_EMAIL`    | `null`                  | The enquiries mailbox. A variable rather than a literal because the address is on the production domain. While unset the footer omits the row rather than showing an address that bounces.          |
+| `NEXT_PUBLIC_CAL_LINK`           | `null`                  | Cal.com link slug, e.g. `apprentigate/consultation`. While unset the contact page says booking is not switched on rather than showing a broken embed.                                               |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | `null`                  | Turnstile site key, public by design. While unset the form declines submissions rather than accepting unverified ones.                                                                              |
 
 Additional public variables arrive with the services that need them: the Cal.com
 booking slug and Turnstile site key at WP10, the Cloudflare Web Analytics token
@@ -163,12 +170,20 @@ at WP12.
 **Secrets are never committed and are never handled by Claude Code.** The
 operator loads each one with `wrangler secret put <NAME>`.
 
-| Secret                 | Loaded at | Purpose                                                 |
-| ---------------------- | --------- | ------------------------------------------------------- |
-| `RESEND_API_KEY`       | WP10      | Sends the enquiry notification to the enquiries mailbox |
-| `TURNSTILE_SECRET_KEY` | WP10      | Server-side verification of the Turnstile token         |
+| Secret                 | Purpose                                                 |
+| ---------------------- | ------------------------------------------------------- |
+| `RESEND_API_KEY`       | Sends the enquiry notification to the enquiries mailbox |
+| `TURNSTILE_SECRET_KEY` | Server-side verification of the Turnstile token         |
 
-Neither exists yet — WP10 is the work package that consumes them.
+The Worker also needs two plain variables set in the Cloudflare project:
+`ENQUIRIES_TO` (the mailbox) and `ENQUIRIES_FROM` (an address on the verified
+Resend sending subdomain).
+
+**The endpoint fails closed.** With no `TURNSTILE_SECRET_KEY` it refuses
+submissions outright rather than accepting unverified ones, because an open
+relay into an inbox is worse than a form that is temporarily unavailable. With
+no `RESEND_API_KEY` it returns the fallback address instead of pretending to
+have sent.
 
 ---
 

@@ -44,6 +44,18 @@ export interface SiteConfig {
    * address that does not receive mail.
    */
   readonly enquiriesEmail: string | null;
+  /**
+   * Cal.com link slug, e.g. "apprentigate/consultation". Null until the
+   * operator creates the account and event type, in which case the contact
+   * page says booking is not switched on rather than showing a broken embed.
+   */
+  readonly calLink: string | null;
+  /**
+   * Cloudflare Turnstile site key. Public by design — the secret half is a
+   * Worker secret. Null until configured, and the form declines submissions
+   * rather than accepting unverified ones.
+   */
+  readonly turnstileSiteKey: string | null;
 }
 
 export interface SiteConfigEnv {
@@ -52,6 +64,8 @@ export interface SiteConfigEnv {
   readonly NEXT_PUBLIC_BUSINESS_PHONE?: string | undefined;
   readonly NEXT_PUBLIC_COMPANY_NUMBER?: string | undefined;
   readonly NEXT_PUBLIC_ENQUIRIES_EMAIL?: string | undefined;
+  readonly NEXT_PUBLIC_CAL_LINK?: string | undefined;
+  readonly NEXT_PUBLIC_TURNSTILE_SITE_KEY?: string | undefined;
 }
 
 /** Shown wherever a phone number would go until the operator provisions a VoIP line. */
@@ -88,6 +102,8 @@ export function resolveSiteConfig(env: SiteConfigEnv): SiteConfig {
   const rawPhone = env.NEXT_PUBLIC_BUSINESS_PHONE?.trim();
   const rawCompanyNumber = env.NEXT_PUBLIC_COMPANY_NUMBER?.trim();
   const rawEmail = env.NEXT_PUBLIC_ENQUIRIES_EMAIL?.trim();
+  const rawCalLink = env.NEXT_PUBLIC_CAL_LINK?.trim();
+  const rawTurnstile = env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim();
 
   const hasPhone = rawPhone !== undefined && rawPhone.length > 0;
 
@@ -100,6 +116,8 @@ export function resolveSiteConfig(env: SiteConfigEnv): SiteConfig {
     companyNumber:
       rawCompanyNumber && rawCompanyNumber.length > 0 ? rawCompanyNumber : null,
     enquiriesEmail: rawEmail && rawEmail.includes('@') ? rawEmail : null,
+    calLink: rawCalLink && rawCalLink.length > 0 ? rawCalLink.replace(/^\/+/, '') : null,
+    turnstileSiteKey: rawTurnstile && rawTurnstile.length > 0 ? rawTurnstile : null,
   };
 }
 
@@ -119,4 +137,6 @@ export const siteConfig: SiteConfig = resolveSiteConfig({
   NEXT_PUBLIC_BUSINESS_PHONE: process.env.NEXT_PUBLIC_BUSINESS_PHONE,
   NEXT_PUBLIC_COMPANY_NUMBER: process.env.NEXT_PUBLIC_COMPANY_NUMBER,
   NEXT_PUBLIC_ENQUIRIES_EMAIL: process.env.NEXT_PUBLIC_ENQUIRIES_EMAIL,
+  NEXT_PUBLIC_CAL_LINK: process.env.NEXT_PUBLIC_CAL_LINK,
+  NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
 });
