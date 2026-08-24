@@ -77,6 +77,10 @@ const BANNED_PATTERNS = [
 const ALLOWED_EXTERNAL_HOSTS = new Map([
   ['www.gov.uk', 'GOV.UK is the cited authority for all funding content'],
   ['gov.uk', 'GOV.UK is the cited authority for all funding content'],
+  [
+    'skillsengland.education.gov.uk',
+    'Skills England publishes the apprenticeship standards; it took over these functions from IfATE',
+  ],
   ['schema.org', 'JSON-LD @context'],
   ['cal.com', 'booking embed (WP10)'],
   ['app.cal.com', 'booking embed (WP10)'],

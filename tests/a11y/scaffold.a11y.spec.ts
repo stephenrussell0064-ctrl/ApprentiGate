@@ -32,6 +32,7 @@ const VIEWPORTS = [
 const ROUTES = [
   { name: 'home', path: '/' },
   { name: 'how it works', path: '/how-it-works' },
+  { name: 'for employers', path: '/for-employers' },
   { name: '404', path: '/no-such-page' },
   // The gallery renders every component in every state, including the error
   // and disabled states, so running axe over it covers the whole library at

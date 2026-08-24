@@ -2,7 +2,9 @@
   "ci": {
     "collect": {
       "staticDistDir": "./out",
-      "numberOfRuns": 3
+      "numberOfRuns": 3,
+      "_comment": "Lighthouse CI's static-directory autodiscovery audits at most 5 URLs by default. That silently stopped covering the home page as soon as the sixth page was added, and with fourteen pages planned most of the site would never have been audited at all. 0 means no limit.",
+      "maxAutodiscoverUrls": 0
     },
     "assert": {
       "assertMatrix": [

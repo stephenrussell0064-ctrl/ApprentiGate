@@ -18,7 +18,7 @@ import { expect, test } from '@playwright/test';
  * site.
  */
 
-const PUBLIC_ROUTES = ['/', '/how-it-works', '/no-such-page'];
+const PUBLIC_ROUTES = ['/', '/how-it-works', '/for-employers', '/no-such-page'];
 
 interface Prohibition {
   readonly pattern: RegExp;
@@ -79,7 +79,12 @@ const PROHIBITED: readonly Prohibition[] = [
     why: 'ApprentiGate is not an EPAO',
   },
   {
-    pattern: /\brecruitment agency\b(?!\.)/i,
+    /**
+     * Only the affirmative claim. Denying it — "we are not a recruitment
+     * agency" — is exactly what the Content Spec wants said, so the pattern
+     * must not fire on the denial. "are not a" does not match "are a".
+     */
+    pattern: /\b(is|are) an? recruitment agency\b/i,
     why: 'ApprentiGate is not a recruitment agency',
   },
   {

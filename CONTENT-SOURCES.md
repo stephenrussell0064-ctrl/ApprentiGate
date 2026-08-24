@@ -133,6 +133,57 @@ information.
 
 ---
 
+## S7 — Occupational standards are built around KSBs
+
+**Claim it supports:** an apprenticeship is built around a standard describing
+the knowledge, skills and behaviours needed to be competent in the occupation.
+
+**Source:** Developing an occupational standard — GOV.UK
+<https://www.gov.uk/guidance/developing-an-occupational-standard>
+
+**Retrieved:** 24 August 2026
+
+**Wording relied on:** an occupational standard is a description of an
+occupation, including the knowledge, skills and behaviours needed to be
+competent in a role.
+
+**Used on:** For Employers (the KSB section).
+
+---
+
+## S8 — End-point assessment tests competency against the KSBs
+
+**Claim it supports:** the assessment measures the apprentice against the
+knowledge, skills and behaviours, not against the job title — so what matters is
+whether the day-to-day role gives enough exposure to develop them.
+
+**Source:** as S7.
+
+**Retrieved:** 24 August 2026
+
+**Wording relied on:** "The EPA plan is designed to test an apprentice's
+competency against the KSBs, rather than the duties."
+
+**Why this one matters:** it is the evidence behind the most genuinely expert
+point on the site. Without it, "make sure the role fits the standard" is just
+assertion; with it, the reason is concrete and checkable.
+
+**Used on:** For Employers (the KSB section).
+
+---
+
+## Note on the responsible body
+
+Occupational standards were maintained by the Institute for Apprenticeships and
+Technical Education. Those functions now sit with **Skills England**, and the
+standards are published at `skillsengland.education.gov.uk`. Any page naming the
+responsible body must say Skills England, and links to individual standards
+should point there rather than at the former IfATE site.
+
+Checked 24 August 2026.
+
+---
+
 ## Not yet sourced
 
 Claims that will need entries before their page ships:
