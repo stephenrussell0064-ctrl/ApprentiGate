@@ -23,6 +23,7 @@ const PUBLIC_ROUTES = [
   '/how-it-works',
   '/for-employers',
   '/for-training-providers',
+  '/funding',
   '/no-such-page',
 ];
 
@@ -48,8 +49,15 @@ const PROHIBITED: readonly Prohibition[] = [
 
   // Counts and figures that would imply a track record.
   {
+    /**
+     * A count like "200 employers". Two refinements, both from real false
+     * positives: `\s+` matched across a line break, so a "£2,000" heading
+     * followed by a paragraph starting "Employers" tripped it — hence a single
+     * literal space. And a currency amount is not a count, hence the lookbehind
+     * for £.
+     */
     pattern:
-      /\b\d[\d,]*\+?\s+(employers|providers|apprentices|placements|clients|customers)\b/i,
+      /(?<![£\d,])\b\d[\d,]*\+? (employers|providers|apprentices|placements|clients|customers)\b/i,
     why: 'a count of employers, providers or apprentices implies a track record',
   },
   { pattern: /\bachievement rate\b/i, why: 'no achievement-rate claim of our own' },

@@ -172,6 +172,124 @@ assertion; with it, the reason is concrete and checkable.
 
 ---
 
+## S9 — The apprenticeship levy threshold
+
+**Claim it supports:** an employer with an annual pay bill over £3 million pays
+the apprenticeship levy; below that they are a non-levy employer.
+
+**Source:** Pay Apprenticeship Levy — GOV.UK
+<https://www.gov.uk/guidance/pay-apprenticeship-levy>
+
+**Retrieved:** 24 August 2026
+
+**Wording relied on:** the levy is payable where the annual pay bill is over
+£3 million, including connected companies and charities, charged at 0.5% of the
+annual pay bill, with a £15,000 annual allowance — which is why only employers
+over £3 million actually pay it.
+
+**Used on:** Funding Explained (the two routes).
+
+---
+
+## S10 — The £2,000 hiring payment from 1 October 2026
+
+**Claim it supports:** non-levy employers may receive a hiring payment of up to
+£2,000, subject to eligibility, for an apprentice aged 16 to 24 whose practical
+period starts on or after 1 October 2026.
+
+**Source:** Apprenticeship funding — GOV.UK
+<https://www.gov.uk/government/publications/apprenticeship-funding/apprenticeship-funding>
+
+**Retrieved:** 24 August 2026
+
+**Wording relied on:** employers who do not pay the levy will receive a hiring
+payment of up to £2,000, paid in instalments, where at the start of the
+apprenticeship training the apprentice is aged between 16 and 24 (or 15 where
+their 16th birthday falls between the last Friday of June and 31 August), has
+not been employed by that employer for more than 90 days before their practical
+period start date, and has an apprenticeship agreement with a practical period
+start date from 1 October 2026 onwards.
+
+**Deliberately not stated on the site:** the Content Spec describes the payment
+as arriving "in two instalments with the first after the apprentice completes 90
+days". The source confirms only that it is "paid in instalments" and does not
+give the schedule. The number and timing of instalments is therefore **not**
+claimed anywhere on the site — an untraceable detail is deleted, not softened.
+
+**Used on:** Funding Explained.
+
+---
+
+## S11 — Transferring unused levy funds
+
+**Claim it supports:** a levy-paying employer can transfer unused funds to
+another employer, up to an annual maximum of 50% of their funds.
+
+**Source:** as S10.
+
+**Retrieved:** 24 August 2026
+
+**Wording relied on:** employers can transfer unused funds in their account to
+any number of other employers, for any number of apprenticeships, up to the
+annual maximum transfer allowance of 50%.
+
+**Used on:** Funding Explained (one sentence).
+
+---
+
+## S12 — Lead generation and employer recruitment are ineligible costs
+
+**Claim it supports:** ApprentiGate's fees are ordinary commercial fees paid by
+the employer. They are separate from apprenticeship funding and cannot be paid
+from it.
+
+**Source:** Apprenticeship unit funding rules: August 2026 to July 2027 — GOV.UK
+<https://www.gov.uk/government/publications/apprenticeship-unit-funding-rules-2026-to-2027/apprenticeship-unit-funding-rules-august-2026-to-july-2027>
+
+**Retrieved:** 24 August 2026
+
+**Wording relied on:** rule 69.1.1 lists "lead generation activities and first
+contact activity (learner and employer recruitment)" among ineligible costs, and
+rule 69.6 lists "financial inducements to any party in relation to the
+apprenticeship unit".
+
+**Why this is the most important entry here.** It is the regulatory basis of the
+business model and of risk R6. Because the activity ApprentiGate performs is an
+ineligible cost, its fees can never be described as coming out of apprenticeship
+funding, by the employer or by a provider drawing on that funding. The site must
+therefore state plainly that the fees are separate — and must never imply that
+using ApprentiGate is paid for by government. This is also why no provider-side
+fee model may be described until it has been checked against these rules.
+
+**Used on:** Funding Explained (the mandatory fees sentence).
+
+---
+
+## S13 — The apprentice minimum wage
+
+**Claim it supports:** the employer pays the apprentice's wage, at least at the
+apprentice minimum wage where the apprentice qualifies for that rate.
+
+**Source:** National Minimum Wage and National Living Wage rates — GOV.UK
+<https://www.gov.uk/national-minimum-wage-rates>
+
+**Retrieved:** 24 August 2026
+
+**Wording relied on:** the apprentice rate is £8 an hour from April 2026, and
+applies to apprentices under 19, or aged 19 and over in the first year of their
+apprenticeship. After that they move to the rate for their age.
+
+**How it is used:** the site states the condition — that the apprentice rate
+only applies while under 19 or in the first year — because that is the part
+employers miss and it changes what the role costs in year two. The **rate itself
+is linked rather than printed**, because minimum wage rates change every April
+and a printed figure is the single most likely thing on the site to go stale
+between quarterly reviews.
+
+**Used on:** Funding Explained (what the employer always pays).
+
+---
+
 ## Note on the responsible body
 
 Occupational standards were maintained by the Institute for Apprenticeships and

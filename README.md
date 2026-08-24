@@ -6,10 +6,16 @@ serving SMEs in England.
 This repository is standalone. It shares no history, remote, dependency tree or
 configuration with any other project.
 
-**Current state: WP6 complete — scaffold, quality gates, brand and design
-system, component library and shell, and four public pages: Home, How It Works,
-For Employers, and For Training Providers.** The remaining pages are written
-from WP7 onwards. Most routes in the navigation do not exist yet and
+**Current state: WP7 complete — scaffold, quality gates, brand and design
+system, component library and shell, and five public pages: Home, How It Works,
+For Employers, For Training Providers, and Funding Explained.** The remaining
+pages are written from WP8 onwards.
+
+The funding review date lives in
+[`src/lib/funding.ts`](./src/lib/funding.ts) — one place to change when the
+rules are re-checked, and the value the recurring check (WP17) reads. Review it
+quarterly and on any announced rule change, re-verifying every claim rather than
+just moving the date forward. Most routes in the navigation do not exist yet and
 resolve to the custom 404 until their work package lands; the links are declared
 now so header, footer and sitemap cannot drift apart.
 
