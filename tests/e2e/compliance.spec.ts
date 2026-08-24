@@ -167,11 +167,14 @@ test.describe('accessibility statement', () => {
     const text = (await page.locator('#main').textContent()) ?? '';
 
     /**
-     * The statement must not get ahead of the work. Manual screen reader
-     * testing is WP13 and has not happened, so claiming it would be false — and
-     * an accessibility statement is a poor place to start being unreliable.
+     * The statement must not get ahead of the work. Automated verification is
+     * done and recorded in QA-REPORT.md, but nobody has used a screen reader on
+     * the site from top to bottom — and an accessibility statement is a poor
+     * place to start being unreliable. This asserts the admission survives, so
+     * it cannot be tidied away before the audit that would justify removing it.
      */
-    expect(text).toMatch(/not yet completed a manual screen reader audit/i);
+    expect(text).toMatch(/Nobody has listened to the whole site yet/i);
+    expect(text).toMatch(/not the same as someone actually using one/i);
     expect(text).toMatch(/provided by Cal\.com and we do not control its accessibility/i);
     expect(text).toMatch(/aim to reply within five working days/i);
   });

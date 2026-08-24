@@ -13,11 +13,19 @@
   /* ---------------------------------------------------------------------
    * Colour — six named tokens.
    *
-   * Contrast against white ground, measured:
-   *   ink     16.9:1   body text, headings
-   *   slate    6.4:1   secondary text, still AA at body size
-   *   signal   7.4:1   actions, links, the filled node of the relay band
-   *   alert    6.2:1   error states only
+   * Contrast against the white ground. These figures are computed from the
+   * hex values below and asserted in tests/unit/contrast.test.ts, because they
+   * were previously written from memory and one of them was wrong — signal was
+   * documented as 7.4:1 when it measures 6.16:1. A contrast figure nobody
+   * checks is worse than none, since it invites trust it has not earned.
+   *
+   * CONTRAST ink 17.08 body text, headings
+   * CONTRAST slate 7.00 secondary text
+   * CONTRAST signal 6.16 actions, links, the filled node of the relay band
+   * CONTRAST alert 6.54 error states only
+   *
+   * All clear WCAG AA for normal text (4.5:1). Ink and slate also clear AAA
+   * (7:1); signal and alert do not, which is why neither is used for body text.
    * Mist is a surface, never a text colour.
    * ------------------------------------------------------------------ */
 

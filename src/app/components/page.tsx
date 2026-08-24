@@ -98,12 +98,12 @@ export default function ComponentGallery() {
 
       <Section divided eyebrow="Tokens" heading="Colour">
         <div className="grid grid-cols-2 gap-[var(--spacing-ag-4)] sm:grid-cols-3 lg:grid-cols-6">
-          <Swatch token="--color-ag-ink" label="ink 16.9:1" />
-          <Swatch token="--color-ag-slate" label="slate 6.4:1" />
+          <Swatch token="--color-ag-ink" label="ink 17.08:1" />
+          <Swatch token="--color-ag-slate" label="slate 7.00:1" />
           <Swatch token="--color-ag-mist" label="mist surface" />
-          <Swatch token="--color-ag-signal" label="signal 7.4:1" />
+          <Swatch token="--color-ag-signal" label="signal 6.16:1" />
           <Swatch token="--color-ag-paper" label="paper" />
-          <Swatch token="--color-ag-alert" label="alert 6.2:1" />
+          <Swatch token="--color-ag-alert" label="alert 6.54:1" />
         </div>
       </Section>
 

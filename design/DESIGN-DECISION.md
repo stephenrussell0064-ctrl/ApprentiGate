@@ -74,7 +74,7 @@ Software-grade operations tooling. Clean, generous, quietly technical.
 | Primary   | Ink `#0F1D2A`                                                |
 | Secondary | Slate `#4A5B6B`                                              |
 | Muted     | Mist `#EDF1F4`                                               |
-| Signal    | Deep teal `#0B6E5F`                                          |
+| Signal    | Deep teal `#0B6E5F` (6.16:1 on white)                        |
 | Type      | Figtree display / Source Sans 3 body / IBM Plex Mono utility |
 | Radius    | 10px default                                                 |
 | Feel      | Whitespace-led, calm, precise                                |
@@ -97,8 +97,8 @@ precisely what a business with no social proof needs.
 The signal colour is a deep teal rather than the default B2B blue. This matters
 more than it sounds: the apprenticeship and education sector is saturated with
 blue and purple, and the deep teal is distinctive without being loud, holds
-7.4:1 contrast on white, and carries no eco or sustainability reading at this
-darkness.
+6.16:1 contrast on white — comfortably past AA — and carries no eco or
+sustainability reading at this darkness.
 
 **Its risk, stated honestly.** Executed lazily, this direction becomes generic
 B2B SaaS. Three things are load-bearing against that: the monospace utility
