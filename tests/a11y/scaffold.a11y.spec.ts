@@ -35,6 +35,7 @@ const ROUTES = [
   { name: 'for employers', path: '/for-employers' },
   { name: 'for training providers', path: '/for-training-providers' },
   { name: 'funding', path: '/funding' },
+  { name: 'about', path: '/about' },
   { name: '404', path: '/no-such-page' },
   // The gallery renders every component in every state, including the error
   // and disabled states, so running axe over it covers the whole library at

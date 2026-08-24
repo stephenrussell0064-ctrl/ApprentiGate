@@ -24,6 +24,7 @@ const PUBLIC_ROUTES = [
   '/for-employers',
   '/for-training-providers',
   '/funding',
+  '/about',
   '/no-such-page',
 ];
 
