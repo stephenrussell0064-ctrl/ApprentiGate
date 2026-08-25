@@ -124,7 +124,20 @@ export default function ComponentGallery() {
           ).map(([step, sample]) => (
             <div
               key={step}
-              className="flex flex-wrap items-baseline gap-[var(--spacing-ag-4)] border-b border-[var(--color-ag-mist)] pb-[var(--spacing-ag-3)]"
+              /* A specimen has to render at its true size to be worth showing,
+                 and 60px type does not fit a 320px screen. Scrolling the row is
+                 the honest answer — shrinking the sample would misreport the
+                 scale, and letting it overflow would push the whole page
+                 sideways.
+
+                 A region that only a pointer can scroll is unreachable by
+                 keyboard, so it takes `tabIndex={0}` and a name: the label is
+                 what a screen reader announces on arrival, and without it the
+                 stop is a mystery. */
+              role="group"
+              aria-label={`Type scale, step ${step}`}
+              tabIndex={0}
+              className="flex items-baseline gap-[var(--spacing-ag-4)] overflow-x-auto border-b border-[var(--color-ag-mist)] pb-[var(--spacing-ag-3)]"
             >
               <span className="w-16 shrink-0 font-[family-name:var(--font-utility)] text-[length:var(--text-ag-xs)] text-[color:var(--color-ag-slate)]">
                 {step}

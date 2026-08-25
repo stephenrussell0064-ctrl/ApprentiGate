@@ -21,6 +21,12 @@ export function Card({ children, title, label, className }: CardProps) {
         'flex flex-col gap-[var(--spacing-ag-3)] rounded-[var(--radius-ag-lg)]',
         'border border-[var(--color-ag-mist)] bg-[var(--color-ag-paper)]',
         'p-[var(--spacing-ag-6)]',
+        // A card that responds to the cursor reads as built rather than drawn.
+        // Two pixels and a softer shadow; anything more becomes a toy.
+        'transition-[transform,box-shadow,border-color]',
+        'duration-[var(--duration-ag-standard)] ease-[var(--ease-ag-enter)]',
+        'hover:-translate-y-0.5 hover:border-[var(--color-ag-slate)]',
+        'hover:shadow-[var(--shadow-ag-lifted)]',
         className,
       ]
         .filter(Boolean)

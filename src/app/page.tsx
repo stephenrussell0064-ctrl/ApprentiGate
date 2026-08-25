@@ -81,29 +81,70 @@ function TickList({ items }: { readonly items: readonly string[] }) {
 export default function Home() {
   return (
     <>
-      {/* ------------------------------------------------------------ Hero */}
+      {/* ------------------------------------------------------------ Hero
+        Two columns from `lg`, and a single column below it.
+
+        The old hero set its heading to an 18-character measure and left the
+        right half of a 1440px viewport empty, which reads as an unfinished
+        page rather than as deliberate space. The type now runs to a proper
+        display size and the space to its right carries the relay band — the one
+        piece of information a visitor most needs in the first seconds, since
+        their working assumption is that we are the trainer or the recruiter.
+
+        Filling that space with the proposition rather than with decoration is
+        the point. There is no product screenshot to show and no photography
+        that would be honest, so the strongest thing available is the structure
+        of the offer itself.
+      */}
       <Section>
-        <p className="font-[family-name:var(--font-utility)] text-[length:var(--text-ag-xs)] tracking-[0.08em] text-[color:var(--color-ag-slate)] uppercase">
-          Apprenticeships for growing businesses in England
-        </p>
+        <div className="grid items-center gap-[var(--spacing-ag-16)] lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-[var(--spacing-ag-24)]">
+          {/* `min-w-0`: a grid item's automatic minimum is its min-content, so
+              without this any wide child sets the column's floor and overflows
+              the container rather than being made to fit. */}
+          <div className="ag-reveal min-w-0">
+            <p className="font-[family-name:var(--font-utility)] text-[length:var(--text-ag-xs)] tracking-[0.08em] text-[color:var(--color-ag-slate)] uppercase">
+              Apprenticeships for growing businesses in England
+            </p>
 
-        <h1 className="mt-[var(--spacing-ag-6)] max-w-[18ch] text-[length:var(--text-ag-3xl)] font-semibold text-balance text-[color:var(--color-ag-ink)] md:text-[length:var(--text-ag-4xl)] lg:text-[length:var(--text-ag-5xl)]">
-          Build your apprenticeship programme without the complexity.
-        </h1>
+            <h1 className="mt-[var(--spacing-ag-6)] max-w-[19ch] text-[length:var(--text-ag-display)] leading-[var(--leading-ag-display)] font-semibold tracking-[var(--tracking-ag-display)] text-balance break-words text-[color:var(--color-ag-ink)]">
+              Build your apprenticeship programme without the complexity.
+            </h1>
 
-        <p className="mt-[var(--spacing-ag-6)] max-w-[62ch] text-[length:var(--text-ag-lg)] text-[color:var(--color-ag-slate)]">
-          ApprentiGate helps growing businesses identify suitable apprenticeship routes,
-          compare approved training providers and coordinate programme setup — without
-          needing a dedicated internal apprenticeship team.
-        </p>
+            <p className="mt-[var(--spacing-ag-8)] max-w-[54ch] text-[length:var(--text-ag-lg)] text-[color:var(--color-ag-slate)]">
+              ApprentiGate helps growing businesses identify suitable apprenticeship
+              routes, compare approved training providers and coordinate programme setup —
+              without needing a dedicated internal apprenticeship team.
+            </p>
 
-        <div className="mt-[var(--spacing-ag-8)] flex flex-col gap-[var(--spacing-ag-3)] sm:flex-row sm:items-center">
-          <ButtonLink href={ROUTES.contact}>
-            Explore apprenticeships for your business
-          </ButtonLink>
-          <ButtonLink href={ROUTES.howItWorks} variant="secondary">
-            See how it works
-          </ButtonLink>
+            {/* `flex-wrap` matters more than it looks. Without it the row
+                squeezes both buttons until their labels break mid-phrase on a
+                1440px display, which reads as a bug. With it, a button that
+                does not fit takes its own row and keeps its label intact — and
+                `sm:whitespace-nowrap` holds the label on one line from the
+                width where that is possible, while still letting it wrap on a
+                phone, where it must. */}
+            <div className="mt-[var(--spacing-ag-8)] flex flex-col flex-wrap gap-[var(--spacing-ag-3)] sm:flex-row sm:items-center">
+              <ButtonLink
+                href={ROUTES.contact}
+                size="lg"
+                className="sm:whitespace-nowrap"
+              >
+                Explore apprenticeships for your business
+              </ButtonLink>
+              <ButtonLink
+                href={ROUTES.howItWorks}
+                variant="secondary"
+                size="lg"
+                className="sm:whitespace-nowrap"
+              >
+                See how it works
+              </ButtonLink>
+            </div>
+          </div>
+
+          <div className="ag-reveal ag-reveal-delayed hidden lg:block">
+            <RelayBand variant="stacked" />
+          </div>
         </div>
       </Section>
 
@@ -214,7 +255,7 @@ export default function Home() {
           A short call is usually enough to tell whether an apprenticeship is the right
           route for the role. If it is not, we will say so.
         </p>
-        <div className="mt-[var(--spacing-ag-8)] flex flex-col gap-[var(--spacing-ag-3)] sm:flex-row sm:items-center">
+        <div className="mt-[var(--spacing-ag-8)] flex flex-col flex-wrap gap-[var(--spacing-ag-3)] sm:flex-row sm:items-center">
           <ButtonLink href={ROUTES.contact}>Book a call</ButtonLink>
           <ButtonLink href={ROUTES.contact} variant="secondary">
             Send an enquiry

@@ -21,13 +21,66 @@ const NODES = [
 ] as const;
 
 interface RelayBandProps {
-  /** `full` shows the roles beneath each label; `rule` is the divider variant. */
-  readonly variant?: 'full' | 'rule';
+  /**
+   * `full`   — horizontal, roles beneath each label. Used mid-page.
+   * `rule`   — compact horizontal divider. Used in the footer.
+   * `stacked` — vertical, one card per party. Used in the hero, where it has a
+   *             column to itself and has to hold its own against display type.
+   */
+  readonly variant?: 'full' | 'rule' | 'stacked';
   readonly className?: string;
 }
 
 export function RelayBand({ variant = 'full', className }: RelayBandProps) {
   const isRule = variant === 'rule';
+
+  /**
+   * The vertical arrangement. Same three parties, same emphasis on the middle
+   * one — but as a column of surfaces rather than a line, because in the hero
+   * it sits beside 72px type and a hairline rule would simply disappear next
+   * to it.
+   */
+  if (variant === 'stacked') {
+    return (
+      <ol
+        className={['flex list-none flex-col gap-[var(--spacing-ag-3)] p-0', className]
+          .filter(Boolean)
+          .join(' ')}
+        aria-label="How the three parties relate: the employer employs and manages the apprentice, ApprentiGate handles the process in between, and an approved training provider delivers the training."
+      >
+        {NODES.map((node, index) => {
+          const isCentre = index === 1;
+          return (
+            <li
+              key={node.label}
+              className={[
+                'relative flex flex-col gap-[var(--spacing-ag-1)]',
+                'rounded-[var(--radius-ag-lg)] border p-[var(--spacing-ag-6)]',
+                'transition-[transform,box-shadow] duration-[var(--duration-ag-standard)] ease-[var(--ease-ag-enter)]',
+                isCentre
+                  ? 'border-[var(--color-ag-signal)] bg-[var(--color-ag-paper)] shadow-[var(--shadow-ag-lifted)] lg:-translate-x-[var(--spacing-ag-2)]'
+                  : 'border-[var(--color-ag-mist)] bg-[var(--color-ag-paper)] shadow-[var(--shadow-ag-raised)]',
+              ].join(' ')}
+            >
+              <span
+                className={[
+                  'font-[family-name:var(--font-utility)] text-[length:var(--text-ag-xs)] tracking-[0.08em] uppercase',
+                  isCentre
+                    ? 'text-[color:var(--color-ag-signal)]'
+                    : 'text-[color:var(--color-ag-slate)]',
+                ].join(' ')}
+              >
+                {node.label}
+              </span>
+              <span className="text-[length:var(--text-ag-base)] text-[color:var(--color-ag-slate)]">
+                {node.role}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+    );
+  }
 
   return (
     <div

@@ -22,8 +22,28 @@ import { PRIMARY_CTA, PRIMARY_NAV, ROUTES } from '@/lib/navigation';
  */
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const panelId = useId();
   const triggerRef = useRef<HTMLButtonElement>(null);
+
+  /**
+   * The header sticks, and earns its border only once the page has moved.
+   *
+   * At the top it sits flush on the page with no line under it, so the hero
+   * starts at the very top of the viewport rather than under a bar. Once
+   * content scrolls beneath it, it needs to separate itself from that content
+   * or text slides under an invisible edge — so it takes a hairline and a
+   * translucent backing at that point and not before.
+   *
+   * Threshold is a few pixels rather than zero so a trackpad's elastic overscroll
+   * does not flicker the border on and off.
+   */
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -50,7 +70,17 @@ export function SiteHeader() {
   }, [open]);
 
   return (
-    <header className="border-b border-[var(--color-ag-mist)] bg-[var(--color-ag-paper)]">
+    <header
+      className={[
+        'sticky top-0 z-40',
+        'transition-[background-color,border-color,box-shadow]',
+        'duration-[var(--duration-ag-standard)] ease-[var(--ease-ag-enter)]',
+        'border-b',
+        scrolled || open
+          ? 'border-[var(--color-ag-mist)] bg-[var(--color-ag-paper)]/85 shadow-[var(--shadow-ag-raised)] backdrop-blur-md'
+          : 'border-transparent bg-[var(--color-ag-paper)]',
+      ].join(' ')}
+    >
       {/*
         Skip link. First thing in the tab order, visually hidden until focused,
         so a keyboard user does not have to walk the whole nav on every page.

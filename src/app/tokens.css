@@ -61,7 +61,34 @@
   --text-ag-2xl: 1.75rem; /* 28 */
   --text-ag-3xl: 2.25rem; /* 36 */
   --text-ag-4xl: 3rem; /* 48 */
-  --text-ag-5xl: 3.75rem; /* 60 — hero, desktop only */
+  --text-ag-5xl: 3.75rem; /* 60 */
+  --text-ag-6xl: 4.5rem; /* 72 — hero display, large screens only */
+
+  /*
+   * Display type needs its own leading and tracking. The body scale's 1.15
+   * line-height is loose at 72px and the default tracking reads slack: large
+   * type carries its own optical weight, so it wants pulling in. This is the
+   * single biggest difference between type that looks set and type that looks
+   * merely large.
+   */
+  --leading-ag-display: 1.04;
+  --tracking-ag-display: -0.03em;
+
+  /*
+   * The hero size, fluid rather than stepped.
+   *
+   * A breakpoint staircase sets a fixed size for a range of widths, which means
+   * the narrowest width in each range has to survive the size chosen for the
+   * widest. It did not: at 320px the 48px step rendered "apprenticeship" 307px
+   * wide inside a 272px content box, and since a word cannot break, the whole
+   * page inherited that as its minimum width and scrolled sideways.
+   *
+   * Interpolating instead removes the failure mode rather than moving it. The
+   * 2.5rem floor is set by the longest word in the heading at the narrowest
+   * supported viewport; the 4.5rem ceiling stops it growing into a billboard on
+   * a large display. `responsive.spec.ts` holds both ends.
+   */
+  --text-ag-display: clamp(2.5rem, 6.4vw, 4.5rem);
 
   /* ---------------------------------------------------------------------
    * Spacing — 4px base, used for padding, gaps and section rhythm.
@@ -107,6 +134,17 @@
   --duration-ag-standard: 200ms; /* default state change */
   --duration-ag-enter: 300ms; /* entrance; the hard ceiling */
   --duration-ag-leave: 200ms; /* exits are ~2/3 of entrances */
+
+  /*
+   * Elevation.
+   *
+   * Two steps, both soft and low-contrast. A shadow's job here is to say "this
+   * lifts toward you", not to draw a box — heavy drop shadows are the fastest
+   * way to make a considered layout look like a template. Values are in
+   * ink at low alpha rather than black, so the shade belongs to the palette.
+   */
+  --shadow-ag-raised: 0 1px 2px rgb(15 29 42 / 0.04), 0 2px 8px rgb(15 29 42 / 0.04);
+  --shadow-ag-lifted: 0 2px 4px rgb(15 29 42 / 0.05), 0 12px 28px rgb(15 29 42 / 0.09);
 }
 
 @layer base {

@@ -37,6 +37,49 @@
   }
 }
 
+/* ---------------------------------------------------------------------------
+ * Entrance reveal.
+ *
+ * Content lifts a few pixels and fades in as it comes into view. Deliberately
+ * small — 12px and 500ms — because the job is to make the page feel alive as
+ * you move down it, not to make you wait for text you can already see.
+ *
+ * Built on `animation-timeline: view()` where the browser supports it, so there
+ * is no observer, no scroll listener and no JavaScript at all. Browsers without
+ * it simply get the content, already visible, which is the correct fallback:
+ * the animation is decoration and the content is not.
+ *
+ * The `@media (prefers-reduced-motion: reduce)` block further down neutralises
+ * all of this, and the elements stay visible because the end state is the
+ * default state.
+ * ------------------------------------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .ag-reveal {
+      animation: ag-reveal-in linear both;
+      animation-timeline: view();
+      /* Play as the element enters, and finish well before it centres. */
+      animation-range: entry 0% entry 60%;
+    }
+
+    /* Second column follows the first rather than arriving with it. */
+    .ag-reveal-delayed {
+      animation-range: entry 8% entry 70%;
+    }
+  }
+}
+
+@keyframes ag-reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* Motion policy, enforced globally: see the motion tokens in tokens.css. */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -44,6 +87,9 @@
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    /* Cancels the scroll-driven reveal outright, leaving content visible. */
+    animation-timeline: auto !important;
+    animation-range: normal !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
