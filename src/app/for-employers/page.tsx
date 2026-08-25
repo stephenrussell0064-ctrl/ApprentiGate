@@ -220,8 +220,8 @@ export default function ForEmployers() {
         <div className="grid gap-[var(--spacing-ag-8)] md:grid-cols-2 md:gap-[var(--spacing-ag-12)]">
           <div className="flex flex-col gap-[var(--spacing-ag-4)]">
             <p className="max-w-[62ch] text-[length:var(--text-ag-base)] text-[color:var(--color-ag-slate)]">
-              We compare approved providers against the same set of factors every time, so
-              a recommendation can be explained rather than just asserted:
+              We compare approved providers against one consistent set of factors, so a
+              recommendation can be explained rather than just asserted:
             </p>
             <ul className="flex list-none flex-col gap-[var(--spacing-ag-2)] p-0">
               {COMPARISON_FACTORS.map((factor) => (

@@ -62,11 +62,11 @@ export default function Accessibility() {
       <LegalSection heading="What we have tested, and how">
         <LegalList
           items={[
-            'Every page is checked automatically against WCAG 2.2 AA on every single build, at 320px, 768px and 1440px. A build with any violation does not ship. The most recent run found none across 45 checks.',
+            'Every page is checked automatically against WCAG 2.2 AA on every single build, at 320px, 768px and 1440px. A build with any violation does not ship, and the most recent run found none.',
             'Every page is checked for performance, accessibility, best practice and search on each build, and has to score at least 95 in all four.',
             'The keyboard route through each page has been walked and recorded: every stop is reachable, in a sensible order, and shows a visible focus ring.',
             'The accessibility information behind the navigation, the enquiry form and the FAQ answers — the roles, names and states a screen reader reads out — has been checked directly.',
-            'Colour contrast is computed from the palette rather than eyeballed. The lowest pairing on the site is 6.16:1, against a requirement of 4.5:1.',
+            'Colour contrast is measured on the rendered pages rather than eyeballed. Across every piece of text on the site, the lowest contrast is 5.42:1, against a requirement of 4.5:1.',
             'The site respects your system setting for reduced motion, and there is very little motion to begin with.',
             'Text can be enlarged without the layout breaking, and no page scrolls sideways at 320px.',
           ]}

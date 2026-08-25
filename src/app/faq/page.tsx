@@ -73,7 +73,7 @@ const FAQS = [
   {
     question: 'How do you choose which providers to recommend?',
     answer:
-      'Against the same set of factors every time: training outcomes, fit with your requirement, support for you and for the apprentice, delivery model and location, relevant experience of the standard, and progression. Any commercial arrangement carries no weight at all. You see the reasoning and you make the final choice.',
+      'Against one consistent set of factors: training outcomes, fit with your requirement, support for you and for the apprentice, delivery model and location, relevant experience of the standard, and progression. Any commercial arrangement carries no weight at all. You see the reasoning and you make the final choice.',
   },
   {
     question: 'Can we use a provider we already know?',

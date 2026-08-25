@@ -61,6 +61,19 @@ const PROHIBITED: readonly Prohibition[] = [
     why: 'nothing has been proven yet; there is no track record',
   },
   { pattern: /\btestimonial\b/i, why: 'no testimonials may appear' },
+  {
+    /**
+     * Phrases that imply a delivery history. Added by the WP14 adversarial
+     * pass, which found "against the same set of factors every time" on two
+     * pages: literally a statement of method, but it reads as something done
+     * repeatedly by a business that has not yet done it once. Nothing here is
+     * a false claim on its own — which is exactly why a prohibition list built
+     * only from obvious boasts would have missed it.
+     */
+    pattern:
+      /\bin our experience\b|\bwe have (helped|worked with|placed|delivered)\b|\bour (clients|customers)\b|\bour track record\b|\bevery time\b/i,
+    why: 'implies a delivery history the business does not have',
+  },
   { pattern: /\bcase stud(y|ies)\b/i, why: 'no case studies exist' },
   { pattern: /\bstar rating\b|\b\d(\.\d)?\s?\/\s?5\b/i, why: 'no ratings' },
 
@@ -222,6 +235,10 @@ const MUST_BE_CAUGHT: readonly string[] = [
   'Our award-winning approach to apprenticeships.',
   'A proven method for building apprenticeship programmes.',
   'Read our case studies from recent clients.',
+  'In our experience, employers underestimate the paperwork.',
+  'We have helped employers across the sector.',
+  'We compare providers against the same factors every time.',
+  'Our clients tell us the funding is the hard part.',
   'We now work with 240 employers.',
   'Our achievement rate speaks for itself.',
   'We could save you £4,000 a year.',
