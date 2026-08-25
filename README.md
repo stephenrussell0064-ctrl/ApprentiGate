@@ -15,9 +15,7 @@ SEO and structured data, accessibility and performance verification
 What remains is the handover package (WP15), then the cutover (WP16), which
 waits on the operator.
 
-**One adversarial finding is open and needs a decision** — see "Open findings"
-below. It is not a defect; it is a judgement about disclosure that belongs to
-the Executive rather than to the build.
+Both adversarial findings are closed — see "Adversarial findings" below.
 
 ---
 
@@ -296,42 +294,34 @@ Delivered: **WP0** (scaffold and gates). Next: **WP1** (brand and design system)
 
 ---
 
-## Open findings
+## Adversarial findings
 
-### F1 — The employer journey does not disclose that the business is pre-launch
+Both findings from the WP14 adversarial pass are closed.
 
-**Status: open. Needs an Executive decision, not a code change.**
+### F1 — The employer journey did not disclose that the business is pre-launch
 
-"Pre-launch" appears on About and For Training Providers. It appears nowhere on
-Home, How It Works, For Employers, Funding, FAQ or Contact — the entire path an
-employer actually takes.
+**Closed.** "Pre-launch" appeared on About and For Training Providers and
+nowhere on Home, How It Works, For Employers, Funding, FAQ or Contact — the
+whole path an employer actually takes.
 
-Nothing on those pages claims a track record. The prohibited-content scan is
-clean, no customer is invented, no count or outcome is stated, and the site
-describes the service in ordinary present tense as any new business would. By
-the letter of the Content Spec this passes.
+Nothing on those pages claimed a track record, no customer was invented, and the
+prohibited-content scan was clean, so the site passed the letter of the Content
+Spec. That is precisely why it is worth recording: the problem was an omission on
+one journey rather than a false statement anywhere, and no pattern-based gate
+would ever have found it. The honesty was real but unevenly distributed — most
+explicit to the audience that mattered least commercially, least explicit to the
+one that mattered most. A managing director could have read the entire employer
+path, booked a call, and first learned on that call that they would be the first
+customer.
 
-The adversarial reading is that the honesty is unevenly distributed: it is most
-explicit to the audience that matters least commercially (providers) and least
-explicit to the audience that matters most (employers). A managing director
-could read the whole employer path, book a call, and first learn on that call
-that they would be the first customer. Nothing was said that was untrue, but an
-impression was managed.
+Closed on the Contact page rather than on Home: that is where a person commits
+their details, and it leaves the Content Spec's approved Home copy untouched. It
+sits above both the calendar and the form, because booking a call is a
+commitment too, and a test asserts both its presence and that position so it
+cannot drift below the things it is meant to precede.
 
-Three ways to close it:
+### F2 — "every time" implied a delivery history
 
-1. **Accept it.** Describing a service in present tense is normal and the
-   Content Spec's approved copy does not disclose stage. The call itself is
-   where the conversation becomes honest, and the founders are direct there.
-2. **Add one line to Home**, near the closing call to action — something like
-   "We are just starting out, and we would rather tell you that now than on the
-   call." This deviates from the approved Home copy, so it is a Request for
-   Change under the PID.
-3. **Add it to Contact only**, immediately before someone commits their details.
-   Smallest change, catches everyone who converts, leaves the approved page copy
-   untouched.
-
-The build's recommendation is (3): it puts the disclosure exactly where it
-matters, costs one sentence, and does not touch copy the Content Spec approved.
-
-Closing this is the last content decision before handover.
+**Closed.** The wording now matches the Content Spec's own phrasing, and the
+whole class of phrase is a prohibition with self-test coverage. See the WP14
+commit.

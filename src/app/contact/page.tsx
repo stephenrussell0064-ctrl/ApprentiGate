@@ -49,6 +49,25 @@ export default function Contact() {
           Half an hour is usually enough to work out whether an apprenticeship suits the
           role. If it does not, we will tell you that instead of selling you something.
         </p>
+
+        {/*
+          Finding F1 from the WP14 adversarial pass, closed here.
+
+          "Pre-launch" was stated on About and For Training Providers but nowhere
+          on the path an employer actually takes. Nothing on those pages claimed
+          a track record, so the site passed its own content rules — but the
+          honesty was unevenly distributed, and someone could have reached this
+          page without learning they would be among the first.
+
+          It sits on this page rather than on Home because this is where a person
+          commits their details, and above both routes rather than beside the
+          form because booking a call is a commitment too. Asserted by test so it
+          cannot be quietly removed.
+        */}
+        <p className="mt-[var(--spacing-ag-6)] max-w-[62ch] text-[length:var(--text-ag-lg)] font-semibold text-[color:var(--color-ag-ink)]">
+          We are just starting out. You would be one of our first employers, and we would
+          rather tell you that now than on the call.
+        </p>
       </Section>
 
       <Section divided>

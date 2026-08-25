@@ -16,6 +16,34 @@ test.describe('contact', () => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   });
 
+  test('says the business is pre-launch before anyone commits their details', async ({
+    page,
+  }) => {
+    /**
+     * Finding F1 from the WP14 adversarial pass. "Pre-launch" was stated on
+     * About and For Training Providers but nowhere on the path an employer
+     * actually takes, so someone could reach this page without learning they
+     * would be among the first. Nothing claimed a track record, which is why
+     * the prohibition scan never caught it — the problem was an omission on one
+     * journey, not a false statement anywhere.
+     *
+     * Asserted for position as well as presence: it has to be readable before
+     * the form and the calendar, not after them.
+     */
+    await page.goto('/contact');
+    const text = (await page.locator('#main').textContent()) ?? '';
+
+    expect(text).toMatch(/We are just starting out/i);
+    expect(text).toMatch(/one of our first employers/i);
+
+    const disclosure = text.indexOf('We are just starting out');
+    const form = text.indexOf('Or send an enquiry');
+    const calendar = text.indexOf('Pick a time');
+    expect(disclosure).toBeGreaterThan(-1);
+    expect(disclosure).toBeLessThan(form);
+    expect(disclosure).toBeLessThan(calendar);
+  });
+
   test('offers both routes side by side', async ({ page }) => {
     await page.goto('/contact');
     await expect(page.getByRole('heading', { name: 'Pick a time' })).toBeVisible();
