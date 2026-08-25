@@ -29,7 +29,7 @@ Confirm the project builds before you change anything:
 cd ~/Projects/apprentigate && pnpm install && pnpm verify
 ```
 
-That runs lint, type checks, both build-time guards, 60 unit tests and 213
+That runs lint, type checks, both build-time guards, 60 unit tests and 255
 browser tests. It takes a couple of minutes and should end green. If it does
 not, stop and say so — everything below assumes a working starting point.
 
@@ -330,7 +330,7 @@ That triggers the cutover: adding the custom domain to the Worker, verifying
 HTTPS and the apex redirect, resubmitting the sitemap, and running production
 smoke tests against the live domain.
 
-**Do not deploy yourself first.** `pnpm deploy` runs a guard that refuses to
+**Do not deploy yourself first.** `pnpm run deploy` runs a guard that refuses to
 publish a build whose indexing setting contradicts its configuration, but the
 cutover has several ordered steps and doing half of them makes the rest harder
 to reason about.

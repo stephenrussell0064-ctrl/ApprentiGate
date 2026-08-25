@@ -6,18 +6,26 @@ serving SMEs in England.
 This repository is standalone. It shares no history, remote, dependency tree or
 configuration with any other project.
 
-**Current state: WP15 complete — the build is finished and waiting on the
-operator.** Everything through the claim audit is done, and
+**Current state: deployed to preview, waiting on the operator to finish WP16.**
 [`OPERATOR-HANDOVER.md`](./OPERATOR-HANDOVER.md) is the next thing to read.
 
-The only work package left is WP16, the domain cutover, and it cannot start
-until the operator has completed the handover checklist. Nothing in this
-repository has ever held a credential and nothing should start now, so every
-remaining step — the Cloudflare account, the mailbox, the DNS records, the two
-secrets — belongs to the operator by design.
+**Preview:** <https://apprentigate.stephen-russell0064.workers.dev> — the real
+Worker, assets, rate limiter and 404 handling, served by Cloudflare. It is
+`noindex` with a disallow-all `robots.txt`, so it cannot compete with the real
+domain for indexing.
 
-**There is no preview URL.** Creating the Cloudflare account is step 3 of the
-handover, and the URL does not exist before that.
+`apprentigate.com` is on Cloudflare nameservers and the Hostinger mail records
+survived the move, but the domain is **not** attached to the Worker yet. Two
+things on the preview are deliberately inert until the operator creates the
+accounts they depend on: the booking calendar has no Cal.com link, and the
+enquiry endpoint answers `503 bot_protection_unconfigured` because no Turnstile
+secret is loaded. The Worker fails closed rather than accepting submissions it
+cannot verify, which is why the cutover waits — a live site nobody can contact
+is worse than no live site.
+
+Nothing in this repository has ever held a credential and nothing should start
+now, so every remaining step — the mailbox, Resend, Cal.com, Turnstile and the
+two secrets — belongs to the operator by design.
 
 Both adversarial findings are closed — see "Adversarial findings" below.
 
@@ -66,7 +74,11 @@ optional locally — see the table below for the defaults.
 | `pnpm qa:report`      | Regenerates `QA-REPORT.md` from a real axe, keyboard and Lighthouse run |
 | `pnpm lighthouse`     | Lighthouse CI against `out/`                                            |
 | `pnpm preview`        | Serve `out/` through the real Worker runtime (`wrangler dev`)           |
-| `pnpm deploy`         | Deploy to Cloudflare (operator only — requires credentials)             |
+| `pnpm run deploy`     | Deploy to Cloudflare (operator only — requires credentials)             |
+
+`deploy` is the one script that needs `pnpm run` spelled out: pnpm has a
+built-in `deploy` command, so bare `pnpm deploy` is ambiguous and does not
+reliably reach this script.
 
 `pnpm verify` is what CI runs and what every work package must leave green.
 
@@ -132,7 +144,7 @@ deploy against the Cloudflare preview URL, and cuts over at WP16 by setting
 `noindex` as an SEO failure, so the audit builds with indexing on to reflect the
 production configuration. Deploying straight after an audit would put an
 indexable build on the preview URL — which is the duplicate-content risk the
-whole arrangement exists to avoid. `pnpm deploy` therefore runs
+whole arrangement exists to avoid. `pnpm run deploy` therefore runs
 `pnpm guard:indexing` first, which reads the built HTML and refuses to deploy
 when it contradicts the configured flag. Checking the flag alone would not catch
 this, because in that situation the flag is right and the artefact is wrong.
