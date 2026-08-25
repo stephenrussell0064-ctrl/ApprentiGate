@@ -75,7 +75,21 @@ export function Section({
                 </p>
               )}
               {heading && (
-                <Heading className="max-w-[24ch] text-[length:var(--text-ag-2xl)] font-semibold text-balance text-[color:var(--color-ag-ink)] md:text-[length:var(--text-ag-3xl)]">
+                <Heading
+                  className={[
+                    'max-w-[24ch] font-semibold text-balance break-words text-[color:var(--color-ag-ink)]',
+                    /*
+                     * A page's own title carries display treatment; a section
+                     * heading within that page does not. The gap between the
+                     * two is what tells a reader where they are, and setting
+                     * both at the same size is the single fastest way to make
+                     * a site read as a flat pile of pages.
+                     */
+                    headingLevel === 1
+                      ? 'text-[length:var(--text-ag-title)] leading-[var(--leading-ag-display)] tracking-[var(--tracking-ag-display)]'
+                      : 'text-[length:var(--text-ag-2xl)] md:text-[length:var(--text-ag-3xl)]',
+                  ].join(' ')}
+                >
                   {heading}
                 </Heading>
               )}

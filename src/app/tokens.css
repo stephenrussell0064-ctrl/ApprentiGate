@@ -90,6 +90,14 @@
    */
   --text-ag-display: clamp(2.5rem, 6.4vw, 4.5rem);
 
+  /*
+   * Interior page titles. Deliberately a step below the home hero: every page
+   * opening at the same size as the front door flattens the site, and the
+   * hierarchy between "this is what we do" and "this is one part of it" is
+   * worth keeping. Fluid for the same reason the hero is — see above.
+   */
+  --text-ag-title: clamp(2rem, 4.2vw, 3.375rem);
+
   /* ---------------------------------------------------------------------
    * Spacing — 4px base, used for padding, gaps and section rhythm.
    * ------------------------------------------------------------------ */

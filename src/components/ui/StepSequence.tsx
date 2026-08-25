@@ -60,21 +60,33 @@ export function StepSequence({ steps, headingLevel = 3, className }: StepSequenc
             )}
           </div>
 
-          <div className="flex flex-col gap-[var(--spacing-ag-2)] pb-[var(--spacing-ag-2)]">
-            <Heading className="text-[length:var(--text-ag-xl)] font-semibold text-[color:var(--color-ag-ink)]">
+          {/*
+            Stacked on a phone, side by side from `lg`.
+
+            Prose wants a 62ch measure and will not use more, so on a wide
+            display a single column leaves half the page empty and the sequence
+            reads as an unfinished draft. Setting the title against the detail
+            spends that width on structure instead: the titles form a scannable
+            column of their own, which is how someone deciding whether this
+            process suits them actually reads it.
+          */}
+          <div className="grid gap-x-[var(--spacing-ag-8)] gap-y-[var(--spacing-ag-2)] pb-[var(--spacing-ag-2)] lg:grid-cols-[minmax(0,17rem)_minmax(0,1fr)]">
+            <Heading className="text-[length:var(--text-ag-xl)] font-semibold text-balance text-[color:var(--color-ag-ink)]">
               {step.title}
             </Heading>
-            <p className="max-w-[62ch] text-[length:var(--text-ag-base)] text-[color:var(--color-ag-slate)]">
-              {step.detail}
-            </p>
-            {step.employerAction && (
-              <p className="max-w-[62ch] text-[length:var(--text-ag-sm)] text-[color:var(--color-ag-slate)]">
-                <span className="font-[family-name:var(--font-utility)] text-[length:var(--text-ag-xs)] tracking-[0.08em] text-[color:var(--color-ag-ink)] uppercase">
-                  You
-                </span>{' '}
-                {step.employerAction}
+            <div className="flex flex-col gap-[var(--spacing-ag-2)]">
+              <p className="max-w-[62ch] text-[length:var(--text-ag-base)] text-[color:var(--color-ag-slate)]">
+                {step.detail}
               </p>
-            )}
+              {step.employerAction && (
+                <p className="max-w-[62ch] text-[length:var(--text-ag-sm)] text-[color:var(--color-ag-slate)]">
+                  <span className="font-[family-name:var(--font-utility)] text-[length:var(--text-ag-xs)] tracking-[0.08em] text-[color:var(--color-ag-ink)] uppercase">
+                    You
+                  </span>{' '}
+                  {step.employerAction}
+                </p>
+              )}
+            </div>
           </div>
         </li>
       ))}
