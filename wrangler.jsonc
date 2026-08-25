@@ -63,11 +63,11 @@
   // attached gives the site a second reachable origin serving identical
   // content, which is a duplicate-content problem and a second surface to
   // secure for no benefit.
-  "workers_dev": true,
+  "workers_dev": false,
 
   // Per-version preview URLs, same reasoning and the same instruction at
   // cutover.
-  "preview_urls": true,
+  "preview_urls": false,
 
   // Non-secret Worker configuration. The mailbox addresses are set here at
   // cutover rather than committed, because they live on the production domain
