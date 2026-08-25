@@ -184,7 +184,21 @@ test.describe('booking calendar', () => {
     });
 
     await page.goto('/contact');
-    await page.waitForLoadState('networkidle');
+
+    /*
+     * Anchored on the page being loaded and the control being present, not on
+     * `networkidle`.
+     *
+     * `networkidle` waits for the network to go quiet, and on this page it
+     * never does: the Turnstile script keeps a connection to
+     * challenges.cloudflare.com busy, so the wait ran to its 30s timeout and
+     * failed the test in CI while passing locally. It was also the wrong
+     * question — an eager embed would fire its request during load, so once
+     * the document has loaded and the click-to-load button is showing, the
+     * absence of a cal.com request is already proven.
+     */
+    await page.waitForLoadState('load');
+    await expect(page.getByRole('button', { name: /load the calendar/i })).toBeVisible();
 
     /**
      * Click-to-load, not lazy-on-scroll. Most visitors never book, and loading

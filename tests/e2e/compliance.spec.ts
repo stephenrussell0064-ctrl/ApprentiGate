@@ -63,19 +63,29 @@ test.describe('cookie policy', () => {
 
   test('is true on the contact page too, where the bot check loads', async ({ page }) => {
     await page.goto('/contact');
-    await page.waitForLoadState('networkidle');
-    // Give the Turnstile widget time to initialise and issue its token.
-    await page.waitForTimeout(3000);
+
+    /*
+     * Wait for the thing we actually care about — the widget having run —
+     * rather than for the network to fall idle and then a fixed three
+     * seconds on top.
+     *
+     * `networkidle` never settles here, because the Turnstile script keeps a
+     * connection to challenges.cloudflare.com busy; it burned its 30s timeout
+     * and failed in CI while passing locally. The hidden response field is
+     * Turnstile's own signal that it has initialised and issued a token, so
+     * waiting for it is both faster and a stronger guarantee than the sleep
+     * it replaces — the assertion below is only meaningful if the widget ran,
+     * and now the test cannot reach it otherwise.
+     */
+    await expect(page.locator('[name="cf-turnstile-response"]')).toBeAttached({
+      timeout: 30_000,
+    });
 
     const stored = await page.evaluate(() => ({
       cookies: document.cookie,
       local: Object.keys(localStorage),
       session: Object.keys(sessionStorage),
-      widgetReady: Boolean(document.querySelector('[name="cf-turnstile-response"]')),
     }));
-
-    // The claim is only meaningful if the widget actually ran.
-    expect(stored.widgetReady).toBe(true);
     expect(stored.cookies).toBe('');
     expect(stored.local).toEqual([]);
     expect(stored.session).toEqual([]);
