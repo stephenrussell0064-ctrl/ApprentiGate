@@ -231,13 +231,16 @@ commit.** These two commands are the only place they belong.
 
 ## 12. Set the public variables
 
-These are not secrets — they are compiled into the public HTML — but they must
-be correct.
+None of these are secrets. But they go in **two different places**, and putting
+them in the wrong one fails silently — the deploy succeeds and the setting is
+simply ignored. Read which is which before you start.
+
+### 12a. The Worker's own variables — set in Cloudflare
+
+The Worker reads these when a request arrives, so they live on the Worker.
 
 In Cloudflare → **Workers & Pages** → the `apprentigate` Worker → **Settings** →
-**Variables and Secrets**, add each of the following as a plain text variable.
-
-### The Worker's own variables
+**Variables and Secrets**, add each as a plain text variable:
 
 | Name             | Value                           |
 | ---------------- | ------------------------------- |
@@ -247,7 +250,22 @@ In Cloudflare → **Workers & Pages** → the `apprentigate` Worker → **Settin
 `ENQUIRIES_FROM` must be on the **verified sending subdomain** from step 7, not
 the root domain. Resend will refuse to send otherwise.
 
-### The site's build variables
+### 12b. The site's build variables — set before building, NOT in Cloudflare
+
+Everything beginning `NEXT_PUBLIC_` is baked into the HTML when the site is
+built. The site is a static export: by the time Cloudflare serves a page, the
+values are already inside the file. **Setting these in the Cloudflare dashboard
+has no effect whatsoever** — no error, no warning, the old value just stays in
+the HTML.
+
+Create a file called `.env.local` in the repository (it is git-ignored, so it
+will not be committed):
+
+```bash
+cd ~/Projects/apprentigate && cp .env.example .env.local
+```
+
+Open `.env.local` and fill in:
 
 | Name                             | Value                        | Notes                                                                          |
 | -------------------------------- | ---------------------------- | ------------------------------------------------------------------------------ |
@@ -259,6 +277,19 @@ the root domain. Resend will refuse to send otherwise.
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | the Site Key from step 10    | Public by design.                                                              |
 | `NEXT_PUBLIC_ANALYTICS_TOKEN`    | the token from step 13       | Optional. Leave unset if you skip analytics.                                   |
 | `NEXT_PUBLIC_COMPANY_NUMBER`     | **leave unset**              | Only once incorporated. Setting it adds the company number to the footer.      |
+
+Then rebuild and redeploy, because a change here only takes effect in a new
+build:
+
+```bash
+cd ~/Projects/apprentigate && pnpm build && pnpm run deploy
+```
+
+**How to tell it worked.** This should print your site URL, not `localhost`:
+
+```bash
+cd ~/Projects/apprentigate && grep -o 'rel="canonical" href="[^"]*"' out/index.html | head -1
+```
 
 ## 13. Enable Cloudflare Web Analytics (optional)
 

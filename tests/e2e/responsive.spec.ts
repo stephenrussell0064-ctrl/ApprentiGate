@@ -35,6 +35,25 @@ for (const { name, width, height } of WIDTHS) {
       test(`${path} fits the viewport`, async ({ page }) => {
         await page.goto(path);
 
+        /*
+         * Measure settled layout, not the layout mid-font-swap.
+         *
+         * Without this the test measures whatever is on screen when the
+         * evaluate happens, which early on is text set in the fallback font.
+         * The fallback is wider than the webfont, so headings and labels
+         * briefly overflow and the test reports a failure that does not exist
+         * once the page has finished loading.
+         *
+         * It fails as a race, which is the worst way for it to fail: it passed
+         * when run alone on a fast machine and failed under parallel load and
+         * in CI, which looks like flakiness in the site rather than a missing
+         * wait here.
+         */
+        await page.waitForLoadState('load');
+        // `.then(() => undefined)` because FontFaceSet is not serialisable and
+        // returning it straight out of evaluate throws.
+        await page.evaluate(() => document.fonts.ready.then(() => undefined));
+
         const report = await page.evaluate(() => {
           const limit = window.innerWidth + 1;
 

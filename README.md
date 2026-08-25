@@ -139,8 +139,14 @@ this, because in that situation the flag is right and the artefact is wrong.
 
 ### Public variables
 
-Set in the Cloudflare project settings. Inlined into the exported HTML at build
-time, so they are public by definition — never put anything sensitive here.
+**Set these where the build runs, not in the Cloudflare dashboard.** Next inlines
+them into the exported HTML at build time, and `wrangler deploy` uploads that
+already-built HTML — so a value set on the Worker arrives too late to affect
+anything and is ignored without an error. Locally that means `.env.local`; in CI
+it means the workflow `env:` block.
+
+They are public by definition — never put anything sensitive here. The two
+genuine secrets are Worker-side and are covered below.
 
 | Variable                         | Default if unset        | Purpose                                                                                                                                                                                             |
 | -------------------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
