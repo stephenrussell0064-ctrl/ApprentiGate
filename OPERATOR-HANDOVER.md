@@ -50,9 +50,40 @@ So you are not re-checking things that are done:
 - Every number on the site traces to a GOV.UK source or is recorded as not being
   a factual claim. See `CLAIM-AUDIT.md`.
 
-**There is no preview URL yet.** Creating the Cloudflare account is step 3
-below, and the preview URL does not exist until you have done it. Step 3 tells
-you where to find it once it does.
+**The preview is live:**
+
+> https://apprentigate.stephen-russell0064.workers.dev
+
+This is the real site running on Cloudflare — the same Worker, assets, rate
+limiter and 404 handling that the production domain will use. It is `noindex`
+and its `robots.txt` disallows everything, so it will not be found in search and
+will not compete with the real domain later. Look at it on your phone and on a
+laptop; this is what the cutover will put on `apprentigate.com`.
+
+Two things on it are deliberately not working yet, because they depend on
+accounts only you can create:
+
+- **The booking calendar** does not load — there is no Cal.com link yet (step 8).
+- **The enquiry form refuses every submission** with "bot protection is not
+  configured". The Worker is designed to fail closed: with no Turnstile secret it
+  rejects submissions rather than accepting unverified ones (steps 10 and 11).
+
+That second one is the reason the site is not on `apprentigate.com` yet. Putting
+it there in this state would mean a live business site on which nobody can
+contact you — so the remaining steps below are not optional polish, they are the
+gate.
+
+### Where the domain has got to
+
+Already done, and done correctly:
+
+- `apprentigate.com` is on Cloudflare nameservers (`zara`/`pranab.ns.cloudflare.com`) — step 5.
+- **The Hostinger mail records survived the move.** `MX` still points at
+  `mx1`/`mx2.hostinger.com`, so existing email is unaffected — steps 4 and 6.
+
+Still to do: the domain currently serves Hostinger's "parked domain" placeholder.
+Attaching it to the Worker replaces that, and is the last action of the cutover —
+after, not before, the checks in Part 2 pass.
 
 ---
 

@@ -44,6 +44,22 @@
     "enabled": true,
   },
 
+  // The preview origin, deliberately left on while the site is pre-cutover:
+  // apprentigate.stephen-russell0064.workers.dev is where the build is checked
+  // before it is put in front of anyone. The build served there is noindex and
+  // its robots.txt disallows everything, so it cannot compete with the real
+  // domain for indexing.
+  //
+  // AT CUTOVER, set this to false. Leaving it true once the custom domain is
+  // attached gives the site a second reachable origin serving identical
+  // content, which is a duplicate-content problem and a second surface to
+  // secure for no benefit.
+  "workers_dev": true,
+
+  // Per-version preview URLs, same reasoning and the same instruction at
+  // cutover.
+  "preview_urls": true,
+
   // Non-secret Worker configuration. The mailbox addresses are set here at
   // cutover rather than committed, because they live on the production domain
   // and no domain may be hardcoded.
