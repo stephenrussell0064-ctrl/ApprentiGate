@@ -364,3 +364,4 @@ cannot drift below the things it is meant to precede.
 **Closed.** The wording now matches the Content Spec's own phrasing, and the
 whole class of phrase is a prohibition with self-test coverage. See the WP14
 commit.
+# ApprentiGate
