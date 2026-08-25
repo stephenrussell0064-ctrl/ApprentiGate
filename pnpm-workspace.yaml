@@ -1,7 +1,11 @@
 # Build-script approvals for this project's own dependencies.
-# This file marks apprentigate as its own pnpm workspace root. It deliberately
-# has no `packages:` list — this project is standalone and must not be linked
-# to any sibling project.
+# This file marks apprentigate as its own pnpm workspace root, so the project is
+# never linked to any sibling project. The list holds only the root itself:
+# pnpm below 10.6 rejects a workspace file whose `packages` is missing or empty,
+# and CI runs an older pnpm than local development does.
+packages:
+  - '.'
+
 allowBuilds:
   esbuild: true # vitest bundler
   workerd: true # wrangler local runtime
