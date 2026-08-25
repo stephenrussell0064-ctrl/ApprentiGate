@@ -44,6 +44,15 @@
     "enabled": true,
   },
 
+  // The production hostname. `custom_domain` makes Cloudflare manage the DNS
+  // record for it, replacing whatever the apex pointed at before. Only the apex
+  // is attached: serving the same content on www as well is the same
+  // duplicate-content problem described for workers_dev below, so www is a
+  // redirect to the apex rather than a second origin.
+  //
+  // Routes are applied by `wrangler deploy`, not by `wrangler versions deploy`.
+  "routes": [{ "pattern": "apprentigate.com", "custom_domain": true }],
+
   // The preview origin, deliberately left on while the site is pre-cutover:
   // apprentigate.stephen-russell0064.workers.dev is where the build is checked
   // before it is put in front of anyone. The build served there is noindex and
