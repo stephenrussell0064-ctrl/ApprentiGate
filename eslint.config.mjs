@@ -21,6 +21,21 @@ const config = [
   ...nextTypeScript,
   {
     rules: {
+      /**
+       * A leading underscore marks a binding that exists only to be discarded —
+       * `const { consent: _omitted, ...rest }` is how a test builds a payload
+       * with one field missing. Flagging those as unused reports the intent as
+       * a mistake, and the noise trains you to stop reading warnings.
+       */
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          varsIgnorePattern: '^_',
+          argsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
+
       // Unfinished-work markers are banned site-wide (Content Spec s2) and the
       // WP14 scan enforces it, but failing at lint time is a faster feedback loop.
       'no-warning-comments': [

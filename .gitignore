@@ -23,3 +23,8 @@ blob-report/
 *.pem
 *.tsbuildinfo
 next-env.d.ts
+
+# Agent tooling state. Not project source: these are written by local tooling,
+# vary between machines, and would fail `pnpm format:check` on a clean checkout.
+.claude/
+.claude-flow/

@@ -258,7 +258,7 @@ async function handleEnquiry(request: Request, env: Env): Promise<Response> {
     : Response.redirect(new URL('/contact/confirmed', request.url).toString(), 303);
 }
 
-export default {
+const worker = {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
 
@@ -271,3 +271,5 @@ export default {
     return env.ASSETS.fetch(request);
   },
 };
+
+export default worker;

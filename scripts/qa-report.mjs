@@ -22,7 +22,7 @@
  */
 
 import { execSync, spawn } from 'node:child_process';
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { chromium } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
