@@ -6,14 +6,18 @@ serving SMEs in England.
 This repository is standalone. It shares no history, remote, dependency tree or
 configuration with any other project.
 
-**Current state: WP14 complete — every page built, verified and audited.**
-Scaffold, quality gates, brand and design system, component library and shell,
-seven content pages, contact with its enquiry Worker, four compliance pages,
-SEO and structured data, accessibility and performance verification
-(`QA-REPORT.md`), and the claim audit (`CLAIM-AUDIT.md`).
+**Current state: WP15 complete — the build is finished and waiting on the
+operator.** Everything through the claim audit is done, and
+[`OPERATOR-HANDOVER.md`](./OPERATOR-HANDOVER.md) is the next thing to read.
 
-What remains is the handover package (WP15), then the cutover (WP16), which
-waits on the operator.
+The only work package left is WP16, the domain cutover, and it cannot start
+until the operator has completed the handover checklist. Nothing in this
+repository has ever held a credential and nothing should start now, so every
+remaining step — the Cloudflare account, the mailbox, the DNS records, the two
+secrets — belongs to the operator by design.
+
+**There is no preview URL.** Creating the Cloudflare account is step 3 of the
+handover, and the URL does not exist before that.
 
 Both adversarial findings are closed — see "Adversarial findings" below.
 
