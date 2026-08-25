@@ -29,7 +29,8 @@
     "guard:indexing": "node scripts/check-build-indexing.mjs",
     "verify:worker": "node scripts/verify-worker.mjs",
     "qa:report": "node scripts/qa-report.mjs",
-    "claim:audit": "node scripts/claim-audit.mjs"
+    "claim:audit": "node scripts/claim-audit.mjs",
+    "check:sources": "node scripts/check-source-drift.mjs"
   },
   "dependencies": {
     "next": "16.3.2",

@@ -1,0 +1,117 @@
+name: Monthly checks
+
+# Runs on the 3rd of each month at 07:12 UTC.
+#
+# Not midnight on the 1st: GitHub's scheduler is busiest on the hour and on
+# obvious dates, and a job that queues for an hour reports late. The 3rd also
+# means a rule change landing on the 1st of a month has settled before this
+# looks at it.
+on:
+  schedule:
+    - cron: '12 7 3 * *'
+  # So the operator can run it on demand — after a rule change, or before a
+  # round of outreach.
+  workflow_dispatch:
+
+concurrency:
+  group: monthly-checks
+  cancel-in-progress: false
+
+jobs:
+  source-drift:
+    name: Have the GOV.UK sources changed?
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Fetches every source and checks the wording each claim rests on is
+      # still there. Fails the job on drift, so it arrives as a notification
+      # rather than as a file nobody opens.
+      - name: Check sources for drift
+        run: pnpm check:sources
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: source-drift
+          path: SOURCE-DRIFT.md
+          retention-days: 90
+
+  quality-floor:
+    name: Does the site still meet the quality floor?
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+
+      # The same gate every work package had to pass: lint, types, both
+      # build-time guards, unit tests, and the axe suite at three widths.
+      # Re-run monthly because dependencies move even when the site does not.
+      - name: Full verification suite
+        run: pnpm verify
+
+      # Lighthouse builds with indexing enabled so the SEO category reflects
+      # the production configuration.
+      - name: Lighthouse
+        run: pnpm lighthouse
+
+      - name: Regenerate the QA report
+        if: ${{ !cancelled() }}
+        run: pnpm qa:report
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: qa-report
+          path: |
+            QA-REPORT.md
+            .lighthouseci/
+          retention-days: 90
+
+  claims:
+    name: Is every claim still accounted for?
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm build
+
+      # Every number that renders is either traced to a source or classified as
+      # something that is not a claim. Fails if one is unaccounted for, or if
+      # any prohibited content has appeared.
+      - name: Claim audit
+        run: pnpm claim:audit
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: claim-audit
+          path: CLAIM-AUDIT.md
+          retention-days: 90

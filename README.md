@@ -62,6 +62,7 @@ optional locally — see the table below for the defaults.
 | `pnpm test:a11y`      | axe-core, WCAG 2.2 AA + best practice, at 320/768/1440px                |
 | `pnpm verify:worker`  | Boots a real Worker runtime and exercises the enquiry endpoint          |
 | `pnpm claim:audit`    | Audits every rendered number and regenerates `CLAIM-AUDIT.md`           |
+| `pnpm check:sources`  | Re-checks every GOV.UK source for drift, regenerates `SOURCE-DRIFT.md`  |
 | `pnpm qa:report`      | Regenerates `QA-REPORT.md` from a real axe, keyboard and Lighthouse run |
 | `pnpm lighthouse`     | Lighthouse CI against `out/`                                            |
 | `pnpm preview`        | Serve `out/` through the real Worker runtime (`wrangler dev`)           |
@@ -295,6 +296,40 @@ One work package, one commit, in the form `WP<n>: <what changed>`. A work
 package is not complete until its acceptance criteria pass.
 
 Delivered: **WP0** (scaffold and gates). Next: **WP1** (brand and design system).
+
+---
+
+## Recurring checks
+
+`.github/workflows/monthly-checks.yml` runs on the 3rd of each month, and can be
+triggered by hand from the Actions tab after a rule change or before a round of
+outreach. Three jobs, each failing loudly rather than filing a report nobody
+opens:
+
+| Job           | What it answers                                                                                    |
+| ------------- | -------------------------------------------------------------------------------------------------- |
+| Source drift  | Do the GOV.UK pages still contain the wording our claims rest on?                                  |
+| Quality floor | Does the site still pass lint, types, the guards, unit tests, axe at three widths, and Lighthouse? |
+| Claims        | Is every number on the site still traced to a source or classified as not a claim?                 |
+
+The drift check looks for **specific phrases** rather than comparing whole
+pages. GOV.UK changes constantly for reasons that do not matter, and a report
+that cries wolf every month is one nobody reads. A missing phrase means nobody
+can point at the sentence a claim came from any more — which, under this
+project's rule that an untraceable claim is deleted rather than softened, is
+the thing worth being told about.
+
+`scripts/sources.registry.mjs` pairs each source with the wording relied on, and
+the check fails if `CONTENT-SOURCES.md` defines a source the registry does not
+cover — so a new claim cannot be added without deciding how it will be watched.
+
+**S12 is marked critical.** It is the funding rule that makes ApprentiGate's
+fees separate from apprenticeship funding. If its wording goes, that is a
+business question rather than a copy edit.
+
+It also watches the funding page's review date, because that date is printed on
+the page: a stale one stops being reassurance and becomes evidence that nobody
+is looking.
 
 ---
 
