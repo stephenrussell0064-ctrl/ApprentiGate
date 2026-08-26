@@ -1,16 +1,19 @@
 # Operator handover
 
-Everything you need to take the ApprentiGate website from a finished codebase to
-a live site on `apprentigate.com`. It is written to be followed on its own — you
-should not need to open another file or ask a question.
+How the ApprentiGate website was taken from a finished codebase to a live site
+on `apprentigate.com` — and what is still outstanding now that it is live.
 
-**Every step here is yours by design.** They all involve a purchase, a
+**That cutover has happened.** Read "The site is live" below first: it records
+what was verified against the live domain, the one end-to-end check no automated
+test can do for you, and the single defect still open. Parts 1 to 5 are kept as
+the record of how it was done and as the reference for changing any of it later
+— they are no longer a checklist to work through.
+
+**Every step in Part 1 was yours by design.** They involve a purchase, a
 credential, or a DNS change, and none of them belongs to Claude Code. That is a
 control, not a convenience: nothing in this repository has ever held a secret,
-and nothing should start now.
-
-When you have finished Part 1, hand back with the exact sentence in Part 3 and
-the cutover gets done for you.
+and nothing does now — the two Worker secrets went in through
+`wrangler secret put` and never touched the tree.
 
 ---
 
@@ -51,7 +54,7 @@ So you are not re-checking things that are done:
 - Every number on the site traces to a GOV.UK source or is recorded as not being
   a factual claim. See `CLAIM-AUDIT.md`.
 
-## THE SITE IS LIVE
+## The site is live
 
 `https://apprentigate.com` is serving the real site, and it is **open to search
 engines** (`index, follow`, and `robots.txt` allows crawling). Part 1 below is
