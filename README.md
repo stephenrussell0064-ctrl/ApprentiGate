@@ -6,26 +6,24 @@ serving SMEs in England.
 This repository is standalone. It shares no history, remote, dependency tree or
 configuration with any other project.
 
-**Current state: deployed to preview, waiting on the operator to finish WP16.**
-[`OPERATOR-HANDOVER.md`](./OPERATOR-HANDOVER.md) is the next thing to read.
+**Current state: live on <https://apprentigate.com> and open to search engines.**
+WP16 is done. The preview origins have been retired, so there is no
+`*.workers.dev` URL any more and no duplicate origin.
 
-**Preview:** <https://apprentigate.stephen-russell0064.workers.dev> — the real
-Worker, assets, rate limiter and 404 handling, served by Cloudflare. It is
-`noindex` with a disallow-all `robots.txt`, so it cannot compete with the real
-domain for indexing.
+Turnstile and Cal.com are configured and both Worker secrets are loaded, so the
+enquiry form and the booking calendar are working. The one thing no automated
+check can prove is that an enquiry actually lands in the inbox — completing the
+form needs a real Turnstile challenge, which only a person in a browser can
+pass. Send one to yourself.
 
-`apprentigate.com` is on Cloudflare nameservers and the Hostinger mail records
-survived the move, but the domain is **not** attached to the Worker yet. Two
-things on the preview are deliberately inert until the operator creates the
-accounts they depend on: the booking calendar has no Cal.com link, and the
-enquiry endpoint answers `503 bot_protection_unconfigured` because no Turnstile
-secret is loaded. The Worker fails closed rather than accepting submissions it
-cannot verify, which is why the cutover waits — a live site nobody can contact
-is worse than no live site.
+**Known defect:** `https://www.apprentigate.com` returns 522. The apex is
+attached to the Worker but `www` still resolves to the old origin. The fix is a
+one-minute Cloudflare redirect rule — see "The site is live" in
+[`OPERATOR-HANDOVER.md`](./OPERATOR-HANDOVER.md).
 
-Nothing in this repository has ever held a credential and nothing should start
-now, so every remaining step — the mailbox, Resend, Cal.com, Turnstile and the
-two secrets — belongs to the operator by design.
+Nothing in this repository has ever held a credential, and nothing does now: the
+two secrets were loaded straight into the Worker with `wrangler secret put` and
+have never been in the tree.
 
 Both adversarial findings are closed — see "Adversarial findings" below.
 

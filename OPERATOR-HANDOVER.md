@@ -45,45 +45,64 @@ So you are not re-checking things that are done:
   build if one appears, which is why the cutover is a configuration change.
 - The site sets **no cookies** and stores nothing in the browser, so it needs no
   consent banner.
-- Crawling is **refused by default**. The site cannot be indexed until you
-  explicitly turn indexing on, which happens at cutover and not before.
+- Crawling is refused by default and was **switched on at cutover**, so the live
+  site is now open to search engines. It is a build-time setting, not a runtime
+  one — see step 12b if you ever need to change it back.
 - Every number on the site traces to a GOV.UK source or is recorded as not being
   a factual claim. See `CLAIM-AUDIT.md`.
 
-**The preview is live:**
+## THE SITE IS LIVE
 
-> https://apprentigate.stephen-russell0064.workers.dev
+`https://apprentigate.com` is serving the real site, and it is **open to search
+engines** (`index, follow`, and `robots.txt` allows crawling). Part 1 below is
+kept for reference, but it describes a cutover that has already happened — do
+not work through it as a checklist.
 
-This is the real site running on Cloudflare — the same Worker, assets, rate
-limiter and 404 handling that the production domain will use. It is `noindex`
-and its `robots.txt` disallows everything, so it will not be found in search and
-will not compete with the real domain later. Look at it on your phone and on a
-laptop; this is what the cutover will put on `apprentigate.com`.
+Verified against the live domain:
 
-Two things on it are deliberately not working yet, because they depend on
-accounts only you can create:
+| Check                                                                        | Result                                                                                |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| All thirteen public pages, `robots.txt`, `sitemap.xml`, `og.png`, `llms.txt` | 200, correct content types                                                            |
+| An unknown path                                                              | 404, the custom page                                                                  |
+| Canonical and sitemap URLs                                                   | On `https://apprentigate.com`                                                         |
+| Both Worker secrets                                                          | `RESEND_API_KEY` and `TURNSTILE_SECRET_KEY` loaded                                    |
+| Bot protection                                                               | Live — a bogus token is refused with `failed_challenge`, not the "unconfigured" error |
+| Booking calendar                                                             | Cal.com link is set; the click-to-load button renders                                 |
+| Enquiries address in the footer                                              | `enquiries@apprentigate.com`                                                          |
+| Mail                                                                         | `MX` still points at `mx1`/`mx2.hostinger.com` — unaffected by the move               |
+| Internal component gallery                                                   | Reachable but `noindex, nofollow`                                                     |
+| The old preview origins                                                      | Retired — the `*.workers.dev` URL is gone, so there is no duplicate origin            |
 
-- **The booking calendar** does not load — there is no Cal.com link yet (step 8).
-- **The enquiry form refuses every submission** with "bot protection is not
-  configured". The Worker is designed to fail closed: with no Turnstile secret it
-  rejects submissions rather than accepting unverified ones (steps 10 and 11).
+**Not verifiable from outside: whether an enquiry actually reaches your inbox.**
+Completing the form needs a real Turnstile challenge, which only a person in a
+browser can pass. Send one to yourself as the first thing you do — that is the
+one end-to-end path nothing here can prove for you.
 
-That second one is the reason the site is not on `apprentigate.com` yet. Putting
-it there in this state would mean a live business site on which nobody can
-contact you — so the remaining steps below are not optional polish, they are the
-gate.
+### One outstanding defect: `www` is broken
 
-### Where the domain has got to
+`https://www.apprentigate.com` returns **522**, a Cloudflare origin-timeout
+error page. The apex is attached to the Worker; `www` still has a proxied DNS
+record pointing at the old Hostinger origin, which no longer answers. Anyone who
+types the `www` prefix — a very common habit — gets an error page instead of
+your site.
 
-Already done, and done correctly:
+**The fix, about a minute, in the Cloudflare dashboard:**
 
-- `apprentigate.com` is on Cloudflare nameservers (`zara`/`pranab.ns.cloudflare.com`) — step 5.
-- **The Hostinger mail records survived the move.** `MX` still points at
-  `mx1`/`mx2.hostinger.com`, so existing email is unaffected — steps 4 and 6.
+1. Go to your domain → **Rules** → **Redirect Rules** → **Create rule**.
+2. Name it `www to apex`.
+3. Match: **Hostname** _equals_ `www.apprentigate.com`.
+4. Then: **Dynamic** redirect to `concat("https://apprentigate.com", http.request.uri.path)`,
+   status **301**, and tick **preserve query string**.
+5. Deploy.
 
-Still to do: the domain currently serves Hostinger's "parked domain" placeholder.
-Attaching it to the Worker replaces that, and is the last action of the cutover —
-after, not before, the checks in Part 2 pass.
+A redirect rule runs before Cloudflare tries to reach an origin, so this fixes
+the 522 without touching DNS. Do not solve it by pointing `www` at the Worker as
+a second custom domain — that would serve the whole site on two hostnames, which
+is the duplicate-content problem the setup deliberately avoids.
+
+This one needs you rather than Claude Code: creating a redirect rule is a
+zone-level edit, and the Cloudflare login here only carries read access to the
+zone.
 
 ---
 
