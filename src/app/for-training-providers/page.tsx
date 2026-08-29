@@ -105,13 +105,12 @@ export default function ForTrainingProviders() {
           <div className="flex flex-col gap-[var(--spacing-ag-3)]">
             <p>
               We are building the provider network now, and commercial arrangements are
-              agreed with each provider directly rather than set by a fixed rate card. We
-              would rather agree terms that fit what you actually deliver.
+              agreed with each provider directly rather than set by a fixed rate card, so
+              terms can fit what you actually deliver.
             </p>
             <p>
-              What we would like at this stage is a conversation: what you deliver, where,
-              what a useful introduction looks like to you, and what would make this worth
-              your time.
+              The starting point is a conversation: what you deliver, where, what a useful
+              introduction looks like to you, and what would make this worth your time.
             </p>
           </div>
         </Notice>
