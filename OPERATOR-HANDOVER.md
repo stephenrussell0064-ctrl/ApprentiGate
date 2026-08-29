@@ -108,14 +108,14 @@ zone.
 **Do not try to fix it by attaching `www` to the Worker instead.** That was
 attempted and reverted, and it fails twice over:
 
-- Cloudflare refuses to create the custom domain — *"Hostname
+- Cloudflare refuses to create the custom domain — _"Hostname
   'www.apprentigate.com' already has externally managed DNS records (A, CNAME,
-  etc). Delete them first"*. The 522 is coming from exactly that leftover
+  etc). Delete them first"_. The 522 is coming from exactly that leftover
   record.
 - Even with the record deleted, the redirect has to live in the Worker, and the
   Worker only sees requests that `run_worker_first` matches. Those rules are
-  path-only — wrangler rejects `www.apprentigate.com/*` with *"rules must start
-  with '/' or '!/'"* — so there is no way to scope it to one hostname. It would
+  path-only — wrangler rejects `www.apprentigate.com/*` with _"rules must start
+  with '/' or '!/'"_ — so there is no way to scope it to one hostname. It would
   have to run for **every** request on the apex too, which costs an invocation
   per page view and turns any Worker error into a whole-site outage instead of a
   broken enquiry endpoint.
