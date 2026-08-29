@@ -36,7 +36,17 @@ export function BookingEmbed({ calLink }: BookingEmbedProps) {
     if (!requested || !calLink || !containerRef.current) return;
 
     const frame = document.createElement('iframe');
-    frame.src = `https://app.cal.com/${calLink}`;
+    /*
+     * `cal.com/<link>/embed`, not `app.cal.com/<link>`.
+     *
+     * app.cal.com is Cal's own dashboard, where a booking link does not exist —
+     * it answered every embed with Cal's 404 page, framed inside our contact
+     * page, for as long as the calendar has been switched on. The public
+     * booking host is cal.com, and the `/embed` suffix serves the same page
+     * without Cal's site chrome, which is the version meant to sit in an
+     * iframe. `theme=light` stops it rendering dark inside a light page.
+     */
+    frame.src = `https://cal.com/${calLink}/embed?theme=light`;
     frame.title = 'Booking calendar';
     frame.loading = 'lazy';
     frame.className =

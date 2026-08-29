@@ -21,25 +21,47 @@ test.describe('about', () => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   });
 
-  test('names both founders', async ({ page }) => {
-    await page.goto('/about');
-    const text = await page.locator('#main').innerText();
-
-    expect(text).toContain('Stephen Russell');
-    expect(text).toContain('Zaim Rana');
-  });
-
-  test('carries the mandatory honesty line about the limits of the experience', async ({
+  test('keeps the founders off the page while the legal pages still name them', async ({
     page,
   }) => {
+    /**
+     * The About page used to name both founders under a "Two people, so far"
+     * heading. That was removed on the owner's instruction — it read as a
+     * disclosure of how small the business is rather than as a credential.
+     *
+     * Removing it must not remove the identification that actually matters:
+     * the privacy notice and the terms name the operators because, with no
+     * company incorporated, they are personally the data controllers. So this
+     * asserts the pair — gone from the marketing page, still present where a
+     * reader has a right to know who they are dealing with.
+     */
+    await page.goto('/about');
+    const about = await page.locator('#main').innerText();
+    expect(about).not.toContain('Stephen Russell');
+    expect(about).not.toContain('Zaim Rana');
+    expect(about).not.toMatch(/\btwo people\b/i);
+
+    await page.goto('/privacy');
+    const privacy = await page.locator('#main').innerText();
+    expect(privacy).toContain('Stephen Russell');
+    expect(privacy).toContain('Zaim Rana');
+  });
+
+  test('grounds its advice in the published rules, and dates what could move', async ({
+    page,
+  }) => {
+    /**
+     * The page used to concede that being on an apprenticeship "does not by
+     * itself make anyone an expert in apprenticeship regulation". That framing
+     * has gone, but the substance a sceptical reader actually needs has not:
+     * the basis for the advice, and the admission that the rules change.
+     */
     await page.goto('/about');
     const text = await page.locator('#main').innerText();
 
-    expect(text).toMatch(
-      /does not by itself make anyone an expert in apprenticeship regulation or provider compliance/i,
-    );
-    expect(text).toMatch(/documented methodology/i);
-    expect(text).toMatch(/current published rules/i);
+    expect(text).toMatch(/current published funding rules/i);
+    expect(text).toMatch(/traces back to a named source/i);
+    expect(text).toMatch(/the rules change/i);
   });
 
   test('carries the mandatory independence statement', async ({ page }) => {
@@ -74,8 +96,12 @@ test.describe('about', () => {
       expect(text).not.toMatch(shape);
     }
 
-    // The absence is explained, so a reader does not fill the gap themselves.
-    expect(text).toMatch(/we do not name the employers we work for/i);
+    /*
+     * There is no longer a sentence explaining the absence, and none is needed:
+     * the page no longer says the founders are employed anywhere, so there is
+     * no gap for a reader to fill. The constraint that matters — that no
+     * employer is ever named or hinted at — is what the shapes above enforce.
+     */
 
     const description = await page
       .locator('meta[name="description"]')
@@ -94,20 +120,24 @@ test.describe('about', () => {
     await page.goto('/about');
     /**
      * Stock photography of people posed as clients is on the prohibited list,
-     * and there is no reason to add founder photos to make a two-person
-     * pre-launch business look larger than it is.
+     * and founder photos are not a substitute for the substance of the page.
      */
     await expect(page.locator('#main img')).toHaveCount(0);
   });
 
-  test('states the pre-launch position rather than implying a track record', async ({
-    page,
-  }) => {
+  test('claims no track record, and volunteers no headcount', async ({ page }) => {
+    /**
+     * The pre-launch disclosure and the "Two people, so far" heading were
+     * removed on the owner's instruction. Neither was required to keep the page
+     * truthful — that job belongs to the prohibitions below, which is why they
+     * are asserted here rather than assumed.
+     */
     await page.goto('/about');
     const text = await page.locator('#main').innerText();
 
-    expect(text).toMatch(/pre-launch/i);
     expect(text).not.toMatch(/\byears of experience helping\b/i);
     expect(text).not.toMatch(/\bwe have helped\b/i);
+    expect(text).not.toMatch(/\btrack record\b/i);
+    expect(text).not.toMatch(/\b(two|three|four) people\b/i);
   });
 });

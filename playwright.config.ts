@@ -47,11 +47,24 @@ export default defineConfig({
      * key; the Cal link and address are fictional and never contacted, because
      * the calendar only loads on click and the form posts to a Worker that is
      * not running here.
+     *
+     * Every variable the suite depends on is set here explicitly, including the
+     * ones it wants *empty*. Next reads `.env.local`, so without pinning them
+     * the suite inherits whatever the machine happens to have configured for
+     * production — and it did: adding a `.env.local` with
+     * NEXT_PUBLIC_ALLOW_INDEXING=true turned two robots assertions red without
+     * a line of source changing. A test run has to describe its own world.
      */
     command: [
       'NEXT_PUBLIC_TURNSTILE_SITE_KEY=1x00000000000000000000AA',
       'NEXT_PUBLIC_CAL_LINK=apprentigate/consultation',
       'NEXT_PUBLIC_ENQUIRIES_EMAIL=enquiries@example.test',
+      // Asserted as noindex by scaffold.spec.ts and seo.spec.ts.
+      'NEXT_PUBLIC_ALLOW_INDEXING=',
+      'NEXT_PUBLIC_SITE_URL=',
+      'NEXT_PUBLIC_BUSINESS_PHONE=',
+      'NEXT_PUBLIC_COMPANY_NUMBER=',
+      'NEXT_PUBLIC_ANALYTICS_TOKEN=',
       'pnpm build && pnpm serve:out',
     ].join(' '),
     url: BASE_URL,

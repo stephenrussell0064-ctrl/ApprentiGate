@@ -45,22 +45,46 @@ function readToken(css, name) {
 }
 
 const css = readFileSync(TOKENS, 'utf8');
-const SIGNAL = readToken(css, 'color-ag-signal');
+const INK = readToken(css, 'color-ag-ink');
 const PAPER = readToken(css, 'color-ag-paper');
+const ACCENT = readToken(css, 'color-ag-brand-accent');
 
-/**
- * Signed distance to a rounded rectangle; negative inside, positive outside.
- *
- * This is the standard rounded-box SDF. A simpler nearest-point form was tried
- * first and silently failed for r = 0, because every interior point returns
- * exactly 0 rather than a negative value, so a square-cornered shape rendered
- * as nothing at all.
+/** Distance from a point to a line segment. The basis for every stroke here. */
+function segmentDistance(px, py, ax, ay, bx, by) {
+  const vx = bx - ax;
+  const vy = by - ay;
+  const len2 = vx * vx + vy * vy;
+  const t =
+    len2 === 0 ? 0 : Math.max(0, Math.min(1, ((px - ax) * vx + (py - ay) * vy) / len2));
+  return Math.hypot(px - (ax + t * vx), py - (ay + t * vy));
+}
+
+/*
+ * The arch, as a stroke of width 2.6 on the same 32-unit grid as icon.svg:
+ * two vertical legs and a half-round head centred on (16, 14.4) with radius
+ * 5.6. Subtracting half the stroke width from the distance is what turns a
+ * path into a stroked shape, and it gives round caps for free — which is what
+ * the SVG asks for.
  */
-function roundedRectDistance(px, py, x, y, w, h, r) {
-  const qx = Math.abs(px - (x + w / 2)) - (w / 2 - r);
-  const qy = Math.abs(py - (y + h / 2)) - (h / 2 - r);
-  const outside = Math.hypot(Math.max(qx, 0), Math.max(qy, 0));
-  return Math.min(Math.max(qx, qy), 0) + outside - r;
+const ARCH_HALF_STROKE = 1.3;
+const CHEVRON_HALF_STROKE = 1.5;
+
+function archDistance(x, y) {
+  const left = segmentDistance(x, y, 10.4, 24.6, 10.4, 14.4);
+  const right = segmentDistance(x, y, 21.6, 24.6, 21.6, 14.4);
+  // Half-annulus: only above the springing line, so the head does not close
+  // into a full ring across the middle of the mark.
+  const head = y <= 14.4 ? Math.abs(Math.hypot(x - 16, y - 14.4) - 5.6) : Infinity;
+  return Math.min(left, right, head) - ARCH_HALF_STROKE;
+}
+
+function chevronDistance(x, y) {
+  return (
+    Math.min(
+      segmentDistance(x, y, 12.5, 19.4, 16, 15.9),
+      segmentDistance(x, y, 16, 15.9, 19.5, 19.4),
+    ) - CHEVRON_HALF_STROKE
+  );
 }
 
 /**
@@ -72,13 +96,15 @@ function renderMark(size) {
   const scale = size / 32;
   const pixels = Buffer.alloc(size * size * 4);
 
+  /*
+   * Each shape carries its own distance function rather than being assumed to
+   * be a rounded rectangle. The mark is a disc with a stroked arch and a
+   * chevron, none of which a rectangle can express.
+   */
   const shapes = [
-    { x: 0, y: 0, w: 32, h: 32, r: 8, colour: SIGNAL, alpha: 1 },
-    // A slot cut clean through the block, offset right of centre. It reads as
-    // an opening in a wall rather than as a barrier — the one permitted use of
-    // the "gate" idea. Two inset bars were tried first and read as a pause
-    // button, which is why the slot now runs edge to edge.
-    { x: 19, y: 0, w: 5, h: 32, r: 0, colour: PAPER, alpha: 1 },
+    { colour: INK, alpha: 1, distance: (x, y) => Math.hypot(x - 16, y - 16) - 16 },
+    { colour: PAPER, alpha: 1, distance: archDistance },
+    { colour: ACCENT, alpha: 1, distance: chevronDistance },
   ];
 
   for (let py = 0; py < size; py += 1) {
@@ -99,10 +125,7 @@ function renderMark(size) {
           let sa = 0;
 
           for (const shape of shapes) {
-            const inside =
-              roundedRectDistance(ux, uy, shape.x, shape.y, shape.w, shape.h, shape.r) <
-              0;
-            if (!inside) continue;
+            if (shape.distance(ux, uy) >= 0) continue;
             const sAlpha = shape.alpha;
             // Source-over compositing.
             sr = shape.colour[0] * sAlpha + sr * (1 - sAlpha);

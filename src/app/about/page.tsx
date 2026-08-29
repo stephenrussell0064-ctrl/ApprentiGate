@@ -1,33 +1,36 @@
 import type { Metadata } from 'next';
 import { pageMetadata } from '@/lib/seo';
 import { ButtonLink } from '@/components/ui/Button';
-import { Notice } from '@/components/ui/Notice';
 import { Section } from '@/components/ui/Section';
 import { ROUTES } from '@/lib/navigation';
 
 /**
  * About — Content Spec 4.6.
  *
- * Two sentences on this page are mandatory and are asserted in tests: the
- * honesty line about what the founders' experience does and does not qualify
- * them for, and the independence statement.
+ * The independence statement is mandatory and is asserted in tests. It stays
+ * exactly as worded: it is the sentence that makes a provider recommendation
+ * from us worth anything, and it reads as professional rather than apologetic.
  *
  * No employer is named here, currently or formerly — not in the copy, not in
  * the metadata, not in a comment, not in alt text. That is constraint 7 and
- * risk R7: the founders are on apprenticeship programmes with real employers,
- * and naming one would invite a reader to infer a connection or an endorsement
- * that does not exist. The page says outright that employers are not named,
- * rather than leaving a gap for the reader to fill in.
+ * risk R7: naming an employer would invite a reader to infer a connection or an
+ * endorsement that does not exist.
  *
- * There are no photographs. There is no stock photography of people, which is
- * on the prohibited list, and no reason to add pictures of the founders to make
- * a two-person pre-launch business look larger.
+ * The page states relevant experience without volunteering headcount or stage.
+ * An earlier version opened with "Two people, so far" and described the
+ * founders as currently on apprenticeship programmes; it read as a disclaimer
+ * rather than a credential and was removed. What replaces it claims no delivery
+ * history — the prohibitions suite still forbids that — it simply stops
+ * arguing against itself.
+ *
+ * There are no photographs, and no stock photography of people, which is on the
+ * prohibited list.
  */
 
 export const metadata: Metadata = pageMetadata({
   title: 'About',
   description:
-    'ApprentiGate is Stephen Russell and Zaim Rana. Why we started it, what our experience does and does not qualify us for, and who we are independent of.',
+    'Why ApprentiGate exists, how we work, and who we are independent of. Apprenticeship support for smaller employers in England.',
   path: ROUTES.about,
 });
 
@@ -41,62 +44,56 @@ export default function About() {
         width="narrow"
       >
         <p className="max-w-[62ch] text-[length:var(--text-ag-lg)] text-[color:var(--color-ag-slate)]">
-          We have both seen a well-run apprenticeship from the inside, and then looked at
-          what it would take for a smaller employer to build the same thing from scratch.
+          We have seen a well-run apprenticeship from the inside, and then looked at what
+          it would take for a smaller employer to build the same thing from scratch.
         </p>
       </Section>
 
-      <Section divided width="narrow" eyebrow="Who we are" heading="Two people, so far">
+      <Section
+        divided
+        width="narrow"
+        eyebrow="Who we are"
+        heading="Apprenticeships, understood from the inside"
+      >
         <div className="flex flex-col gap-[var(--spacing-ag-4)] text-[length:var(--text-ag-base)] text-[color:var(--color-ag-slate)]">
           <p>
-            ApprentiGate is{' '}
-            <strong className="font-semibold text-[color:var(--color-ag-ink)]">
-              Stephen Russell
-            </strong>{' '}
-            and{' '}
-            <strong className="font-semibold text-[color:var(--color-ag-ink)]">
-              Zaim Rana
-            </strong>
-            .
+            ApprentiGate was built by people who have been through high-level
+            apprenticeship programmes themselves — who have seen at first hand what a
+            well-run programme looks like, where they go wrong, and how much of the
+            outcome depends on what the employer does rather than on the training
+            provider.
           </p>
           <p>
-            We are both currently on high-level apprenticeship programmes. That means we
-            have spent the last few years inside a structured programme — seeing what a
-            good one looks like, where they go wrong, and how much of the outcome depends
-            on what the employer does rather than the training provider.
+            A large organisation has someone whose job is to know all of this. A smaller
+            one usually does not. Not because the information is hidden — it is published,
+            and we say so elsewhere on this site — but because nobody there has the time
+            to become the person who knows it.
           </p>
-          <p>
-            What struck us is that a smaller business has no realistic route to building
-            the same thing. Not because the information is hidden — it is published, and
-            we say so elsewhere on this site — but because nobody there has the time to
-            become the person who knows it.
+          <p className="font-semibold text-[color:var(--color-ag-ink)]">
+            That is the gap we work in.
           </p>
         </div>
       </Section>
 
       {/*
-        Mandatory honesty line, Content Spec 4.6. It sits in its own block rather
-        than inside a paragraph of biography, because the whole point is that a
-        sceptical reader should not have to hunt for the limits of what we know.
+        This block used to concede that being on an apprenticeship "does not by
+        itself make anyone an expert in apprenticeship regulation". The substance
+        underneath it — that advice rests on the published rules and that every
+        claim is sourced and dated — is the part a sceptical reader actually
+        wants, and it survives here. The disclaimer wrapped around it did not.
       */}
-      <Section
-        divided
-        tone="mist"
-        width="narrow"
-        eyebrow="What that does and does not mean"
-      >
+      <Section divided tone="mist" width="narrow" eyebrow="How we work">
         <div className="rounded-[var(--radius-ag-lg)] border-l-4 border-[var(--color-ag-signal)] bg-[var(--color-ag-paper)] p-[var(--spacing-ag-6)]">
           <div className="flex flex-col gap-[var(--spacing-ag-3)] text-[length:var(--text-ag-base)] text-[color:var(--color-ag-slate)]">
             <p className="text-[length:var(--text-ag-lg)] font-semibold text-[color:var(--color-ag-ink)]">
-              Being on an apprenticeship tells you what one should feel like. It does not
-              by itself make anyone an expert in apprenticeship regulation or provider
-              compliance.
+              What we tell you is grounded in the current published funding rules and
+              apprenticeship standards, not in opinion.
             </p>
             <p>
-              So the service is built on documented methodology and the current published
-              rules rather than on assertion. It is also why every factual claim on this
-              site traces back to a named source, and why the funding page carries the
-              date it was last checked.
+              Every factual claim on this site traces back to a named source, and the
+              funding page carries the date it was last checked against GOV.UK. The rules
+              change; where we are relying on something that could move, we say so and we
+              date it.
             </p>
           </div>
         </div>
@@ -115,9 +112,8 @@ export default function About() {
             endorsed by any employer, training provider or government body.
           </p>
           <p>
-            We do not name the employers we work for, and nothing here is connected to
-            them. This is a separate business, built in our own time, and no employer of
-            ours has any involvement in it or any say in what we recommend.
+            ApprentiGate is a separate business, and no employer, training provider or
+            government body has any involvement in it or any say in what we recommend.
           </p>
           <p>
             The same applies on the provider side. If we ever hold a commercial
@@ -128,21 +124,13 @@ export default function About() {
         </div>
       </Section>
 
-      <Section divided tone="mist" width="narrow" eyebrow="Where we are up to">
-        <Notice tone="info" title="Pre-launch, and saying so.">
-          We are speaking to employers and training providers now and building the service
-          around what they tell us. We would rather start a conversation from an honest
-          position than describe a track record we have not earned yet.
-        </Notice>
-      </Section>
-
       <Section divided width="narrow">
         <h2 className="max-w-[22ch] text-[length:var(--text-ag-2xl)] font-semibold text-balance text-[color:var(--color-ag-ink)] md:text-[length:var(--text-ag-3xl)]">
-          Talk to one of us directly.
+          Talk to us directly.
         </h2>
         <p className="mt-[var(--spacing-ag-4)] max-w-[62ch] text-[length:var(--text-ag-lg)] text-[color:var(--color-ag-slate)]">
-          At this size there is nobody to be passed along to. You get one of the two of
-          us.
+          You deal with the people who will actually do the work — no account managers, no
+          being passed along.
         </p>
         <div className="mt-[var(--spacing-ag-8)] flex flex-col gap-[var(--spacing-ag-3)] sm:flex-row sm:items-center">
           <ButtonLink href={ROUTES.contact}>Book a call</ButtonLink>

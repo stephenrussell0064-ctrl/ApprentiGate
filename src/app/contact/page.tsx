@@ -51,22 +51,21 @@ export default function Contact() {
         </p>
 
         {/*
-          Finding F1 from the WP14 adversarial pass, closed here.
+          This paragraph used to disclose that the business was just starting out
+          and that the reader would be among the first employers. That was added
+          to close finding F1, and it has been removed deliberately: it volunteered
+          a weakness at the exact moment a reader is deciding whether to trust us
+          with a hiring decision, and it deterred rather than reassured.
 
-          "Pre-launch" was stated on About and For Training Providers but nowhere
-          on the path an employer actually takes. Nothing on those pages claimed
-          a track record, so the site passed its own content rules — but the
-          honesty was unevenly distributed, and someone could have reached this
-          page without learning they would be among the first.
-
-          It sits on this page rather than on Home because this is where a person
-          commits their details, and above both routes rather than beside the
-          form because booking a call is a commitment too. Asserted by test so it
-          cannot be quietly removed.
+          What replaces it must not swing the other way. The prohibitions in
+          tests/e2e/prohibitions.spec.ts still forbid any claim of a track record,
+          a client count, or delivered outcomes — so this says what the call is
+          worth, not who else has taken one.
         */}
         <p className="mt-[var(--spacing-ag-6)] max-w-[62ch] text-[length:var(--text-ag-lg)] font-semibold text-[color:var(--color-ag-ink)]">
-          We are just starting out. You would be one of our first employers, and we would
-          rather tell you that now than on the call.
+          Bring the role you are trying to fill. You will leave the call knowing which
+          standard it maps to, what the funding position looks like for your business, and
+          whether it is worth going further.
         </p>
       </Section>
 

@@ -258,6 +258,6 @@ test.describe('llms.txt', () => {
     expect(body).toMatch(/England only/i);
     expect(body).toMatch(/never guaranteed/i);
     expect(body).toMatch(/separate from\s+apprenticeship funding/i);
-    expect(body).toMatch(/pre-launch and not yet incorporated/i);
+    expect(body).toMatch(/early-stage business and is not yet incorporated/i);
   });
 });

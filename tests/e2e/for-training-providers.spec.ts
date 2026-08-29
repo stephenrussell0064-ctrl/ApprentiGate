@@ -44,14 +44,16 @@ test.describe('for training providers', () => {
     expect(text).not.toMatch(/\bpartner(s|ed|ing|ship|ships)?\b/i);
   });
 
-  test('states the pre-launch position plainly rather than implying it', async ({
+  test('states where the network is up to rather than implying one exists', async ({
     page,
   }) => {
     await page.goto('/for-training-providers');
     const text = await page.locator('#main').innerText();
 
-    expect(text).toMatch(/pre-launch/i);
-    expect(text).toMatch(/commercial arrangements are still being worked out/i);
+    expect(text).toMatch(/building the provider network/i);
+    expect(text).toMatch(
+      /commercial arrangements are\s+agreed with each provider directly/i,
+    );
     // No pipeline may be implied.
     expect(text).not.toMatch(
       /\b(our|a) (growing|extensive|established) (network|pipeline)\b/i,

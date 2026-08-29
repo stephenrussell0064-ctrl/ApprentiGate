@@ -14,10 +14,38 @@
  * artefact is wrong. So this reads what was actually built.
  */
 
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 const INDEX = fileURLToPath(new URL('../out/index.html', import.meta.url));
+
+/**
+ * Read the flag the way the build reads it.
+ *
+ * Next loads `.env.local` automatically; this script does not, and that
+ * difference made the guard reject a correct build — the HTML said `index`
+ * because `.env.local` said so, while the guard saw an unset variable and
+ * concluded the artefact was a leftover audit build. A guard that disagrees
+ * with the thing it is guarding is worse than no guard, because the advice it
+ * prints ("run pnpm build") does not work and the obvious next move is to
+ * bypass it.
+ *
+ * Precedence matches Next: a real environment variable wins over the file.
+ */
+function readConfiguredFlag() {
+  const fromEnv = process.env.NEXT_PUBLIC_ALLOW_INDEXING;
+  if (fromEnv !== undefined) return fromEnv.trim() === 'true';
+
+  for (const name of ['.env.local', '.env']) {
+    const path = fileURLToPath(new URL(`../${name}`, import.meta.url));
+    if (!existsSync(path)) continue;
+    const match = readFileSync(path, 'utf8').match(
+      /^\s*NEXT_PUBLIC_ALLOW_INDEXING\s*=\s*(.*)$/m,
+    );
+    if (match) return match[1].trim().replace(/^["']|["']$/g, '') === 'true';
+  }
+  return false;
+}
 
 let html;
 try {
@@ -28,7 +56,7 @@ try {
   process.exit(1);
 }
 
-const allowIndexing = process.env.NEXT_PUBLIC_ALLOW_INDEXING?.trim() === 'true';
+const allowIndexing = readConfiguredFlag();
 const builtIndexable =
   /<meta name="robots" content="[^"]*\bindex\b[^"]*"/.test(html) &&
   !/<meta name="robots" content="[^"]*noindex/.test(html);
@@ -43,8 +71,9 @@ if (builtIndexable !== allowIndexing) {
   );
   console.error(
     builtIndexable
-      ? 'This is almost always a leftover audit build. `pnpm lighthouse` builds\n' +
-          'with indexing on. Run `pnpm build` to rebuild before deploying.\n'
+      ? 'Either this is a leftover audit build — `pnpm lighthouse` builds with\n' +
+          'indexing on, so run `pnpm build` to rebuild — or the site is meant to\n' +
+          'be indexed and NEXT_PUBLIC_ALLOW_INDEXING is missing from .env.local.\n'
       : 'Rebuild with NEXT_PUBLIC_ALLOW_INDEXING=true if the site is meant to be\n' +
           'indexed at this point.\n',
   );

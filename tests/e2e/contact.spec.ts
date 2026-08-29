@@ -16,32 +16,30 @@ test.describe('contact', () => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   });
 
-  test('says the business is pre-launch before anyone commits their details', async ({
+  test('leads with what the call is worth, and claims no track record', async ({
     page,
   }) => {
     /**
-     * Finding F1 from the WP14 adversarial pass. "Pre-launch" was stated on
-     * About and For Training Providers but nowhere on the path an employer
-     * actually takes, so someone could reach this page without learning they
-     * would be among the first. Nothing claimed a track record, which is why
-     * the prohibition scan never caught it — the problem was an omission on one
-     * journey, not a false statement anywhere.
+     * This replaces an assertion that the page disclosed the business was "just
+     * starting out" and that the reader "would be one of our first employers".
+     * That wording was added to close finding F1 and has been removed on the
+     * owner's instruction: it volunteered a weakness at the moment a reader is
+     * deciding whether to trust us with a hiring decision.
      *
-     * Asserted for position as well as presence: it has to be readable before
-     * the form and the calendar, not after them.
+     * The risk in removing it is overcorrecting into a claim we cannot support,
+     * so this test guards that edge rather than the old sentence — the page has
+     * to say what the reader gets, and must still assert no history of
+     * delivery. The full prohibition set runs in prohibitions.spec.ts.
      */
     await page.goto('/contact');
     const text = (await page.locator('#main').textContent()) ?? '';
 
-    expect(text).toMatch(/We are just starting out/i);
-    expect(text).toMatch(/one of our first employers/i);
+    expect(text).toMatch(/which standard it maps to/i);
+    expect(text).toMatch(/funding position/i);
 
-    const disclosure = text.indexOf('We are just starting out');
-    const form = text.indexOf('Or send an enquiry');
-    const calendar = text.indexOf('Pick a time');
-    expect(disclosure).toBeGreaterThan(-1);
-    expect(disclosure).toBeLessThan(form);
-    expect(disclosure).toBeLessThan(calendar);
+    expect(text).not.toMatch(/\bwe have (helped|worked with|placed|delivered)\b/i);
+    expect(text).not.toMatch(/\bour (clients|customers)\b/i);
+    expect(text).not.toMatch(/\btrack record\b/i);
   });
 
   test('offers both routes side by side', async ({ page }) => {

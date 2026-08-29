@@ -1,6 +1,6 @@
 # Claim audit
 
-Generated 2026-08-25 by `pnpm claim:audit`. Regenerate it rather than editing it.
+Generated 2026-08-29 by `pnpm claim:audit`. Regenerate it rather than editing it.
 
 Two questions. Does the site contain anything it must not? And can every
 number on it be accounted for — either traced to a source in

@@ -36,6 +36,26 @@ const SLATE = '#4A5B6B';
 const SIGNAL = '#0B6E5F';
 const PAPER = '#FFFFFF';
 const MIST = '#EDF1F4';
+// --color-ag-brand-accent
+const ACCENT = '#C8862B';
+
+/*
+ * The mark, as the same SVG that ships as icon.svg, embedded as a data URI.
+ *
+ * Satori lays out flexbox, not arcs — the arch cannot be expressed with the
+ * divs the rest of this card is built from. Handing it the finished SVG keeps
+ * the social card and the favicon from drifting apart, which is exactly what
+ * happened to the previous mark: it was redrawn here as a rounded div and a
+ * white bar, and had to be changed in two places every time.
+ */
+const MARK_SVG =
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="64" height="64">` +
+  `<circle cx="16" cy="16" r="16" fill="${INK}"/>` +
+  `<path d="M10.4 24.6V14.4a5.6 5.6 0 0 1 11.2 0v10.2" fill="none" stroke="${PAPER}" stroke-width="2.6" stroke-linecap="round"/>` +
+  `<path d="M12.5 19.4 16 15.9l3.5 3.5" fill="none" stroke="${ACCENT}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>` +
+  `</svg>`;
+
+const MARK_DATA_URI = `data:image/svg+xml;base64,${Buffer.from(MARK_SVG).toString('base64')}`;
 
 export function GET(): Response {
   return new ImageResponse(
@@ -52,28 +72,8 @@ export function GET(): Response {
     >
       {/* Mark and name */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-        <div
-          style={{
-            width: 64,
-            height: 64,
-            borderRadius: 16,
-            background: SIGNAL,
-            display: 'flex',
-            position: 'relative',
-          }}
-        >
-          {/* The slot cut through the block: the way through. */}
-          <div
-            style={{
-              position: 'absolute',
-              left: 38,
-              top: 0,
-              width: 10,
-              height: 64,
-              background: PAPER,
-            }}
-          />
-        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={MARK_DATA_URI} width={64} height={64} alt="" />
         <div style={{ fontSize: 40, fontWeight: 700, color: INK, letterSpacing: -1 }}>
           ApprentiGate
         </div>

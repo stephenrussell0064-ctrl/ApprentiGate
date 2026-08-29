@@ -22,7 +22,7 @@ import { ROUTES } from '@/lib/navigation';
  *      may pay an intermediary out of, so inventing one now could be worse
  *      than wrong.
  *   2. The word "partner" is not used about anyone. Nobody is a partner.
- *   3. The state of play is stated plainly rather than implied — pre-launch,
+ *   3. The state of play is stated plainly rather than implied — the network is
  *      arrangements still being worked out, conversations happening now.
  */
 
@@ -101,15 +101,12 @@ export default function ForTrainingProviders() {
         reading as though a network already exists.
       */}
       <Section divided tone="mist" width="narrow" eyebrow="Where this is up to">
-        <Notice
-          tone="info"
-          title="We are pre-launch, and we are not going to pretend otherwise."
-        >
+        <Notice tone="info" title="Where the provider network is up to.">
           <div className="flex flex-col gap-[var(--spacing-ag-3)]">
             <p>
-              We are speaking to providers now, and commercial arrangements are still
-              being worked out. We are not going to describe a fee model we have not
-              settled, or tell you about a pipeline of employers we have not built yet.
+              We are building the provider network now, and commercial arrangements are
+              agreed with each provider directly rather than set by a fixed rate card. We
+              would rather agree terms that fit what you actually deliver.
             </p>
             <p>
               What we would like at this stage is a conversation: what you deliver, where,

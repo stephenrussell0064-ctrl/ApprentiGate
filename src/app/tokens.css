@@ -36,6 +36,15 @@
   --color-ag-paper: #ffffff;
   --color-ag-alert: #b3261e;
 
+  /*
+   * The amber inside the logo arch. Brand only — it is never a text colour and
+   * never a UI state, so it carries no contrast obligation of its own: the one
+   * place it appears is a decorative, aria-hidden mark that sits on ink.
+   * Keeping it out of the palette above is deliberate, so nobody reaches for it
+   * as a third accent and quietly introduces a 3:1 label.
+   */
+  --color-ag-brand-accent: #c8862b;
+
   /* ---------------------------------------------------------------------
    * Type.
    *
