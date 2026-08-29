@@ -181,10 +181,9 @@ export default function Home() {
               className="font-semibold text-[color:var(--color-ag-signal)] underline underline-offset-4"
             >
               GOV.UK
-            </a>{' '}
-            and it is genuinely useful. You can search apprenticeship standards, see the
-            funding band for each one, and compare approved providers yourself. We are not
-            going to pretend otherwise.
+            </a>
+            . You can search apprenticeship standards, see the funding band for each one,
+            and compare approved providers yourself.
           </p>
           <p>
             What a 60-person firm does not have is someone whose job it is to work out
