@@ -113,11 +113,11 @@ export default function HowItWorks() {
           estimated. None of these can be, so rather than leaving an unexplained
           gap the page states why. */}
       <Section divided width="narrow" tone="mist">
-        <Notice tone="info" title="We have not put timings on these steps.">
+        <Notice tone="info" title="Timings depend on your situation.">
           How long each one takes depends on the standard, on when providers next have an
-          intake, and on how quickly decisions get made at your end. We would rather tell
-          you what we actually know for your situation than print a number that turns out
-          to be wrong.
+          intake, and on how quickly decisions get made at your end. We will give you
+          realistic dates for your programme once we know those things, rather than
+          printing an average that turns out to be wrong.
         </Notice>
       </Section>
 

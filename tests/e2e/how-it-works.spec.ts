@@ -93,6 +93,6 @@ test.describe('how it works', () => {
     expect(text).not.toMatch(/\bsame day\b/i);
 
     // An unexplained gap invites the reader to assume the worst.
-    expect(text).toMatch(/have not put timings on these steps/i);
+    expect(text).toMatch(/timings depend on your situation/i);
   });
 });
