@@ -206,6 +206,31 @@ test.describe('booking calendar', () => {
     expect(thirdParty).toEqual([]);
   });
 
+  test('loads the plain booking page, not a URL that renders nothing', async ({
+    page,
+  }) => {
+    /**
+     * A regression guard for two separate wrong URLs, both of which looked fine
+     * and both of which shipped.
+     *
+     * `app.cal.com/<link>` is Cal's dashboard and framed Cal's 404 page.
+     * `cal.com/<link>/embed` looks more correct and is worse: it renders a
+     * blank iframe unless Cal's own embed script drives it, with no error and
+     * no console output. Checking that the slug was configured correctly — as
+     * was done — could not catch either, because the slug was right both times.
+     *
+     * The request is aborted rather than allowed, so asserting the URL never
+     * costs a real call to a third party from CI.
+     */
+    await page.route('**://cal.com/**', (route) => route.abort());
+
+    await page.goto('/contact');
+    await page.getByRole('button', { name: /load the calendar/i }).click();
+
+    const src = await page.locator('iframe').getAttribute('src');
+    expect(src).toBe('https://cal.com/apprentigate/consultation');
+  });
+
   test('explains what loading the calendar will do', async ({ page }) => {
     await page.goto('/contact');
     const text = await page.locator('#main').textContent();

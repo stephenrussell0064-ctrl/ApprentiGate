@@ -37,16 +37,24 @@ export function BookingEmbed({ calLink }: BookingEmbedProps) {
 
     const frame = document.createElement('iframe');
     /*
-     * `cal.com/<link>/embed`, not `app.cal.com/<link>`.
+     * The plain booking page — `cal.com/<link>` — with no `/embed` suffix.
      *
-     * app.cal.com is Cal's own dashboard, where a booking link does not exist —
-     * it answered every embed with Cal's 404 page, framed inside our contact
-     * page, for as long as the calendar has been switched on. The public
-     * booking host is cal.com, and the `/embed` suffix serves the same page
-     * without Cal's site chrome, which is the version meant to sit in an
-     * iframe. `theme=light` stops it rendering dark inside a light page.
+     * Two wrong URLs preceded this one. `app.cal.com/<link>` is Cal's
+     * dashboard, where a booking link does not exist, so it framed Cal's 404
+     * page. Then `/embed` looked correct and is not: that route renders a blank
+     * page unless Cal's own embed script drives it, because it waits for an
+     * init message from the parent that a bare iframe never sends. It loads
+     * with no error and no console output — the iframe simply stays empty,
+     * which is how it survived a check that only confirmed the URL was right.
+     *
+     * The plain booking page is self-contained and renders on its own.
+     *
+     * No `theme` parameter: Cal ignores it here and follows the visitor's
+     * prefers-color-scheme instead. Forcing the theme is a setting on the Cal
+     * account, not something this URL can control, so a parameter that looks
+     * like it works is worse than none.
      */
-    frame.src = `https://cal.com/${calLink}/embed?theme=light`;
+    frame.src = `https://cal.com/${calLink}`;
     frame.title = 'Booking calendar';
     frame.loading = 'lazy';
     frame.className =
