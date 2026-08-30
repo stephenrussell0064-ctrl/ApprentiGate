@@ -1,7 +1,7 @@
 # ApprentiGate — website
 
-Pre-launch marketing site for ApprentiGate, a UK B2B apprenticeship intermediary
-serving SMEs in England.
+Marketing site for ApprentiGate, a UK B2B apprenticeship intermediary serving
+SMEs in England.
 
 This repository is standalone. It shares no history, remote, dependency tree or
 configuration with any other project.
@@ -10,16 +10,12 @@ configuration with any other project.
 WP16 is done. The preview origins have been retired, so there is no
 `*.workers.dev` URL any more and no duplicate origin.
 
-Turnstile and Cal.com are configured and both Worker secrets are loaded, so the
-enquiry form and the booking calendar are working. The one thing no automated
-check can prove is that an enquiry actually lands in the inbox — completing the
-form needs a real Turnstile challenge, which only a person in a browser can
-pass. Send one to yourself.
+Both routes into the business are verified working end to end. An enquiry has
+been submitted through the live form, passed the Turnstile challenge and
+arrived in the inbox; the booking calendar loads and shows real availability.
+`www` redirects to the apex with a 301, preserving path and query string.
 
-**Known defect:** `https://www.apprentigate.com` returns 522. The apex is
-attached to the Worker but `www` still resolves to the old origin. The fix is a
-one-minute Cloudflare redirect rule — see "The site is live" in
-[`OPERATOR-HANDOVER.md`](./OPERATOR-HANDOVER.md).
+No known defects.
 
 Nothing in this repository has ever held a credential, and nothing does now: the
 two secrets were loaded straight into the Worker with `wrangler secret put` and
@@ -62,6 +58,8 @@ optional locally — see the table below for the defaults.
 | `pnpm guard:domains`  | Fail if a domain is hardcoded in `src/`                                 |
 | `pnpm guard:tokens`   | Fail if a hex colour appears outside the token file                     |
 | `pnpm guard:indexing` | Fail if the built output's robots directive contradicts the config      |
+| `pnpm guard:testkeys` | Fail if the build carries a Turnstile **test** key                      |
+| `pnpm smoke`          | Fetch the live site and assert it is serving what it should             |
 | `pnpm icons:generate` | Regenerate `favicon.ico` and `apple-icon.png` from the tokens           |
 | `pnpm test:unit`      | Vitest                                                                  |
 | `pnpm test:e2e`       | Playwright end-to-end, against the real static export                   |
@@ -102,8 +100,8 @@ single enquiry `POST` (WP10). On Workers, the static assets and that one route
 deploy as a single unit under one configuration file, rather than being split
 across a Pages project and a Pages Function.
 
-Configuration is in [`wrangler.jsonc`](./wrangler.jsonc). It is assets-only
-today; `main` is added at WP10 when the enquiry Worker lands.
+Configuration is in [`wrangler.jsonc`](./wrangler.jsonc): the static assets, the
+enquiry Worker at `main`, and the rate-limit binding it uses.
 
 Two settings are coupled and must be changed together:
 
@@ -129,14 +127,11 @@ appears in `src/`.
 
 The production domain is **`apprentigate.com`**, owned by the operator.
 
-It is deliberately **not** written into `src/` — the guard actively fails the
-build if it appears there. Knowing the domain does not change the build: DNS
-delegation, mail routing and Resend sending-domain verification are still
-outstanding, and the site must not be publicly reachable on the real domain
-until it has passed Stage 5 verification. So the site continues to build and
-deploy against the Cloudflare preview URL, and cuts over at WP16 by setting
-`NEXT_PUBLIC_SITE_URL` to `https://apprentigate.com` and flipping
-`NEXT_PUBLIC_ALLOW_INDEXING` to `true`. Nothing else changes.
+It is deliberately **not** written into `src/` — the guard fails the build if it
+appears there. The cutover was therefore a configuration change rather than a
+refactor: `NEXT_PUBLIC_SITE_URL` set to the domain and
+`NEXT_PUBLIC_ALLOW_INDEXING` flipped to `true`, both in `.env.local`, and
+nothing else.
 
 **`pnpm lighthouse` leaves `out/` indexable.** It has to: Lighthouse scores
 `noindex` as an SEO failure, so the audit builds with indexing on to reflect the

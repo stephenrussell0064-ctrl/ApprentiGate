@@ -76,51 +76,36 @@ Verified against the live domain:
 | Internal component gallery                                                   | Reachable but `noindex, nofollow`                                                     |
 | The old preview origins                                                      | Retired — the `*.workers.dev` URL is gone, so there is no duplicate origin            |
 
-**Not verifiable from outside: whether an enquiry actually reaches your inbox.**
-Completing the form needs a real Turnstile challenge, which only a person in a
-browser can pass. Send one to yourself as the first thing you do — that is the
-one end-to-end path nothing here can prove for you.
+**The enquiry path has been tested end to end.** A real enquiry was submitted
+through the live form, passed the Turnstile challenge and arrived in the
+inbox — the one path no automated check can cover, because completing the
+challenge needs a person in a browser.
 
-### One outstanding defect: `www` is broken
+### `www` redirects to the apex
 
-`https://www.apprentigate.com` returns **522**, a Cloudflare origin-timeout
-error page. The apex is attached to the Worker; `www` still has a proxied DNS
-record pointing at the old Hostinger origin, which no longer answers. Anyone who
-types the `www` prefix — a very common habit — gets an error page instead of
-your site.
+`https://www.apprentigate.com` was returning 522: it still carried a proxied DNS
+record pointing at the old Hostinger origin, and Cloudflare was timing out
+trying to reach it. A Cloudflare **Redirect Rule** now sends it to the apex with
+a 301, preserving both the path and the query string. Verified:
 
-**The fix, about a minute, in the Cloudflare dashboard:**
+| Request                                        | Result                                        |
+| ---------------------------------------------- | --------------------------------------------- |
+| `www.apprentigate.com/`                        | 301 → `https://apprentigate.com/`             |
+| `www.apprentigate.com/how-it-works`            | 301 → `https://apprentigate.com/how-it-works` |
+| `www.apprentigate.com/funding?utm_source=test` | query string preserved                        |
+| Following the redirect                         | 200 on the apex                               |
 
-1. Go to your domain → **Rules** → **Redirect Rules** → **Create rule**.
-2. Name it `www to apex`.
-3. Match: **Hostname** _equals_ `www.apprentigate.com`.
-4. Then: **Dynamic** redirect to `concat("https://apprentigate.com", http.request.uri.path)`,
-   status **301**, and tick **preserve query string**.
-5. Deploy.
+A redirect rule runs at the edge before Cloudflare reaches for an origin, which
+is why it fixed the timeout without any DNS change.
 
-A redirect rule runs before Cloudflare tries to reach an origin, so this fixes
-the 522 without touching DNS.
-
-This one needs you rather than Claude Code: creating a redirect rule is a
-zone-level edit, and the Cloudflare login here only carries read access to the
-zone.
-
-**Do not try to fix it by attaching `www` to the Worker instead.** That was
-attempted and reverted, and it fails twice over:
-
-- Cloudflare refuses to create the custom domain — _"Hostname
-  'www.apprentigate.com' already has externally managed DNS records (A, CNAME,
-  etc). Delete them first"_. The 522 is coming from exactly that leftover
-  record.
-- Even with the record deleted, the redirect has to live in the Worker, and the
-  Worker only sees requests that `run_worker_first` matches. Those rules are
-  path-only — wrangler rejects `www.apprentigate.com/*` with _"rules must start
-  with '/' or '!/'"_ — so there is no way to scope it to one hostname. It would
-  have to run for **every** request on the apex too, which costs an invocation
-  per page view and turns any Worker error into a whole-site outage instead of a
-  broken enquiry endpoint.
-
-The redirect rule has none of those costs. It is the right fix.
+**Do not replace it by attaching `www` to the Worker.** That was tried and
+reverted, and it fails twice over: Cloudflare refuses to create the custom
+domain while the old DNS record exists, and `run_worker_first` rules are
+path-only — wrangler rejects `www.apprentigate.com/*` with _"rules must start
+with '/' or '!/'"_ — so the redirect could not be scoped to one hostname. It
+would have to run for **every** request on the apex too, costing an invocation
+per page view and turning any Worker error into a whole-site outage rather than
+a broken enquiry endpoint.
 
 ---
 
