@@ -63,14 +63,9 @@ export default function About() {
             outcome depends on what the employer does rather than on the training
             provider.
           </p>
-          <p>
-            A large organisation has someone whose job is to know all of this. A smaller
-            one usually does not. Not because the information is hidden — it is published,
-            and we say so elsewhere on this site — but because nobody there has the time
-            to become the person who knows it.
-          </p>
           <p className="font-semibold text-[color:var(--color-ag-ink)]">
-            That is the gap we work in.
+            We put that experience to work for employers who do not have an in-house
+            early-careers team.
           </p>
         </div>
       </Section>

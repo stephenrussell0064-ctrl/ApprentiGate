@@ -90,27 +90,28 @@ test.describe('for employers', () => {
     expect(text).toMatch(/day-to-day work/i);
   });
 
-  test('shows the concept dashboard as a diagram with its caption adjacent', async ({
-    page,
-  }) => {
+  test('promises no software, and shows no mockup of any', async ({ page }) => {
+    /**
+     * This replaces a test that asserted a wireframe of a future employer
+     * dashboard, captioned "In development. Not currently available."
+     *
+     * The caption existed so nobody could mistake the diagram for working
+     * software. Removing the diagram removes the need for it — and removes the
+     * thing itself, which was four empty grey boxes on a live business site
+     * advertising a capability that does not exist.
+     *
+     * The safety property it protected is kept and inverted here: the page must
+     * not show a mockup, and must not describe a product as though it were
+     * available.
+     */
     await page.goto('/for-employers');
 
-    const figure = page.locator('#main figure');
-    await expect(figure).toHaveCount(1);
+    await expect(page.locator('#main figure')).toHaveCount(0);
+    await expect(page.locator('#main [role="img"]')).toHaveCount(0);
 
-    /**
-     * The caption is mandated to sit adjacent, not as a footnote, and must say
-     * all three things: not built, not available, and how it is delivered
-     * today. Anything less would let a reader believe the software exists.
-     */
-    const caption = figure.locator('figcaption');
-    await expect(caption).toBeVisible();
-    await expect(caption).toHaveText(
-      'In development. Not currently available. Today this is delivered as a managed service.',
-    );
-
-    // An obvious diagram, never a simulated screenshot: no invented data.
-    const diagramText = await figure.locator('[role="img"]').innerText();
-    expect(diagramText).not.toMatch(/\d/);
+    const text = await page.locator('#main').innerText();
+    expect(text).not.toMatch(/dashboard/i);
+    expect(text).not.toMatch(/\bplatform\b/i);
+    expect(text).not.toMatch(/log ?in to|sign ?in to your account/i);
   });
 });

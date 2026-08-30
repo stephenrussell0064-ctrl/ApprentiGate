@@ -75,52 +75,6 @@ const COMPARISON_FACTORS = [
   'Progression opportunities afterwards',
 ];
 
-/**
- * The concept dashboard.
- *
- * Deliberately drawn as a labelled diagram: outlined regions with their names
- * and nothing else. It carries no invented figures, no fake apprentice names,
- * no window chrome and no interface furniture, because anything that read as a
- * screenshot would imply working software exists. It does not.
- */
-function ConceptDashboard() {
-  const regions = [
-    { name: 'Active apprentices', span: 'sm:col-span-2' },
-    { name: 'Upcoming reviews', span: '' },
-    { name: 'Training provider', span: '' },
-    { name: 'Actions needed from you', span: 'sm:col-span-2' },
-  ];
-
-  return (
-    <figure className="m-0 flex flex-col gap-[var(--spacing-ag-4)]">
-      <div
-        className="grid gap-[var(--spacing-ag-3)] rounded-[var(--radius-ag-lg)] border border-dashed border-[var(--color-ag-slate)] p-[var(--spacing-ag-4)] sm:grid-cols-2"
-        role="img"
-        aria-label="A diagram of a possible future employer dashboard, showing four labelled areas: active apprentices, upcoming reviews, training provider, and actions needed from you. It is a concept, not working software."
-      >
-        {regions.map((region) => (
-          <div
-            key={region.name}
-            className={`flex min-h-[84px] items-center justify-center rounded-[var(--radius-ag-md)] border border-dashed border-[var(--color-ag-slate)] bg-[var(--color-ag-mist)] p-[var(--spacing-ag-4)] text-center font-[family-name:var(--font-utility)] text-[length:var(--text-ag-xs)] tracking-[0.08em] text-[color:var(--color-ag-slate)] uppercase ${region.span}`}
-          >
-            {region.name}
-          </div>
-        ))}
-      </div>
-
-      {/*
-        The caption is mandatory, and mandated to sit adjacent rather than as a
-        footnote. It is a <figcaption> directly beneath the diagram, at body
-        size rather than small print.
-      */}
-      <figcaption className="max-w-[62ch] text-[length:var(--text-ag-base)] font-semibold text-[color:var(--color-ag-ink)]">
-        In development. Not currently available. Today this is delivered as a managed
-        service.
-      </figcaption>
-    </figure>
-  );
-}
-
 export default function ForEmployers() {
   return (
     <>
@@ -252,20 +206,6 @@ export default function ForEmployers() {
             </p>
           </div>
         </div>
-      </Section>
-
-      {/* ------------------------------------------------- Concept dashboard */}
-      <Section
-        divided
-        width="narrow"
-        eyebrow="Where this is going"
-        heading="A single place to see your programme"
-      >
-        <p className="mb-[var(--spacing-ag-8)] max-w-[62ch] text-[length:var(--text-ag-base)] text-[color:var(--color-ag-slate)]">
-          In time we intend to give employers one view of their whole apprenticeship
-          programme. This is the shape of it:
-        </p>
-        <ConceptDashboard />
       </Section>
 
       <Section divided tone="mist" width="narrow">
