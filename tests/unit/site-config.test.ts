@@ -3,6 +3,7 @@ import {
   PHONE_NOT_YET_AVAILABLE,
   absoluteUrl,
   resolveSiteConfig,
+  toTelHref,
 } from '@/lib/site-config';
 
 describe('resolveSiteConfig', () => {
@@ -82,6 +83,43 @@ describe('resolveSiteConfig', () => {
       expect(resolveSiteConfig({ NEXT_PUBLIC_BUSINESS_PHONE: '   ' }).hasPhone).toBe(
         false,
       );
+    });
+
+    it('offers no tel: link while there is no real number', () => {
+      /**
+       * The fallback is the sentence "Telephone number to be confirmed".
+       * A link would invite someone to dial it.
+       */
+      expect(resolveSiteConfig({}).phoneHref).toBeNull();
+      expect(
+        resolveSiteConfig({ NEXT_PUBLIC_BUSINESS_PHONE: '  ' }).phoneHref,
+      ).toBeNull();
+    });
+
+    it('derives a dialable href from the number as displayed', () => {
+      expect(
+        resolveSiteConfig({ NEXT_PUBLIC_BUSINESS_PHONE: '07484 196322' }).phoneHref,
+      ).toBe('+447484196322');
+    });
+  });
+
+  describe('toTelHref', () => {
+    it('strips the spacing the displayed number is formatted with', () => {
+      expect(toTelHref('0333 000 0000')).toBe('+443330000000');
+    });
+
+    it('rewrites a leading 0 to +44 so the link dials from outside the UK', () => {
+      // A bare national number does not connect from abroad, and the people
+      // most likely to tap rather than copy are on a phone.
+      expect(toTelHref('07484 196322')).toBe('+447484196322');
+    });
+
+    it('leaves an already-international number alone', () => {
+      expect(toTelHref('+44 7484 196322')).toBe('+447484196322');
+    });
+
+    it('drops punctuation used for readability', () => {
+      expect(toTelHref('(01494) 000-000')).toBe('+441494000000');
     });
   });
 

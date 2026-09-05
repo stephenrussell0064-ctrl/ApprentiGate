@@ -42,7 +42,26 @@ export function SiteFooter() {
           </a>
           <address className="flex flex-col gap-[var(--spacing-ag-1)] text-[length:var(--text-ag-sm)] text-[color:var(--color-ag-slate)] not-italic">
             <span>{BUSINESS_LOCATION}</span>
-            <span>{siteConfig.phone}</span>
+            {/*
+              Dialable when there is a real number, plain text when there is
+              not — the fallback is the notice "Telephone number to be
+              confirmed", and turning that into a tel: link would offer a call
+              to a sentence.
+
+              The href is derived in site-config by `toTelHref`, so the
+              transformation has unit tests rather than living inline in JSX
+              where nothing could reach it.
+            */}
+            {siteConfig.phoneHref ? (
+              <a
+                href={`tel:${siteConfig.phoneHref}`}
+                className="underline underline-offset-4"
+              >
+                {siteConfig.phone}
+              </a>
+            ) : (
+              <span>{siteConfig.phone}</span>
+            )}
             {siteConfig.enquiriesEmail && (
               <a
                 href={`mailto:${siteConfig.enquiriesEmail}`}

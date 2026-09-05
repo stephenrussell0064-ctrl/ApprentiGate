@@ -63,6 +63,13 @@ export interface SiteConfig {
    * whenever this is set. Null until the operator enables it.
    */
   readonly analyticsToken: string | null;
+  /**
+   * The phone number as a `tel:` href, or null when there is no real number.
+   *
+   * Null rather than a link to the "to be confirmed" notice, because offering
+   * to dial a sentence is worse than showing no link at all.
+   */
+  readonly phoneHref: string | null;
 }
 
 export interface SiteConfigEnv {
@@ -78,6 +85,20 @@ export interface SiteConfigEnv {
 
 /** Shown wherever a phone number would go until the operator provisions a VoIP line. */
 export const PHONE_NOT_YET_AVAILABLE = 'Telephone number to be confirmed';
+
+/**
+ * Turn a displayed UK number into something a dialer can use.
+ *
+ * The displayed form is spaced for reading ("07484 196322"); a `tel:` href
+ * must not be. A leading 0 becomes +44 so the link works from outside the UK,
+ * where a national number simply does not connect — the people most likely to
+ * tap a link rather than copy the number are on a phone, and some of them are
+ * not in the country.
+ */
+export function toTelHref(displayed: string): string {
+  const digits = displayed.replace(/[^\d+]/g, '');
+  return digits.startsWith('+') ? digits : digits.replace(/^0/, '+44');
+}
 
 /** Used when no site URL is configured, i.e. local development. */
 const LOCAL_DEVELOPMENT_URL = 'http://localhost:3000';
@@ -128,6 +149,7 @@ export function resolveSiteConfig(env: SiteConfigEnv): SiteConfig {
     calLink: rawCalLink && rawCalLink.length > 0 ? rawCalLink.replace(/^\/+/, '') : null,
     turnstileSiteKey: rawTurnstile && rawTurnstile.length > 0 ? rawTurnstile : null,
     analyticsToken: rawAnalytics && rawAnalytics.length > 0 ? rawAnalytics : null,
+    phoneHref: hasPhone ? toTelHref(rawPhone) : null,
   };
 }
 
