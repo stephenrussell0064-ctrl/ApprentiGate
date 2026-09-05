@@ -129,6 +129,11 @@ const CLAIM_REGISTER = [
     note: 'a response time we are promising, not a claim about the world',
   },
   {
+    match: /fixed fee of £750 per role/i,
+    kind: 'our own price',
+    note: 'what we charge. A commercial decision, not a fact about the world — it needs no external source, but it does need to stay true: if the fee changes, this and the FAQ change together.',
+  },
+  {
     match: /1 to 9|10 to 49|50 to 249|250 or more/i,
     kind: 'form option',
     note: 'employee-count bands offered in the enquiry form',

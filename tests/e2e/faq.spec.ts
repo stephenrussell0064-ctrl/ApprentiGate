@@ -16,8 +16,10 @@ const EXPECTED_QUESTIONS = [
   'Who pays the apprentice?',
   'Who pays for the training?',
   'Can government cover the whole training cost?',
+  'What does ApprentiGate cost?',
   'How do you choose which providers to recommend?',
   'Can we use a provider we already know?',
+  'Why not go to a training provider directly?',
   'Do you manage recruitment?',
   'Do you work with degree apprenticeships?',
   'What size businesses do you work with?',
@@ -82,7 +84,7 @@ test.describe('faq', () => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   });
 
-  test('asks all thirteen questions, in the Content Spec order', async ({ page }) => {
+  test('asks all fifteen questions, in the Content Spec order', async ({ page }) => {
     await page.goto('/faq');
     const questions = await page.locator('#main details > summary').allInnerTexts();
     expect(questions.map((q) => q.trim())).toEqual(EXPECTED_QUESTIONS);
@@ -117,7 +119,7 @@ test.describe('faq', () => {
     const data = await structuredData(page);
 
     expect(data['@type']).toBe('FAQPage');
-    expect(data.mainEntity).toHaveLength(13);
+    expect(data.mainEntity).toHaveLength(15);
     expect(data.mainEntity.map((q) => q.name)).toEqual(EXPECTED_QUESTIONS);
 
     /**

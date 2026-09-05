@@ -8,7 +8,7 @@ import { ROUTES } from '@/lib/navigation';
 /**
  * FAQ — Content Spec 4.7.
  *
- * The thirteen questions, each expanded to two or three sentences.
+ * The fifteen questions, each expanded to two or three sentences.
  *
  * Questions and answers live in one array and are used twice: to render the
  * page and to build the FAQPage structured data. That is not tidiness — search
@@ -71,6 +71,11 @@ const FAQS = [
       'It can. For eligible employers who do not pay the levy, where the apprentice is aged 16 to 24 at the start of training, government funds eligible training and assessment in full up to the funding band maximum, for apprenticeships starting from 1 August 2026. Eligibility is confirmed case by case rather than assumed.',
   },
   {
+    question: 'What does ApprentiGate cost?',
+    answer:
+      'A fixed fee of £750 per role, agreed before any work starts, so you know what you are committing to before you commit to it. It is a commercial fee paid by you — separate from apprenticeship funding, and never taken from it.',
+  },
+  {
     question: 'How do you choose which providers to recommend?',
     answer:
       'Against one consistent set of factors: training outcomes, fit with your requirement, support for you and for the apprentice, delivery model and location, relevant experience of the standard, and progression. Any commercial arrangement carries no weight at all. You see the reasoning and you make the final choice.',
@@ -79,6 +84,11 @@ const FAQS = [
     question: 'Can we use a provider we already know?',
     answer:
       'Yes. If you already work with a provider you are happy with, we can work alongside them rather than replace them.',
+  },
+  {
+    question: 'Why not go to a training provider directly?',
+    answer:
+      'A provider can only advise on the standards it delivers, so going direct leaves the comparison, the standard-matching and the setup admin sitting with you. We take that on — identifying the standard the role actually fits, comparing approved providers against published criteria, and coordinating setup with the one you choose — so your managers stay on the work they were hired to do.',
   },
   {
     question: 'Do you manage recruitment?',
