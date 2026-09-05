@@ -16,6 +16,22 @@ export interface Step {
   readonly title: string;
   /** What ApprentiGate does at this step. */
   readonly detail: string;
+  /**
+   * Items the detail introduces, rendered as a list.
+   *
+   * Added for the provider-comparison step, whose detail had grown to name
+   * every published measure a shortlist is built from. As one sentence-chain
+   * that ran to sixteen unbroken lines at 320px — correct, and unreadable on a
+   * phone. The content was a list; it now looks like one.
+   *
+   * A real <ul>, so a screen reader announces the count and lets the user step
+   * through the items, rather than reading one long run-on sentence.
+   *
+   * Use only where the items are genuinely parallel. A step whose detail is
+   * prose should stay prose — bullets that carry no list structure make text
+   * harder to read, not easier.
+   */
+  readonly points?: readonly string[];
   /** What the employer has to do. Omit only where nothing is required. */
   readonly employerAction?: string;
 }
@@ -78,6 +94,18 @@ export function StepSequence({ steps, headingLevel = 3, className }: StepSequenc
               <p className="max-w-[62ch] text-[length:var(--text-ag-base)] text-[color:var(--color-ag-slate)]">
                 {step.detail}
               </p>
+              {step.points && (
+                <ul className="mt-[var(--spacing-ag-1)] flex max-w-[62ch] list-none flex-col gap-[var(--spacing-ag-2)] p-0">
+                  {step.points.map((point) => (
+                    <li
+                      key={point}
+                      className="border-l-2 border-[color:var(--color-ag-mist)] pl-[var(--spacing-ag-4)] text-[length:var(--text-ag-base)] text-[color:var(--color-ag-slate)]"
+                    >
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              )}
               {step.employerAction && (
                 <p className="max-w-[62ch] text-[length:var(--text-ag-sm)] text-[color:var(--color-ag-slate)]">
                   <span className="font-[family-name:var(--font-utility)] text-[length:var(--text-ag-xs)] tracking-[0.08em] text-[color:var(--color-ag-ink)] uppercase">
