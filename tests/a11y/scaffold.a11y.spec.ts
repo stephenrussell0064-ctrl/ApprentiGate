@@ -90,3 +90,44 @@ test('every interactive element is reachable by keyboard with a visible focus ri
   expect(outline.style).not.toBe('none');
   expect(parseFloat(outline.width)).toBeGreaterThan(0);
 });
+
+/**
+ * Inline links are big enough to hit with a thumb.
+ *
+ * WCAG 2.5.8 exempts inline targets, because their height is set by the line
+ * box of the text around them — so axe does not flag these and never will.
+ * That exemption is about what can reasonably be required of prose, not about
+ * whether a 20px link is pleasant to tap on a phone. It is not.
+ *
+ * Measured at 320px, the narrowest width the site supports, because that is
+ * where a mis-tap is most likely. The rule that makes this pass lives in
+ * globals.css and works by padding the inline box and giving the space back
+ * as negative margin, so a regression here is most likely to be someone
+ * removing that rule while tidying — hence a test rather than a comment.
+ *
+ * Buttons are excluded: they are flex boxes with real padding and are covered
+ * by axe's own target-size checks.
+ */
+test('inline links in prose are at least 24px tall at 320px', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 700 });
+
+  const pagesWithInlineLinks = ['/funding', '/privacy', '/', '/cookies', '/terms'];
+
+  for (const route of pagesWithInlineLinks) {
+    await page.goto(route);
+
+    const tooSmall = await page.evaluate(() => {
+      const links = [
+        ...document.querySelectorAll('#main :is(p, li, dd, dt) a:not(.inline-flex)'),
+      ];
+      return links
+        .map((link) => ({
+          text: (link.textContent ?? '').trim().slice(0, 40),
+          height: Math.round(link.getBoundingClientRect().height),
+        }))
+        .filter((link) => link.height > 0 && link.height < 24);
+    });
+
+    expect(tooSmall, `${route} has inline links under 24px tall`).toEqual([]);
+  }
+});

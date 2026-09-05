@@ -21,22 +21,22 @@ Reviews are due every 90 days.
 
 ## Sources checked
 
-| Source | Claim                                                           | Status    |
-| ------ | --------------------------------------------------------------- | --------- |
-| `S1`   | What a funding band maximum is                                  | unchanged |
-| `S2`   | Who pays above the funding band maximum                         | unchanged |
-| `S3`   | Non-levy government contribution by apprentice age              | unchanged |
-| `S4`   | The employer pays the apprentice's wage                         | unchanged |
-| `S5`   | Approved training providers (APAR)                              | unchanged |
-| `S6`   | What employers can already do for themselves                    | derived   |
-| `S7`   | Occupational standards are built around KSBs                    | unchanged |
-| `S8`   | End-point assessment tests competency against the KSBs          | unchanged |
-| `S9`   | The apprenticeship levy threshold                               | unchanged |
-| `S10`  | The £2,000 hiring payment from 1 October 2026                   | unchanged |
-| `S11`  | Transferring unused levy funds                                  | unchanged |
-| `S12`  | Lead generation and employer recruitment are ineligible costs   | unchanged |
-| `S13`  | The apprentice minimum wage                                     | unchanged |
-| `S14`  | Provider achievement rates and reviews are published per course | unchanged |
+| Source | Claim | Status |
+|---|---|---|
+| `S1` | What a funding band maximum is | unchanged |
+| `S2` | Who pays above the funding band maximum | unchanged |
+| `S3` | Non-levy government contribution by apprentice age | unchanged |
+| `S4` | The employer pays the apprentice's wage | unchanged |
+| `S5` | Approved training providers (APAR) | unchanged |
+| `S6` | What employers can already do for themselves | derived |
+| `S7` | Occupational standards are built around KSBs | unchanged |
+| `S8` | End-point assessment tests competency against the KSBs | unchanged |
+| `S9` | The apprenticeship levy threshold | unchanged |
+| `S10` | The £2,000 hiring payment from 1 October 2026 | unchanged |
+| `S11` | Transferring unused levy funds | unchanged |
+| `S12` | Lead generation and employer recruitment are ineligible costs | unchanged |
+| `S13` | The apprentice minimum wage | unchanged |
+| `S14` | Provider achievement rates and reviews are published per course | unchanged |
 
 ---
 
@@ -48,3 +48,4 @@ Reviews are due every 90 days.
 - It does not check pages the site links to but makes no claim from.
 - It does not re-run the accessibility or performance suites. The monthly
   workflow runs those separately, and `QA-REPORT.md` records them.
+

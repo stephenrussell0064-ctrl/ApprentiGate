@@ -26,6 +26,35 @@
   }
 
   /*
+   * Inline links get a hit area taller than their text.
+   *
+   * A link inside a sentence is only as tall as its line box — measured on the
+   * live site, "GOV.UK" on the funding page was 20px and the privacy notice's
+   * links 23px. WCAG 2.5.8 exempts inline targets for exactly that reason,
+   * their height being constrained by the surrounding text, so this was never
+   * a compliance failure. It was simply fiddly to tap on a phone, and the
+   * funding page's GOV.UK link is one we actively want people to follow.
+   *
+   * `padding-block` grows the hit region; the equal negative `margin-block`
+   * gives the space straight back, so no line moves and no paragraph reflows.
+   * Padding on an inline box does not affect line height, which is what makes
+   * the trick safe here — the visual result is byte-identical, only the
+   * touch target changes.
+   *
+   * 0.25rem a side takes 20px to 28px and 23px to 31px, both clear of the
+   * 24px floor. Deliberately not more: the line box is 25.6px, so a larger
+   * value would make the hit areas of links on consecutive lines overlap
+   * enough to cause mis-taps — which is the problem this is meant to solve.
+   *
+   * Scoped to text containers, and `:not(.inline-flex)` excludes the button
+   * variants, which are laid out as flex boxes and already have real padding.
+   */
+  :is(p, li, dd, dt) a:not(.inline-flex) {
+    padding-block: 0.25rem;
+    margin-block: -0.25rem;
+  }
+
+  /*
    * Visible focus ring on every interactive element. The quality floor makes
    * this a pass condition, so it is set globally rather than per component,
    * and `:focus-visible` keeps it off mouse clicks.
