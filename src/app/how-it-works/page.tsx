@@ -62,7 +62,7 @@ const STEPS: readonly Step[] = [
   {
     title: 'We research and compare approved providers',
     detail:
-      'We shortlist approved training providers that can deliver this standard for your location and your intake, and set out how they actually differ — on training outcomes, employer and apprentice support, delivery model, relevant experience and progression.',
+      'We shortlist approved training providers that can deliver this standard for your location and your intake, and set out how they actually differ — starting with what government publishes for each of them on this course: the achievement rate and the number of apprentices behind it, employer and apprentice reviews and how many there are, and how the training is delivered. We take no commission from any provider, so the shortlist is the same one we would draw up for ourselves.',
     employerAction: 'tell us which of those factors matter most to you.',
   },
   {

@@ -261,7 +261,7 @@ therefore state plainly that the fees are separate — and must never imply that
 using ApprentiGate is paid for by government. This is also why no provider-side
 fee model may be described until it has been checked against these rules.
 
-**Used on:** Funding Explained (the mandatory fees sentence).
+**Used on:** Funding Explained (the mandatory fees sentence), Home (independence).
 
 ---
 
@@ -287,6 +287,42 @@ and a printed figure is the single most likely thing on the site to go stale
 between quarterly reviews.
 
 **Used on:** Funding Explained (what the employer always pays).
+
+---
+
+## S14 — Provider achievement rates and reviews are published per course
+
+**Claim it supports:** ApprentiGate compares approved providers on the
+achievement rates and reviews government publishes for each provider on each
+course, rather than on any commercial arrangement.
+
+**Source:** Find apprenticeship training — GOV.UK / Department for Education
+<https://findapprenticeshiptraining.apprenticeships.education.gov.uk/>
+
+**Retrieved:** 5 September 2026
+
+**Wording relied on:** each provider in a course's results carries, verbatim,
+"Course achievement rate in 2024 to 2025" with a percentage and the cohort it
+is drawn from ("100% (out of 10 apprentices)"), "Provider reviews in 2025 to
+2026" as employer and apprentice ratings each with their review count
+("Excellent (26 employer reviews)"), and the training options that provider
+offers for that course — at the learner's workplace, at the provider's
+location, day release, block release.
+
+**Why the cohort size is load-bearing.** The service publishes the rate _and_
+the number of apprentices behind it, so the site may only claim its provider
+comparison is meaningful because it uses both. The first result checked was
+100% out of ten apprentices: a rate over a cohort that small is not evidence,
+and treating it as equal to a lower rate over a large cohort would be
+misleading rather than merely imprecise. The same applies to review counts.
+
+**How it is used:** the site says _what_ is compared and that it is published
+by government. It prints **no rate, rating or provider name**, because these
+are per-course, change each year, and any figure lifted onto a static page
+would be stale and unverifiable at the moment a prospect reads it.
+
+**Used on:** Home (independence), For Employers (provider comparison),
+How It Works (step 3), About (independence).
 
 ---
 

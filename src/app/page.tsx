@@ -21,17 +21,29 @@ import { ROUTES } from '@/lib/navigation';
  *     providers themselves. Claiming otherwise would be false, and a sceptical
  *     managing director who has used the GOV.UK service would catch it
  *     immediately.
+ *   - The independence section is the differentiator, and it has to sit
+ *     immediately after that concession. Everything an employer can do alone,
+ *     they can do alone; what they cannot get anywhere else is advice on which
+ *     provider to use from someone with nothing riding on the answer.
  *
  * Claims trace to CONTENT-SOURCES.md: the funding paragraph rests on S1, S2 and
- * S4, and the three-party split on S5. The funding paragraph carries no
- * percentages by design — the Content Spec holds Home to the band-cap concept
- * and puts the figures on the Funding page.
+ * S4, the three-party split on S5, the provider comparison criteria on S14, and
+ * the statement that our fee sits outside apprenticeship funding on S12. The
+ * funding paragraph carries no percentages by design — the Content Spec holds
+ * Home to the band-cap concept and puts the figures on the Funding page.
+ *
+ * The independence section observes the same restraint for the same reason: it
+ * names *what* is compared and never prints a rate, a rating or a provider
+ * name. Those are per-course and per-year, and a number frozen into this page
+ * would be stale and unverifiable at the moment a prospect reads it.
  */
 
 export const metadata: Metadata = pageMetadata({
   title: 'ApprentiGate — apprenticeships for growing businesses',
+  // Under 155 characters, asserted by tests/e2e/seo.spec.ts, because Google
+  // truncates past roughly that and a sentence cut mid-clause reads as neglect.
   description:
-    'ApprentiGate helps smaller employers in England set up and run apprenticeship programmes, working between the employer and approved training providers.',
+    'Independent apprenticeship help for smaller employers in England. We sell no training and take no commission, so the provider we recommend is the best one.',
   path: ROUTES.home,
 });
 
@@ -45,8 +57,40 @@ const YOURS = [
 const OURS = [
   'Working out which standard the role actually fits',
   'Explaining what the funding means for your business',
-  'Researching and comparing approved providers',
+  'Comparing approved providers on their published results, not on who we know',
   'Coordinating the setup between you and the provider',
+];
+
+/**
+ * What a provider comparison is actually made of.
+ *
+ * Every item is something government publishes for that provider on that
+ * course (S14), which is the whole basis on which the independence claim can
+ * be made at all — an impartiality promise with nothing observable behind it
+ * is worth no more than the provider's own sales pitch.
+ *
+ * The cohort-size line is not a caveat, it is the point. Find apprenticeship
+ * training prints the achievement rate next to the number of apprentices it
+ * covers, and the first result checked when this page was written was 100%
+ * out of ten. Anyone comparing on the percentage alone is reading noise.
+ */
+const COMPARED_ON = [
+  {
+    title: 'The achievement rate for that provider on that course',
+    body: 'Published by government, and read alongside the number of apprentices it is calculated over. A perfect rate across a handful of apprentices is not evidence of anything.',
+  },
+  {
+    title: 'Employer and apprentice reviews, and how many there are',
+    body: 'A rating drawn from four reviews and a rating drawn from forty are not the same rating, and we do not treat them as one.',
+  },
+  {
+    title: 'How the training is actually delivered',
+    body: 'At your workplace, day release or block release — checked against your rota, not against the brochure. This is the detail that decides whether a programme survives its first busy month.',
+  },
+  {
+    title: 'Whether they are approved for the standard at all',
+    body: 'Providers are approved for particular standards, not in general. A provider you like the sound of may simply not be able to deliver the one your role needs.',
+  },
 ];
 
 function TickList({ items }: { readonly items: readonly string[] }) {
@@ -110,9 +154,10 @@ export default function Home() {
             </h1>
 
             <p className="mt-[var(--spacing-ag-8)] max-w-[54ch] text-[length:var(--text-ag-lg)] text-[color:var(--color-ag-slate)]">
-              ApprentiGate helps growing businesses identify suitable apprenticeship
-              routes, compare approved training providers and coordinate programme setup —
-              without needing a dedicated internal apprenticeship team.
+              We sell no training. We take no commission from providers. We work out which
+              apprenticeship standard your role fits, compare the approved providers on
+              their published results, and set the whole thing up — so the recommendation
+              you get is the one we would pick if it were our own business.
             </p>
 
             {/* `flex-wrap` matters more than it looks. Without it the row
@@ -192,6 +237,94 @@ export default function Home() {
           </p>
           <p className="font-semibold text-[color:var(--color-ag-ink)]">
             That is the job we do.
+          </p>
+        </div>
+      </Section>
+
+      {/* ---------------------------------------------- Independence
+        This is the section the business is built on, and it belongs here
+        rather than further down. "The problem" has just conceded that an
+        employer can compare providers themselves on GOV.UK. The obvious next
+        move — ask a provider — is the one that quietly fails, and saying why
+        is what turns the concession into an argument for us.
+
+        The claim is deliberately split in two, because the two halves have
+        different standing and must not be blurred:
+
+          - That our fee is separate from apprenticeship funding and cannot be
+            paid out of it is a matter of published rule (S12: lead generation
+            and first contact are ineligible costs, and financial inducements
+            in relation to the apprenticeship unit are ineligible).
+          - That we take no commission or referral fee from providers at all
+            is a statement about our own commercial arrangements. It is ours to
+            keep, not something the funding rules impose, and it is written as
+            a commitment rather than dressed up as regulation.
+
+        The comparison criteria then make impartiality falsifiable (S14). Note
+        what is absent by design: no provider is named, and no rate, rating or
+        league table is printed. Those change per course and per year, and a
+        figure frozen into a marketing page is exactly the confidently stated
+        number that CONTENT-SOURCES.md exists to prevent.
+      */}
+      <Section
+        divided
+        eyebrow="Why us"
+        heading="Ask a training provider which provider to use, and you already know the answer."
+      >
+        <div className="flex max-w-[62ch] flex-col gap-[var(--spacing-ag-4)] text-[length:var(--text-ag-base)] text-[color:var(--color-ag-slate)]">
+          <p>
+            That is not dishonesty on their part. A provider delivers its own courses, so
+            the only apprenticeships it can put in front of you are the ones it runs. But
+            it does mean the first advice most employers ever get — on which standard to
+            choose and who should deliver it — comes from the one party whose answer is
+            fixed before the question is asked.
+          </p>
+          <p>
+            ApprentiGate delivers no training, so there is no answer that pays us better
+            than another. We take no commission and no referral fee from any provider. You
+            pay us a fixed fee, and it is the same fee whichever provider you go with.
+          </p>
+          <p>
+            Our fee is also separate from apprenticeship funding and cannot be paid out of
+            it &mdash; the funding rules put lead generation, first contact and financial
+            inducements outside what apprenticeship funding may be spent on. So a provider
+            cannot fund our recommendation, and we cannot be paid more for sending you to
+            one rather than another.
+          </p>
+          <p className="font-semibold text-[color:var(--color-ag-ink)]">
+            When we tell you a provider is the right one, that recommendation costs us
+            nothing to make and earns us nothing to change.
+          </p>
+        </div>
+
+        <div className="mt-[var(--spacing-ag-12)]">
+          <h3 className="font-[family-name:var(--font-utility)] text-[length:var(--text-ag-xs)] tracking-[0.08em] text-[color:var(--color-ag-ink)] uppercase">
+            What we compare them on
+          </h3>
+
+          {/* A list rather than a table: there are no numbers to align, and a
+              table would imply a scoreboard the page deliberately does not
+              print. */}
+          <ul className="mt-[var(--spacing-ag-6)] grid list-none gap-[var(--spacing-ag-8)] p-0 md:grid-cols-2 md:gap-x-[var(--spacing-ag-12)]">
+            {COMPARED_ON.map((item) => (
+              <li
+                key={item.title}
+                className="border-l-2 border-[color:var(--color-ag-signal)] pl-[var(--spacing-ag-5)]"
+              >
+                <p className="text-[length:var(--text-ag-base)] font-semibold text-[color:var(--color-ag-ink)]">
+                  {item.title}
+                </p>
+                <p className="mt-[var(--spacing-ag-2)] text-[length:var(--text-ag-base)] text-[color:var(--color-ag-slate)]">
+                  {item.body}
+                </p>
+              </li>
+            ))}
+          </ul>
+
+          <p className="mt-[var(--spacing-ag-8)] max-w-[62ch] text-[length:var(--text-ag-base)] text-[color:var(--color-ag-slate)]">
+            All of it is published by government, for every approved provider, on every
+            course. You can check any of it yourself — and if our recommendation does not
+            match what you find, ask us why. That question should always have an answer.
           </p>
         </div>
       </Section>

@@ -110,4 +110,33 @@ export const SOURCE_REGISTRY = [
     // the first year.
     phrases: ['apprentice'],
   },
+  {
+    id: 'S14',
+    what: 'Provider achievement rates and reviews are published per course',
+    // A course-specific results page rather than the service's front door,
+    // because the front door proves nothing: the claim is about what is
+    // published *per provider on a course*, and only a results page carries
+    // it. Business administration is used as the probe because it is one of
+    // the most widely delivered standards in the country, so its provider
+    // list is the least likely to empty out for reasons unrelated to the
+    // service.
+    url: 'https://findapprenticeshiptraining.apprenticeships.education.gov.uk/courses/196/providers?location=HP15%207QS&distance=20',
+    // Every phrase here is load-bearing for a sentence on the site.
+    //
+    // "out of" is the one that matters most and the one most likely to be
+    // dropped in a redesign: it is what ties an achievement rate to the
+    // cohort behind it. Four pages say a rate must be read against the number
+    // of apprentices it covers. If the service stops publishing that number,
+    // those sentences describe a comparison we can no longer make, and the
+    // rule is that they come down rather than get softened.
+    phrases: [
+      'course achievement rate',
+      'out of',
+      'employer reviews',
+      'apprentice reviews',
+      'day release',
+      'block release',
+    ],
+    critical: true,
+  },
 ];

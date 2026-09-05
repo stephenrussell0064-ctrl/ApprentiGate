@@ -19,7 +19,7 @@ claim about the world?
 | **Unaccounted for**                   | **0**  |
 | Prohibited content found              | 0      |
 | Hygiene scans failed                  | 0      |
-| Sources defined in CONTENT-SOURCES.md | 13     |
+| Sources defined in CONTENT-SOURCES.md | 14     |
 
 ## Hygiene scans
 

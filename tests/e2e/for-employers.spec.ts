@@ -63,19 +63,33 @@ test.describe('for employers', () => {
     await page.goto('/for-employers');
     const text = await page.locator('#main').innerText();
 
-    // The methodology itself.
+    /**
+     * The methodology itself.
+     *
+     * These used to be category labels — "training quality and outcomes",
+     * "support for the apprentice" — which every provider would claim and no
+     * reader could check, so asserting them proved only that a vague list was
+     * present. What is asserted now is that the comparison names the evidence
+     * government publishes per provider per course (S14), because that is what
+     * makes the independence claim falsifiable rather than merely stated.
+     */
     for (const factor of [
-      'Training quality and outcomes',
-      'Support for you as the employer',
-      'Support for the apprentice',
-      'Delivery model and location',
-      'Progression opportunities',
+      'Achievement rate',
+      'Employer reviews',
+      'Apprentice reviews',
+      'Delivery model',
+      'approved for this standard',
     ]) {
       expect(text).toContain(factor);
     }
 
-    // The sentence without which the methodology is worthless (risk R6).
+    // A rate without its cohort is the misreading the whole method turns on.
+    expect(text).toMatch(/cohort behind it/i);
+    expect(text).toMatch(/published by government/i);
+
+    // The sentences without which the methodology is worthless (risk R6).
     expect(text).toMatch(/commercial arrangements? carr(y|ies) zero weight/i);
+    expect(text).toMatch(/no commission and no referral fee/i);
     expect(text).toMatch(/you make the final choice of provider/i);
   });
 

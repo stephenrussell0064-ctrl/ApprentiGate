@@ -111,10 +111,18 @@ export default function About() {
             government body has any involvement in it or any say in what we recommend.
           </p>
           <p>
-            The same applies on the provider side. If we ever hold a commercial
-            arrangement with a training provider, it carries no weight in what we
-            recommend to an employer — which is the only thing that makes a recommendation
-            from us worth having.
+            The same applies on the provider side. We take no commission and no referral
+            fee from any training provider, and an employer pays the same fee whichever
+            provider they choose. If we ever do hold a commercial arrangement with a
+            provider, it carries no weight in what we recommend — which is the only thing
+            that makes a recommendation from us worth having.
+          </p>
+          <p>
+            Independence is only meaningful if it can be checked, so we compare providers
+            on what government publishes for each of them: achievement rates, the cohorts
+            behind those rates, employer and apprentice reviews, and how the training is
+            delivered. You can look up every one of those yourself and ask us why our
+            answer differs.
           </p>
         </div>
       </Section>

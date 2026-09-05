@@ -60,14 +60,28 @@ const SERVICES = [
   },
 ];
 
+/**
+ * Provider comparison factors.
+ *
+ * These were once written as categories — "training quality and outcomes",
+ * "support for the apprentice" — which sound like a methodology without being
+ * one. Every provider claims all seven, so a list like that cannot separate
+ * them and cannot be checked by the reader.
+ *
+ * They are now the things government actually publishes per provider per
+ * course on Find apprenticeship training (S14), plus the two facts that come
+ * from asking the provider directly. An employer can verify the first four
+ * without us, which is the point: a claim of independence is only worth
+ * something if the evidence behind it is public.
+ */
 const COMPARISON_FACTORS = [
-  'Training quality and outcomes',
-  'Fit with what you actually need',
-  'Support for you as the employer',
-  'Support for the apprentice',
-  'Delivery model and location',
-  'Relevant experience of this standard',
-  'Progression opportunities afterwards',
+  'Achievement rate for this provider on this course, and the cohort behind it',
+  'Employer reviews, and how many there are',
+  'Apprentice reviews, and how many there are',
+  'Delivery model — your workplace, day release or block release',
+  'Whether they are approved for this standard at all',
+  'Capacity for the intake you actually need',
+  'Travel time for the apprentice on the days they attend',
 ];
 
 export default function ForEmployers() {
@@ -170,7 +184,9 @@ export default function ForEmployers() {
           <div className="flex flex-col gap-[var(--spacing-ag-4)]">
             <p className="max-w-[62ch] text-[length:var(--text-ag-base)] text-[color:var(--color-ag-slate)]">
               We compare approved providers against one consistent set of factors, so a
-              recommendation can be explained rather than just asserted:
+              recommendation can be explained rather than just asserted. Most of it is
+              published by government for every provider on every course, so you can check
+              it without taking our word for anything:
             </p>
             <ul className="flex list-none flex-col gap-[var(--spacing-ag-2)] p-0">
               {COMPARISON_FACTORS.map((factor) => (
@@ -191,13 +207,21 @@ export default function ForEmployers() {
           */}
           <div className="flex flex-col gap-[var(--spacing-ag-4)]">
             <Notice tone="info" title="Commercial arrangements carry zero weight.">
-              If we ever have a commercial arrangement with a provider, it counts for
-              nothing in what we recommend to you. It is not a tie-breaker and it is not a
-              thumb on the scale. You also see the reasoning, so you can disagree with it.
+              We take no commission and no referral fee from any provider. Your fee is the
+              same whichever one you choose, so there is no provider we are better off
+              sending you to. If we ever do have a commercial arrangement, it counts for
+              nothing here — not a tie-breaker, not a thumb on the scale.
             </Notice>
             <p className="max-w-[62ch] text-[length:var(--text-ag-base)] text-[color:var(--color-ag-slate)]">
-              You make the final choice of provider. If you already work with one you
-              like, we can work alongside them instead.
+              A rate on its own does not settle anything either. Achievement rates are
+              published next to the number of apprentices they cover, and a perfect rate
+              across a handful of apprentices tells you less than a lower one across a
+              large group. We read them together and show you both.
+            </p>
+            <p className="max-w-[62ch] text-[length:var(--text-ag-base)] text-[color:var(--color-ag-slate)]">
+              You make the final choice of provider, and you see the reasoning, so you can
+              disagree with it. If you already work with one you like, we can work
+              alongside them instead.
             </p>
           </div>
         </div>

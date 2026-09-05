@@ -90,8 +90,57 @@ const PROHIBITED: readonly Prohibition[] = [
       /(?<![£\d,])\b\d[\d,]*\+? (employers|providers|apprentices|placements|clients|customers)\b/i,
     why: 'a count of employers, providers or apprentices implies a track record',
   },
-  { pattern: /\bachievement rate\b/i, why: 'no achievement-rate claim of our own' },
-  { pattern: /\bsuccess rate\b/i, why: 'no success-rate claim' },
+  {
+    /**
+     * Narrowed from a blanket ban on the phrase "achievement rate".
+     *
+     * The blanket form was aimed at the right target — a pre-launch business
+     * must not imply results it has never produced — but it also forbade the
+     * site from naming what it compares *providers* on, which is published by
+     * government per provider per course (S14) and is the entire evidential
+     * basis of the independence claim. A rule that forces the site to be vaguer
+     * about someone else's published data is protecting nothing.
+     *
+     * So the possessive is what is banned: a rate presented as ours. The
+     * neighbouring rule below then bans printing anyone's figure at all.
+     */
+    pattern: /\bour\s+(course\s+)?(achievement|success|pass|completion) rates?\b/i,
+    why: 'no achievement-rate claim of our own',
+  },
+  {
+    /**
+     * No numeric rate for anybody, ours or a provider's.
+     *
+     * This is stricter than what it replaced, and deliberately so. Achievement
+     * rates are published per provider per course and are restated each year,
+     * so a percentage typed into a marketing page is stale the moment the next
+     * release lands — and it is unverifiable at the moment a prospect reads it,
+     * which is the failure mode CONTENT-SOURCES.md exists to prevent. The site
+     * says what it compares; the figures stay on the government service where
+     * they are current.
+     *
+     * The pattern requires a digit adjacent to the words rather than banning
+     * any percentage in the vicinity, so that a page may still explain *how*
+     * rates should be read. In practice no figure appears at all: the
+     * illustration that once read "100% across a handful of apprentices" is
+     * now "a perfect rate across a handful", because `pnpm claim:audit` holds
+     * every rendered number to a source and an invented one has none — even
+     * when it is plainly hypothetical. The narrower pattern is the floor, not
+     * the standard the copy is written to.
+     */
+    pattern:
+      /\b\d[\d.]*\s?%\s*(course\s+)?(achievement|success|pass|completion)\s+rate\b|\b(achievement|success|pass|completion)\s+rates?\s+(of|at)\s+\d/i,
+    why: 'no achievement-rate figure may be printed; it goes stale and cannot be verified here',
+  },
+  {
+    /**
+     * Affirmative only. "Success rate" has no legitimate use on this site —
+     * unlike achievement rate it is not a published measure, so any use is a
+     * claim rather than a citation.
+     */
+    pattern: /\bsuccess rate\b/i,
+    why: 'no success-rate claim',
+  },
   { pattern: /\bsave (you )?£/i, why: 'no savings figure' },
   { pattern: /\breturn on investment\b|\bROI\b/, why: 'no ROI claim' },
 
@@ -241,6 +290,12 @@ const MUST_BE_CAUGHT: readonly string[] = [
   'Our clients tell us the funding is the hard part.',
   'We now work with 240 employers.',
   'Our achievement rate speaks for itself.',
+  'Our course achievement rates are the best in the county.',
+  // The numeric forms. Any of these on the page is a figure that will be
+  // wrong within a year and cannot be checked from here.
+  'Our recommended providers average a 94% achievement rate.',
+  'This provider has an achievement rate of 87%.',
+  'Providers on our shortlist have completion rates at 90 percent or above.',
   'We could save you £4,000 a year.',
   'We guarantee funding for every apprentice.',
   'Your funding is guaranteed from day one.',
@@ -269,6 +324,12 @@ const MUST_BE_ALLOWED: readonly string[] = [
   'Using us is not paid for by government.',
   'We do not name the employers we work for.',
   'You can compare approved providers yourself.',
+  // Naming what is compared is not claiming a result. These sentences carry
+  // the independence argument, and a prohibition list that refused them would
+  // be forcing the site to be vaguer about public data than it needs to be.
+  'The achievement rate for that provider on that course, published by government.',
+  'A rate is read alongside the number of apprentices it is calculated over.',
+  'Achievement rates are published next to the cohort they cover.',
   'A hiring payment of up to £2,000.\n\nEmployers who do not pay the levy may qualify.',
   'Nothing here limits liability where the law does not allow it to be limited.',
 ];

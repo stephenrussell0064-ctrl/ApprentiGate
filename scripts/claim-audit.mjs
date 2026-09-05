@@ -16,12 +16,63 @@
 
 import { spawn } from 'node:child_process';
 import { execSync } from 'node:child_process';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { chromium } from '@playwright/test';
 
 const PORT = 4400;
 const BASE = `http://127.0.0.1:${PORT}`;
+
+/**
+ * Refuse to audit a stale build.
+ *
+ * This audit serves `out/` rather than building it, which is the right call —
+ * a full build per run would make it too slow to reach for. But it means a
+ * clean report can describe a site that no longer exists. That happened while
+ * the independence copy was being written: the audit passed twice against an
+ * `out/` predating the edit, so it was reporting on the previous version of
+ * the page while appearing to bless the new one.
+ *
+ * A false pass here is worse than no audit at all, because the whole purpose
+ * is to be the thing that catches an unsourced number before a prospect does.
+ * So: any source file newer than the build stops the run, with the command
+ * that fixes it.
+ */
+function assertBuildIsCurrent() {
+  if (!existsSync('out')) {
+    console.error('\nNo build to audit. Run: pnpm build:audit\n');
+    process.exit(1);
+  }
+
+  const builtAt = statSync('out').mtimeMs;
+
+  // git is the cheapest accurate list of what actually belongs to the project,
+  // and it skips node_modules and build output without a hand-maintained
+  // ignore list that would drift.
+  const tracked = execSync('git ls-files src worker *.ts *.mjs *.json', {
+    encoding: 'utf8',
+  })
+    .split('\n')
+    .filter(Boolean);
+
+  const stale = tracked.filter((file) => {
+    try {
+      return statSync(file).mtimeMs > builtAt;
+    } catch {
+      return false; // deleted but still tracked; the build cannot be behind it
+    }
+  });
+
+  if (stale.length > 0) {
+    console.error(
+      `\n${stale.length} file(s) changed since out/ was built, including ` +
+        `${stale.slice(0, 3).join(', ')}.\n` +
+        'Auditing now would check the previous version of the site.\n' +
+        'Run: pnpm build:audit && pnpm claim:audit\n',
+    );
+    process.exit(1);
+  }
+}
 
 const ROUTES = [
   '/',
@@ -286,6 +337,8 @@ async function run() {
   console.log(
     `  ${nameHits === '' || nameHits.includes('check-hardcoded-domains') ? 'PASS' : 'FAIL'}  discarded name absent`,
   );
+
+  assertBuildIsCurrent();
 
   console.log('\nServing and auditing every rendered number\n');
   const server = spawn('pnpm', ['exec', 'serve', 'out', '--listen', String(PORT)], {
