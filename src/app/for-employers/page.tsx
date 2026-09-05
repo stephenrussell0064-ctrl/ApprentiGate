@@ -28,7 +28,7 @@ import { ROUTES } from '@/lib/navigation';
 export const metadata: Metadata = pageMetadata({
   title: 'For employers',
   description:
-    'What ApprentiGate does for an employer setting up apprenticeships: standard assessment, funding guidance, provider comparison, setup and ongoing support.',
+    'What ApprentiGate does for an employer setting up apprenticeships: standard assessment, funding guidance, provider comparison and setup coordination.',
   path: ROUTES.forEmployers,
 });
 
@@ -58,11 +58,6 @@ const SERVICES = [
     title: 'Recruitment logistics support',
     body: 'Job description structure, advertising coordination, application administration and interview scheduling. You interview and you select.',
   },
-  {
-    label: '06',
-    title: 'Ongoing programme support',
-    body: 'Tracking reviews and deadlines, keeping you ahead of what you are required to do, and raising problems while they are still small.',
-  },
 ];
 
 const COMPARISON_FACTORS = [
@@ -84,7 +79,7 @@ export default function ForEmployers() {
         headingLevel={1}
       >
         <p className="max-w-[62ch] text-[length:var(--text-ag-lg)] text-[color:var(--color-ag-slate)]">
-          Six things, from working out whether a role suits an apprenticeship at all
+          Five things, from working out whether a role suits an apprenticeship at all
           through to keeping the programme on track once your apprentices have started.
         </p>
       </Section>
@@ -107,7 +102,7 @@ export default function ForEmployers() {
         </div>
       </Section>
 
-      <Section divided eyebrow="The service" heading="Six things we take on">
+      <Section divided eyebrow="The service" heading="Five things we take on">
         <CardGrid>
           {SERVICES.map((service) => (
             <Card key={service.title} label={service.label} title={service.title}>
@@ -219,7 +214,7 @@ export default function ForEmployers() {
         <div className="mt-[var(--spacing-ag-8)] flex flex-col gap-[var(--spacing-ag-3)] sm:flex-row sm:items-center">
           <ButtonLink href={ROUTES.contact}>Book a call</ButtonLink>
           <ButtonLink href={ROUTES.howItWorks} variant="secondary">
-            See the seven steps
+            See the six steps
           </ButtonLink>
         </div>
       </Section>

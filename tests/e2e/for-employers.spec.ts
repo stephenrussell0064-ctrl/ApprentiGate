@@ -19,7 +19,7 @@ test.describe('for employers', () => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   });
 
-  test('lists all six service blocks', async ({ page }) => {
+  test('lists all five service blocks', async ({ page }) => {
     await page.goto('/for-employers');
     const headings = await page
       .locator('#main')
@@ -32,7 +32,6 @@ test.describe('for employers', () => {
       'Provider comparison',
       'Setup coordination',
       'Recruitment logistics support',
-      'Ongoing programme support',
     ]);
   });
 

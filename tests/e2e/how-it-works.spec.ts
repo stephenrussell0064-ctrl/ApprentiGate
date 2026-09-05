@@ -28,10 +28,10 @@ test.describe('how it works', () => {
     // too — numbered markers that are only visual would be worse than none.
     const list = page.locator('#main ol');
     await expect(list).toHaveCount(1);
-    await expect(list.locator('> li')).toHaveCount(7);
+    await expect(list.locator('> li')).toHaveCount(6);
   });
 
-  test('keeps the seven steps in the order the Content Spec sets', async ({ page }) => {
+  test('keeps the six steps in the order the Content Spec sets', async ({ page }) => {
     await page.goto('/how-it-works');
 
     const headings = await page
@@ -45,7 +45,6 @@ test.describe('how it works', () => {
       'We research and compare approved providers',
       'You choose your provider',
       'We coordinate the setup',
-      'We support the programme once apprentices are in place',
     ]);
   });
 
@@ -61,7 +60,7 @@ test.describe('how it works', () => {
     await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1);
     await expect(
       page.locator('#main ol > li').getByRole('heading', { level: 2 }),
-    ).toHaveCount(7);
+    ).toHaveCount(6);
   });
 
   test('says what each step asks of the employer', async ({ page }) => {
@@ -70,10 +69,10 @@ test.describe('how it works', () => {
     /**
      * Without this line on every step the sequence reads as though the service
      * does everything, which sets up the wrong expectation before the first
-     * call. Seven steps, seven "You" lines.
+     * call. Six steps, six "You" lines.
      */
     const employerLines = page.locator('#main ol > li').getByText('You', { exact: true });
-    await expect(employerLines).toHaveCount(7);
+    await expect(employerLines).toHaveCount(6);
   });
 
   test('states that the employer makes the provider decision', async ({ page }) => {

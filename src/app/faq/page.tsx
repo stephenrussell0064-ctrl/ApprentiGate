@@ -73,7 +73,7 @@ const FAQS = [
   {
     question: 'What does ApprentiGate cost?',
     answer:
-      'A fixed fee of £750 per role, agreed before any work starts, so you know what you are committing to before you commit to it. It is a commercial fee paid by you — separate from apprenticeship funding, and never taken from it.',
+      'A fixed fee of £750 per role, agreed before any work starts and payable once we have handed you over to your chosen provider, set up and ready to go. If we conclude an apprenticeship is not the right route for the role, there is no handover and no fee. It is a commercial fee paid by you — separate from apprenticeship funding, and never taken from it.',
   },
   {
     question: 'How do you choose which providers to recommend?',

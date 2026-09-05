@@ -47,7 +47,6 @@ const OURS = [
   'Explaining what the funding means for your business',
   'Researching and comparing approved providers',
   'Coordinating the setup between you and the provider',
-  'The ongoing administration once they have started',
 ];
 
 function TickList({ items }: { readonly items: readonly string[] }) {

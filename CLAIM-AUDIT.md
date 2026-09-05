@@ -49,19 +49,20 @@ Recorded rather than ignored: the distinction between a fact we could be
 wrong about and a number that simply is what it is has to be a decision
 someone made, not an omission.
 
-| Kind               | Number | Why it needs no source                                                                                           |
-| ------------------ | ------ | ---------------------------------------------------------------------------------------------------------------- |
-| illustrative       | 60     | a hypothetical firm, not a customer. No real employer is described anywhere on the site.                         |
-| self-descriptive   | 3      | apprenticeship levels are a published framework; the sentence states our own focus, not a fact about anyone else |
-| structural         | 1      | step or card numbering; encodes order, claims nothing                                                            |
-| review date        | 24     | the date the page was last checked                                                                               |
-| form option        | 1      | employee-count bands offered in the enquiry form                                                                 |
-| our own policy     | 24     | a retention commitment we are making, not an external fact. UK GDPR requires it to be stated.                    |
-| standard reference | 2.2    | the version of the accessibility standard being conformed to                                                     |
-| our own testing    | 95     | the Lighthouse threshold enforced by lighthouserc.json                                                           |
-| our own testing    | 5.42:1 | measured across every rendered text element and asserted by tests/e2e/contrast-rendered.spec.ts                  |
-| our own testing    | 320    | the narrowest width the layout is tested at                                                                      |
-| structural         | 404    | copyright year or status code                                                                                    |
+| Kind               | Number | Why it needs no source                                                                                                                                                                |
+| ------------------ | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| illustrative       | 60     | a hypothetical firm, not a customer. No real employer is described anywhere on the site.                                                                                              |
+| self-descriptive   | 3      | apprenticeship levels are a published framework; the sentence states our own focus, not a fact about anyone else                                                                      |
+| structural         | 1      | step or card numbering; encodes order, claims nothing                                                                                                                                 |
+| review date        | 24     | the date the page was last checked                                                                                                                                                    |
+| our own price      | £750   | what we charge. A commercial decision, not a fact about the world — it needs no external source, but it does need to stay true: if the fee changes, this and the FAQ change together. |
+| form option        | 1      | employee-count bands offered in the enquiry form                                                                                                                                      |
+| our own policy     | 24     | a retention commitment we are making, not an external fact. UK GDPR requires it to be stated.                                                                                         |
+| standard reference | 2.2    | the version of the accessibility standard being conformed to                                                                                                                          |
+| our own testing    | 95     | the Lighthouse threshold enforced by lighthouserc.json                                                                                                                                |
+| our own testing    | 5.42:1 | measured across every rendered text element and asserted by tests/e2e/contrast-rendered.spec.ts                                                                                       |
+| our own testing    | 320    | the narrowest width the layout is tested at                                                                                                                                           |
+| structural         | 404    | copyright year or status code                                                                                                                                                         |
 
 ---
 

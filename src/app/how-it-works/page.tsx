@@ -10,7 +10,7 @@ import { ROUTES } from '@/lib/navigation';
 /**
  * How It Works — Content Spec 4.2.
  *
- * Seven steps, marked up as an ordered list because the order genuinely carries
+ * Six steps, marked up as an ordered list because the order genuinely carries
  * meaning: the funding position is explained before providers are compared, and
  * the employer chooses the provider before anything is set up. Reordering these
  * would describe a different, worse service.
@@ -34,7 +34,7 @@ import { ROUTES } from '@/lib/navigation';
 export const metadata: Metadata = pageMetadata({
   title: 'How it works',
   description:
-    'The seven steps from telling us the roles you need to supporting your apprentices once they are in post, and what each step asks of you.',
+    'The six steps from telling us the roles you need to handing you over to your chosen provider, set up and ready to start — and what each step asks of you.',
   path: ROUTES.howItWorks,
 });
 
@@ -79,13 +79,6 @@ const STEPS: readonly Step[] = [
     employerAction:
       'sign what needs signing, and give us the details only you can provide.',
   },
-  {
-    title: 'We support the programme once apprentices are in place',
-    detail:
-      'We keep track of reviews, deadlines and the things you are required to do as the employer, and raise problems while they are still small.',
-    employerAction:
-      'employ and manage your apprentice as you would any other member of staff.',
-  },
 ];
 
 export default function HowItWorks() {
@@ -93,7 +86,7 @@ export default function HowItWorks() {
     <>
       <Section
         eyebrow="How it works"
-        heading="Seven steps, in this order."
+        heading="Six steps, in this order."
         headingLevel={1}
       >
         <p className="max-w-[62ch] text-[length:var(--text-ag-lg)] text-[color:var(--color-ag-slate)]">
@@ -127,7 +120,7 @@ export default function HowItWorks() {
         heading="You employ. They train. We handle the rest."
       >
         <p className="max-w-[62ch] text-[length:var(--text-ag-base)] text-[color:var(--color-ag-slate)]">
-          Through all seven steps the split stays the same. You employ and manage the
+          Through all six steps the split stays the same. You employ and manage the
           apprentice. An approved training provider delivers the training and assessment.
           We handle the process between the two.
         </p>
