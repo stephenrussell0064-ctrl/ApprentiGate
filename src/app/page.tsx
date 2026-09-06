@@ -154,10 +154,10 @@ export default function Home() {
             </h1>
 
             <p className="mt-[var(--spacing-ag-8)] max-w-[54ch] text-[length:var(--text-ag-lg)] text-[color:var(--color-ag-slate)]">
-              We sell no training. We take no commission from providers. We work out which
-              apprenticeship standard your role fits, compare the approved providers on
-              their published results, and set the whole thing up — so the recommendation
-              you get is the one we would pick if it were our own business.
+              We work out which apprenticeship standard your role fits, compare the
+              approved providers on their published results, and set the whole thing up.
+              We sell no training and take no commission, so the recommendation you get is
+              the one we would pick if it were our own business.
             </p>
 
             {/* `flex-wrap` matters more than it looks. Without it the row
@@ -205,7 +205,18 @@ export default function Home() {
           process that connects them.
         </p>
 
-        <div className="mt-[var(--spacing-ag-12)]">
+        {/*
+          Only below `lg`, where the hero's stacked band is hidden.
+
+          Both used to render, so a desktop visitor met the same three labels
+          and the same three descriptions twice within a screen and a half —
+          the second time directly under a paragraph that had just said it in
+          words. On a phone there was never any duplication, because the hero
+          band has always been `hidden lg:block`; removing this one outright
+          therefore fixed the desktop repetition by deleting the diagram
+          entirely for phone visitors, which is the audience that needs it most.
+        */}
+        <div className="mt-[var(--spacing-ag-12)] lg:hidden">
           <RelayBand />
         </div>
       </Section>

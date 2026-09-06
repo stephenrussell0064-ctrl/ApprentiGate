@@ -42,43 +42,56 @@ export function RelayBand({ variant = 'full', className }: RelayBandProps) {
    */
   if (variant === 'stacked') {
     return (
-      <ol
-        className={['flex list-none flex-col gap-[var(--spacing-ag-3)] p-0', className]
-          .filter(Boolean)
-          .join(' ')}
+      /*
+        The group label goes on a wrapper, not on the list itself.
+        `role="group"` replaces a <ul>'s implicit list role, which orphans its
+        <li> children — axe reports "listitem: <li> elements must be contained
+        in a <ul> or <ol>". The horizontal variant below has always been shaped
+        this way; this one was not, and now is.
+
+        A <ul> and not an <ol>, for the reason documented further down: these
+        are three parties holding roles at the same time. As an <ol> a screen
+        reader announced them "1, 2, 3", describing a progression the listener
+        then has to unlearn.
+      */
+      <div
+        className={className}
+        role="group"
         aria-label="How the three parties relate: the employer employs and manages the apprentice, ApprentiGate handles the process in between, and an approved training provider delivers the training."
       >
-        {NODES.map((node, index) => {
-          const isCentre = index === 1;
-          return (
-            <li
-              key={node.label}
-              className={[
-                'relative flex flex-col gap-[var(--spacing-ag-1)]',
-                'rounded-[var(--radius-ag-lg)] border p-[var(--spacing-ag-6)]',
-                'transition-[transform,box-shadow] duration-[var(--duration-ag-standard)] ease-[var(--ease-ag-enter)]',
-                isCentre
-                  ? 'border-[var(--color-ag-signal)] bg-[var(--color-ag-paper)] shadow-[var(--shadow-ag-lifted)] lg:-translate-x-[var(--spacing-ag-2)]'
-                  : 'border-[var(--color-ag-mist)] bg-[var(--color-ag-paper)] shadow-[var(--shadow-ag-raised)]',
-              ].join(' ')}
-            >
-              <span
+        <ul className="flex list-none flex-col gap-[var(--spacing-ag-3)] p-0">
+          {NODES.map((node, index) => {
+            const isCentre = index === 1;
+            return (
+              <li
+                key={node.label}
                 className={[
-                  'font-[family-name:var(--font-utility)] text-[length:var(--text-ag-xs)] tracking-[0.08em] uppercase',
+                  'relative flex flex-col gap-[var(--spacing-ag-1)]',
+                  'rounded-[var(--radius-ag-lg)] border p-[var(--spacing-ag-6)]',
+                  'transition-[transform,box-shadow] duration-[var(--duration-ag-standard)] ease-[var(--ease-ag-enter)]',
                   isCentre
-                    ? 'text-[color:var(--color-ag-signal)]'
-                    : 'text-[color:var(--color-ag-slate)]',
+                    ? 'border-[var(--color-ag-signal)] bg-[var(--color-ag-paper)] shadow-[var(--shadow-ag-lifted)] lg:-translate-x-[var(--spacing-ag-2)]'
+                    : 'border-[var(--color-ag-mist)] bg-[var(--color-ag-paper)] shadow-[var(--shadow-ag-raised)]',
                 ].join(' ')}
               >
-                {node.label}
-              </span>
-              <span className="text-[length:var(--text-ag-base)] text-[color:var(--color-ag-slate)]">
-                {node.role}
-              </span>
-            </li>
-          );
-        })}
-      </ol>
+                <span
+                  className={[
+                    'font-[family-name:var(--font-utility)] text-[length:var(--text-ag-xs)] tracking-[0.08em] uppercase',
+                    isCentre
+                      ? 'text-[color:var(--color-ag-signal)]'
+                      : 'text-[color:var(--color-ag-slate)]',
+                  ].join(' ')}
+                >
+                  {node.label}
+                </span>
+                <span className="text-[length:var(--text-ag-base)] text-[color:var(--color-ag-slate)]">
+                  {node.role}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     );
   }
 
