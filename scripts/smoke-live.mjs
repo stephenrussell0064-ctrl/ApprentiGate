@@ -122,17 +122,31 @@ const enquiry = await get('/api/enquiry');
 note(enquiry.status === 405, 'enquiry endpoint rejects GET', `got ${enquiry.status}`);
 
 /*
- * Plain HTTP must not serve the site.
+ * Plain HTTP on the apex.
  *
- * Every page has an http twin, and while it answers 200 Google records each
- * one as an "alternative page with proper canonical tag" — harmless for
- * ranking, since the canonical resolves it, but it also means a visitor's
- * first request travels unencrypted before anything upgrades them.
+ * This warns and will keep warning, and that is the correct end state rather
+ * than an outstanding task. The apex is attached to the Worker as a custom
+ * domain, which the Workers platform serves directly — so the zone pipeline
+ * never sees the request. Both available fixes were tried against the live
+ * site and neither fired:
  *
- * The severity ladder is deliberate. A redirect passes. A 200 warns, because
- * the fix is a Cloudflare toggle rather than anything in this repository.
- * Anything else fails, because http answering 404 or 5xx is a genuine break
- * rather than a setting nobody has flipped yet.
+ *   - SSL/TLS -> Edge Certificates -> Always Use HTTPS
+ *   - A Redirect Rule on `not ssl`
+ *
+ * www proves the diagnosis: it is an ordinary proxied record, and its
+ * redirect rule works. The only difference is the custom domain.
+ *
+ * It is left alone deliberately. Every page carries a canonical to the https
+ * URL, so Google indexes the secure version and rankings are unaffected; the
+ * only real cost is one unencrypted request from someone typing the domain by
+ * hand. The remaining fix would be `run_worker_first: true`, putting the
+ * Worker in front of every request site-wide — an invocation per page view
+ * and a whole-site outage from any Worker error. That trade is not worth it
+ * for this.
+ *
+ * The check stays because it is still true, and because it flips to passing
+ * on its own if Cloudflare changes this or the apex ever stops being a custom
+ * domain.
  */
 if (origin.startsWith('https://')) {
   const insecure = origin.replace(/^https:/, 'http:');
@@ -148,8 +162,8 @@ if (origin.startsWith('https://')) {
   } else if (status === 200) {
     warn(
       'plain HTTP serves the site instead of redirecting',
-      'got 200',
-      'Cloudflare -> SSL/TLS -> Edge Certificates -> Always Use HTTPS',
+      'got 200 — known and accepted',
+      'nothing to do: the apex is a Worker custom domain, so zone redirects do not reach it. See "Plain HTTP on the apex" in OPERATOR-HANDOVER.md.',
     );
   } else {
     note(false, 'plain HTTP responds sensibly', `got ${status}`);

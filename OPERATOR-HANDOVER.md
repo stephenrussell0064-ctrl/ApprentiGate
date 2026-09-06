@@ -107,6 +107,50 @@ would have to run for **every** request on the apex too, costing an invocation
 per page view and turning any Worker error into a whole-site outage rather than
 a broken enquiry endpoint.
 
+### Plain HTTP on the apex — known, and deliberately not fixed
+
+`http://apprentigate.com` serves the site with a 200 instead of redirecting to
+`https://`. Google reports this in Search Console as **"alternative page with
+proper canonical tag"**.
+
+**Nothing is wrong and nothing needs doing.** It is recorded here because it
+looks like an oversight, and both obvious fixes have already been tried against
+the live site and do not work:
+
+| Attempted                                          | Result                    |
+| -------------------------------------------------- | ------------------------- |
+| SSL/TLS → Edge Certificates → **Always Use HTTPS** | No effect on the apex     |
+| A **Redirect Rule** on `not ssl`                   | Does not fire on the apex |
+
+The cause is that the apex is attached to the Worker as a **custom domain**, so
+the Workers platform serves the request directly and the zone pipeline never
+sees it. `www` proves the diagnosis: it is an ordinary proxied record, its
+redirect rule works, and the only difference between the two is the custom
+domain.
+
+The one remaining fix would be `run_worker_first: true`, putting the Worker in
+front of every request site-wide. That costs an invocation per page view and
+turns any Worker error into a whole-site outage rather than a broken enquiry
+endpoint — the same trade that was tried and reverted for the `www` redirect.
+It is not worth it here.
+
+**What it actually costs:** every page carries a canonical pointing at the
+`https://` URL, so Google indexes the secure version and rankings are
+unaffected. The only real cost is one unencrypted request from somebody typing
+the domain by hand — anyone arriving from search, a link or a bookmark is on
+HTTPS already.
+
+The post-deploy smoke check reports it as a warning on every deploy and does not
+block. If Cloudflare ever changes this, or the apex stops being a custom domain,
+the check flips to passing on its own.
+
+**The `http to https` Redirect Rule can be deleted.** It never fires: the apex
+bypasses it, and `www` is already handled by the `www to apex` rule above it.
+Leaving it in place is harmless but invites someone to assume the problem is
+solved.
+
+---
+
 ---
 
 # Part 1 — Things only you can do
