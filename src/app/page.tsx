@@ -290,10 +290,20 @@ export default function Home() {
             choose and who should deliver it — comes from the one party whose answer is
             fixed before the question is asked.
           </p>
+          {/*
+            This opened "ApprentiGate delivers no training, so there is no
+            answer that pays us better than another." The hero says we sell no
+            training 1,400 characters earlier, and the section heading above
+            already says we are not a training provider — so the sentence built
+            to open the argument was landing as its third telling.
+
+            Cut, and the paragraph now opens on the commission line, which is
+            the sharper half and the part a provider genuinely cannot say.
+          */}
           <p>
-            ApprentiGate delivers no training, so there is no answer that pays us better
-            than another. We take no commission and no referral fee from any provider. You
-            pay us a fixed fee, and it is the same fee whichever provider you go with.
+            We take no commission and no referral fee from any provider. You pay us a
+            fixed fee, and it is the same fee whichever provider you go with, so there is
+            no answer that pays us better than another.
           </p>
           <p>
             Our fee is also separate from apprenticeship funding and cannot be paid out of
