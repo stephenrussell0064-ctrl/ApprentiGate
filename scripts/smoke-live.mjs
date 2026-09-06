@@ -51,6 +51,21 @@ const note = (ok, label, detail) => {
   if (!ok) failures.push(label);
 };
 
+/**
+ * A problem worth showing on every deploy that must not block one.
+ *
+ * Reserved for things a deploy cannot cause and a rebuild cannot fix — zone
+ * settings, DNS, anything owned by the Cloudflare dashboard. Failing the
+ * deploy on those punishes a correct build for an unrelated setting, and a
+ * guard that blocks work it has no business blocking is one people learn to
+ * bypass. This project has already had to fix one of those.
+ */
+const warnings = [];
+const warn = (label, detail, fix) => {
+  console.log(`  warn  ${label}${detail ? ` — ${detail}` : ''}`);
+  warnings.push({ label, fix });
+};
+
 /** A fresh deploy can take a moment to propagate; give it a few tries. */
 async function get(path) {
   let last;
@@ -105,6 +120,48 @@ note(missing.status === 404, 'unknown path returns 404', `got ${missing.status}`
 
 const enquiry = await get('/api/enquiry');
 note(enquiry.status === 405, 'enquiry endpoint rejects GET', `got ${enquiry.status}`);
+
+/*
+ * Plain HTTP must not serve the site.
+ *
+ * Every page has an http twin, and while it answers 200 Google records each
+ * one as an "alternative page with proper canonical tag" — harmless for
+ * ranking, since the canonical resolves it, but it also means a visitor's
+ * first request travels unencrypted before anything upgrades them.
+ *
+ * The severity ladder is deliberate. A redirect passes. A 200 warns, because
+ * the fix is a Cloudflare toggle rather than anything in this repository.
+ * Anything else fails, because http answering 404 or 5xx is a genuine break
+ * rather than a setting nobody has flipped yet.
+ */
+if (origin.startsWith('https://')) {
+  const insecure = origin.replace(/^https:/, 'http:');
+  let status = 0;
+  try {
+    status = (await fetch(`${insecure}/`, { redirect: 'manual' })).status;
+  } catch {
+    status = 0;
+  }
+
+  if (status === 301 || status === 308 || status === 302 || status === 307) {
+    note(true, 'plain HTTP redirects to HTTPS', `got ${status}`);
+  } else if (status === 200) {
+    warn(
+      'plain HTTP serves the site instead of redirecting',
+      'got 200',
+      'Cloudflare -> SSL/TLS -> Edge Certificates -> Always Use HTTPS',
+    );
+  } else {
+    note(false, 'plain HTTP responds sensibly', `got ${status}`);
+  }
+}
+
+if (warnings.length > 0) {
+  console.log('');
+  for (const { label, fix } of warnings) {
+    console.log(`  To fix "${label}": ${fix}`);
+  }
+}
 
 if (failures.length > 0) {
   console.error(`\nSmoke check FAILED: ${failures.length} problem(s) on the live site.`);
