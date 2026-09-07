@@ -94,7 +94,7 @@ export default function ForEmployers() {
       >
         <p className="max-w-[62ch] text-[length:var(--text-ag-lg)] text-[color:var(--color-ag-slate)]">
           Five things, from working out whether a role suits an apprenticeship at all
-          through to keeping the programme on track once your apprentices have started.
+          through to handing you over to your chosen provider, set up and ready to start.
         </p>
       </Section>
 
