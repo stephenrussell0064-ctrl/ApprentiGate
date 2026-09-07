@@ -12,6 +12,7 @@ import {
 import { Notice } from '@/components/ui/Notice';
 import { Section } from '@/components/ui/Section';
 import { StepSequence } from '@/components/ui/StepSequence';
+import { FUNDING_RULES_REVIEWED } from '@/lib/funding';
 import { ROUTES } from '@/lib/navigation';
 import { pageMetadata } from '@/lib/seo';
 
@@ -225,7 +226,15 @@ export default function ComponentGallery() {
             Nothing was lost — please email us directly and we will pick it up. This is
             the state WP10 needs so an enquiry is never silently dropped.
           </Notice>
-          <Notice tone="info" title="Rules last reviewed 23 August 2026.">
+          {/* The date comes from the same constant the funding page prints, not
+              from a literal. As a literal it said 23 August while the real
+              review date said 24 August, then 7 September — a specimen of a
+              component quietly disagreeing with the page that component
+              exists to serve. */}
+          <Notice
+            tone="info"
+            title={`Rules last reviewed ${FUNDING_RULES_REVIEWED.display}.`}
+          >
             Apprenticeship funding rules change. Eligibility is confirmed for each
             employer.
           </Notice>
