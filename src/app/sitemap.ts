@@ -22,6 +22,7 @@ const PAGES: readonly { path: string; priority: number }[] = [
   { path: ROUTES.funding, priority: 0.9 },
   { path: ROUTES.contact, priority: 0.8 },
   { path: ROUTES.faq, priority: 0.7 },
+  { path: ROUTES.guideLevels, priority: 0.7 },
   { path: ROUTES.forProviders, priority: 0.6 },
   { path: ROUTES.about, priority: 0.6 },
   { path: ROUTES.privacy, priority: 0.2 },

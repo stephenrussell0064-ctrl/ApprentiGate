@@ -36,6 +36,7 @@ Reviews are due every 90 days.
 | `S11`  | Transferring unused levy funds                                  | unchanged |
 | `S12`  | Lead generation and employer recruitment are ineligible costs   | unchanged |
 | `S13`  | The apprentice minimum wage                                     | unchanged |
+| `S15`  | What each qualification level means in England                  | unchanged |
 | `S14`  | Provider achievement rates and reviews are published per course | unchanged |
 
 ---

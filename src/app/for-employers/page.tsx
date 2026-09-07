@@ -161,6 +161,17 @@ export default function ForEmployers() {
             Checking that properly, before anyone signs anything, is the single most
             useful thing we do.
           </p>
+          <p>
+            If you are weighing one level against another, that is usually the wrong
+            question in a useful disguise —{' '}
+            <a
+              href={ROUTES.guideLevels}
+              className="font-semibold text-[color:var(--color-ag-signal)] underline underline-offset-4"
+            >
+              here is why, and what to ask instead
+            </a>
+            .
+          </p>
           <p className="text-[length:var(--text-ag-sm)]">
             Standards are published by Skills England, and you can{' '}
             <a

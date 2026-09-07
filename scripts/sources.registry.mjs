@@ -111,6 +111,19 @@ export const SOURCE_REGISTRY = [
     phrases: ['apprentice'],
   },
   {
+    id: 'S15',
+    what: 'What each qualification level means in England',
+    url: 'https://www.gov.uk/what-different-qualification-levels-mean/list-of-qualification-levels',
+    // The guide states which apprenticeship sits at which level, so the phrases
+    // watched are the level names themselves. If GOV.UK renames or re-levels
+    // any of them, the guide is wrong and this fails.
+    phrases: [
+      'advanced apprenticeship',
+      'higher apprenticeship',
+      'degree apprenticeship',
+    ],
+  },
+  {
     id: 'S14',
     what: 'Provider achievement rates and reviews are published per course',
     // A course-specific results page rather than the service's front door,

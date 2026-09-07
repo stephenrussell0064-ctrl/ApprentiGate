@@ -242,9 +242,15 @@ export default function Home() {
           </p>
           <p>
             What a 60-person firm does not have is someone whose job it is to work out
-            whether a role fits a standard, whether Level 3 or Level 4 is right, whether a
-            provider has capacity for a September intake, and what happens when an
-            apprentice falls behind.
+            whether a role fits a standard,{' '}
+            <a
+              href={ROUTES.guideLevels}
+              className="font-semibold text-[color:var(--color-ag-signal)] underline underline-offset-4"
+            >
+              whether Level 3 or Level 4 is right
+            </a>
+            , whether a provider has capacity for a September intake, and what happens
+            when an apprentice falls behind.
           </p>
           <p className="font-semibold text-[color:var(--color-ag-ink)]">
             That is the job we do.

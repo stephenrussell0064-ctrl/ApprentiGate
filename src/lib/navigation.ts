@@ -26,6 +26,7 @@ export const ROUTES = {
   funding: '/funding',
   about: '/about',
   faq: '/faq',
+  guideLevels: '/guides/which-apprenticeship-level',
   contact: '/contact',
   bookingConfirmed: '/contact/confirmed',
   privacy: '/privacy',
