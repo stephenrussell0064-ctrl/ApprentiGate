@@ -1,6 +1,6 @@
 # Source drift check
 
-Last run 2026-09-05 by `pnpm check:sources`. Regenerate it rather than editing it.
+Last run 2026-09-07 by `pnpm check:sources`. Regenerate it rather than editing it.
 
 Every factual claim on this site traces to a GOV.UK page recorded in
 `CONTENT-SOURCES.md`. This checks that each of those pages still contains the
@@ -16,7 +16,7 @@ cries wolf every month is a report nobody reads.
 
 **No drift.** Every source still contains the wording the site relies on.
 
-Funding page last reviewed: **2026-08-24** (12 days ago).
+Funding page last reviewed: **2026-09-07** (0 days ago).
 Reviews are due every 90 days.
 
 ## Sources checked

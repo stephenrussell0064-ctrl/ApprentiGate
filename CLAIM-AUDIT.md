@@ -1,6 +1,6 @@
 # Claim audit
 
-Generated 2026-09-05 by `pnpm claim:audit`. Regenerate it rather than editing it.
+Generated 2026-09-07 by `pnpm claim:audit`. Regenerate it rather than editing it.
 
 Two questions. Does the site contain anything it must not? And can every
 number on it be accounted for — either traced to a source in
@@ -54,7 +54,7 @@ someone made, not an omission.
 | illustrative       | 60     | a hypothetical firm, not a customer. No real employer is described anywhere on the site.                                                                                              |
 | self-descriptive   | 3      | apprenticeship levels are a published framework; the sentence states our own focus, not a fact about anyone else                                                                      |
 | structural         | 1      | step or card numbering; encodes order, claims nothing                                                                                                                                 |
-| review date        | 24     | the date the page was last checked                                                                                                                                                    |
+| review date        | 7      | the date the page was last checked                                                                                                                                                    |
 | our own price      | £750   | what we charge. A commercial decision, not a fact about the world — it needs no external source, but it does need to stay true: if the fee changes, this and the FAQ change together. |
 | form option        | 1      | employee-count bands offered in the enquiry form                                                                                                                                      |
 | our own policy     | 24     | a retention commitment we are making, not an external fact. UK GDPR requires it to be stated.                                                                                         |

@@ -14,7 +14,7 @@
  */
 export const FUNDING_RULES_REVIEWED = {
   /** ISO form, for the <time> element's datetime attribute. */
-  iso: '2026-08-24',
+  iso: '2026-09-07',
   /** Display form, in UK order. */
-  display: '24 August 2026',
+  display: '7 September 2026',
 } as const;
