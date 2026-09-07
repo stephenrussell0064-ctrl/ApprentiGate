@@ -7,8 +7,8 @@
  * worse than an old one, because it invites trust it has not earned.
  */
 export const POLICY_UPDATED = {
-  iso: '2026-08-24',
-  display: '24 August 2026',
+  iso: '2026-09-07',
+  display: '7 September 2026',
 } as const;
 
 /**
